@@ -38,8 +38,19 @@ header{
        .abrir-menu,
        .cerrar-menu{
         display: block;
+        border: 0;
+        font-size: 1.25rem;
+        background-color: transparent;
+        cursor: pointer;
+    }
+
+    .abrir-menu {
+        color: black;
     }
    
+    .cerrar-menu {
+        color: white;
+    }
         
 
     .nav {
