@@ -1,0 +1,43 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: sans-serif;
+}
+
+header{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 2rem;
+    background-color: aquamarine;
+}
+
+.logo {
+    max-width: 10rem;
+}
+
+.nav-list{
+    list-style: none;
+    display: flex;
+    gap: 1rem;
+}
+
+.nav-list li a{
+    text-decoration: none;
+    color: black;
+}
+
+.abrir-menu{
+    display: none;
+}
+
+@media screen and (max-width: 600px) {
+    .abrir-menu{
+        display: block;
+    }
+    .nav{
+        display: none;
+    }
+    
+}
