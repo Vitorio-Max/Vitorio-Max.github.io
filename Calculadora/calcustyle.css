@@ -7,14 +7,14 @@
 
 body{
     min-height: 100vh;
-    background-color: rgb(6, 6, 114);
+    background-color: rgb(0, 229, 255);
     display: grid;
     place-items: center;
 
 }
 
 .calculadora{
-    background-color: black;
+    background-color: rgb(0, 116, 129);
     color: white;
     width: 350px;
     max-width: 100%;
@@ -27,7 +27,7 @@ body{
 
 .pantalla{
     grid-column: 1  / -1 ;
-    background-color:rgb(6, 6, 114);
+    background-color:rgb(0, 229, 255);
     padding: 1.5rem;
     font-size: 2rem;
     text-align: right;
@@ -39,7 +39,7 @@ body{
 
 
 .btn{
-    background-color: black;
+    background-color: rgb(0, 116, 129);
     color: white;
     border: 0;
     padding: 1.5rem .5rem;
@@ -51,7 +51,7 @@ body{
 }
 
 .btn:hover{
-    background-color: blue;
+    background-color: rgb(0, 229, 255);
 }
 
 #cero{
@@ -60,9 +60,9 @@ body{
 
 #igual{
     grid-row: span 2;
-    background-color: red;
+    background-color: rgb(0, 116, 129);
 }
 
 #igual:hover{
-background-color: rgb(255, 92, 92);
+background-color: rgb(112, 112, 112);
 }
