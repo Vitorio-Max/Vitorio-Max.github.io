@@ -68,9 +68,10 @@ background-color: rgb(112, 112, 112);
 }
 
 .boton_atras {
+    font-family: sans-serif;
     background-color: transparent;
     color: white;
     cursor: pointer;
     border-radius: 1rem;
-    margin-left: -400px;
+    margin-left: auto;
 }
