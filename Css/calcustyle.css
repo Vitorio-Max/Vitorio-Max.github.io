@@ -68,12 +68,15 @@ background-color: rgb(112, 112, 112);
 }
 
 .boton_atras {
-    font-family: sans-serif;
     background-color: transparent;
     color: white;
-    cursor: pointer;
+    border: 0;
+    padding: 0.5rem 1rem;
+    display: flex;
+    justify-content: left;
+    flex-direction: column-reverse;
+    align-items: end;
     border-radius: 1rem;
-    margin-right: auto;
-    border: 1px;
-    padding-left: 20px;
+    cursor: pointer;
+    
 }
