@@ -68,15 +68,9 @@ background-color: rgb(112, 112, 112);
 }
 
 .boton_atras {
-    background-color: transparent;
-    color: white;
-    border: 0;
-    padding: 0.5rem 1rem;
+    list-style: none;
     display: flex;
-    justify-content: left;
-    flex-direction: column-reverse;
-    align-items: end;
-    border-radius: 1rem;
-    cursor: pointer;
+    gap: 1rem;
+   
     
 }
