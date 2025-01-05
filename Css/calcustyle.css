@@ -68,9 +68,16 @@ background-color: rgb(112, 112, 112);
 }
 
 .boton_atras {
-    list-style: none;
-    display: flex;
-    gap: 1rem;
+    display: inline-block;
+    padding: 15px;
+    line-height: normal;
+    text-decoration: none;
+    color: #fff;
+    transition: all 0.3s ease;
+    border-bottom: 2px solid transparent;
+    border-radius: 25%;
+    font-size: 15px;
+    margin-right: 5px;
    
     
 }
