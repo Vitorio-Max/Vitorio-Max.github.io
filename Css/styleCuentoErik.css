@@ -1,0 +1,26 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Libre Franklin", sans-serif;
+}
+img{
+    width: 50px;
+}
+
+body{
+    background: #ccc;
+    background-repeat: no-repeat;
+    background-color: #d2eaea;
+    background-image: linear-gradient(
+        to right top,
+        #d2eaea 0%,
+        #f9f9f9 49%,
+        #f9f9f9 49%,
+        #f7eec3 100%
+    );
+}
+h1, p{
+    
+    opacity: 0;
+}

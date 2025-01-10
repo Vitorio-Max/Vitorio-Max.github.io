@@ -16,6 +16,10 @@ header{
     /*max-height: 1000px;*/    
 }
 
+p{
+    padding: 4px;
+}
+
 .logo {
     margin-left: -20px;
     width: 100px;
