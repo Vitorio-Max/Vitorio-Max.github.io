@@ -61,6 +61,10 @@ p{
     background-color: transparent;/*prueba*/   
 }
 
+.construccion{
+    height: 600px;
+}
+
 @media screen and (max-width: 600px) {
 
        .abrir-menu,
