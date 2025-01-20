@@ -1,4 +1,4 @@
-let fecha = new Date("01/01/2026");
+let fecha = new Date("04/04/2025");
 let msFecha = fecha.getTime();
 
 let parrafoDias = document.querySelector("#dias");
@@ -6,10 +6,11 @@ let parrafoHoras = document.querySelector("#horas");
 let parrafoMinutos = document.querySelector("#minutos");
 let parrafoSegundos = document.querySelector("#segundos");
 let spanFecha = document.querySelector("#fecha");
+let cuentaAtras = document.querySelector("#cuenta-atras");
 
 spanFecha.innerText = fecha.toLocaleDateString();
 
-setInterval(() => {
+let intervalo = setInterval(() => {
 
 let hoy = new Date().getTime();
 
@@ -30,5 +31,9 @@ parrafoHoras.innerText = horas  < 10 ? "0" + horas : horas;
 parrafoMinutos.innerText = minutos < 10 ? "0" + minutos : minutos;
 parrafoSegundos.innerText = segundos < 10 ? "0" + segundos : segundos;
 
+if (distancia < 0 ) {
+    clearInterval(intervalo);
+    cuentaAtras.innerHTML = "<p class= 'grande'>¡Ya está aquí!</p>"
+}
 
 }, 1000)
