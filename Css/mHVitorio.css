@@ -8,12 +8,12 @@
 header{
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content:space-between;
     padding: 2rem;
     background-color: rgb(91, 255, 200);
     height: 80px;
     
-    /*max-height: 1000px;*/    
+    /* max-height: 1000px;     */
 }
 
 p{
@@ -24,7 +24,7 @@ p{
     margin-left: -20px;
     width: 100px;
     height: 70px;
-    /*max-width: 2.5rem;*/
+    /* max-width: 2.5rem; */
 }
 
 .nav-links{

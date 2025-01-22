@@ -6,7 +6,7 @@
     <title>VityUno</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="Css/mHVitorio.css">
-    <link rel="stylesheet" href="Css/styleContador copy.css">
+    <link rel="stylesheet" href="Css/styleContador.css">
 
 </head>
 <body>
@@ -25,35 +25,37 @@
         <ul class="nav-links">
             <li><a href="index.html">Inicio</a></li>
             <li><a href="calcuheader.html">Calculadora</a></li>
-            <li><a href="mp1-menuHamburguesa.html">Menú Prueba 1</a></li>
-            <li><a href="mp2-menuAnimadoCSSresponsive.html">Menú Prueba 2</a></li>
-            <li><a href="mp3-menuHamburguesa.html">Menú Prueba 3</a></li>
             <li><a href="contador.html">Contador</a></li>
             <li><a href="cuentaAtras.html">Cuenta atrás</a></li>
             <li><a href="listadelacompra.html">Lista de la compra</a></li>
             <li><a href="targetCuentos.html">Cuentos</a></li>
             <li><a href="targetJuegos.html">Juegos</a></li>
+            <li><a href="mp1-menuHamburguesa.html">Menú Prueba 1</a></li>
+            <li><a href="mp2-menuAnimadoCSSresponsive.html">Menú Prueba 2</a></li>
+            <li><a href="mp3-menuHamburguesa.html">Menú Prueba 3</a></li>
+            <li><a href="login.html">Inicia Sesión</a></li>
         </ul>
     </nav>
 
 
     <script src="JavaScript/mHvitorio.js"></script>
     </header> 
+        
+        <article class="article">
+            <section class="counter">
+                <h2 class="counterh2">CONTADOR</h2>
+                    <div class="counter_div">
+                        <p class="counter_div-p" id="number">0</p>
+                        <button onclick="decreseNumber()" class="counter_div-button" id="decrese">Decrementar</button>
+                        <button onclick="resetNumber()" class="counter_div-button buttonReset" id="reset">Reset</button>
+                        <button onclick="increseNumber()" class="counter_div-button" id="increse">Incrementar</button>
 
-<article class="article">
-    <section class="counter">
-        <h2 class="counterh2">COUNTER</h2>
-            <div class="counter_div">
-                <p class="counter_div-p" id="number">0</p>
-                <button onclick="decreseNumber()" class="counter_div-button" id="decrese">Decrese</button>
-                <button onclick="resetNumber()" class="counter_div-button buttonReset" id="reset">Reset</button>
-                <button onclick="increseNumber()" class="counter_div-button" id="increse">Increse</button>
+                    </div>
+            </section>
+        </article>
+       
 
-            </div>
-    </section>
-</article>
-
-
+<script src="JavaScript/contador.js"></script>
 
 </body>
 </html>
