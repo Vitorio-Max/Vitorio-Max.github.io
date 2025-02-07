@@ -34,7 +34,8 @@ body{
 
 }
 .calcucentro{
-    background-color: rgb(0, 0, 0);
+    background:  rgb(91, 255, 200);
+    background: linear-gradient(0deg,  rgb(91, 255, 200) 0%, rgba(0,0,0,1) 100%);
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
