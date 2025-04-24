@@ -14,15 +14,11 @@ body{
     min-height: 100vh;
     
     gap: 1rem;
-    text-align: center;
+    /* text-align: center; */
 }
 
-.fecha,
-.cuenta-atras{
-    /* display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center; */
+.fecha {
+    text-align: center;
 }
 
 .fecha span {
@@ -30,11 +26,13 @@ body{
 }
 
 .cuenta-atras {
-    display: flex;
+    /* display: flex;
+    flex-direction: column;
     gap: 2rem;
     align-items: center;
-    justify-content: center;
-
+    justify-content: center; */
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
 }
 
 .grupo {
