@@ -4,13 +4,73 @@ body {
     margin: 0;
     padding: 0;
     display: flex;
-    justify-content: center;
+    flex-direction: column; /* Cambiado a columna para el navbar */
+    justify-content: flex-start; /* Alinea el contenido al inicio */
     align-items: center;
     min-height: 100vh;
     background: linear-gradient(to bottom right, #bfdbfe, #d8b4fe); /* from-blue-200 to-purple-200 */
     overflow: hidden; /* Evita barras de desplazamiento innecesarias */
 }
 
+/* Estilos para la barra de navegación */
+.navbar {
+    width: 100%;
+    background-color: #4f46e5; /* Un azul oscuro para la barra de navegación */
+    padding: 1rem 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: fixed; /* Fija la barra en la parte superior */
+    top: 0;
+    left: 0;
+    z-index: 1000; /* Asegura que esté por encima de otros elementos */
+}
+
+.navbar-container {
+    max-width: 1200px; /* Ancho máximo del contenido de la barra */
+    margin: 0 auto; /* Centra el contenido */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 1rem; /* Espaciado horizontal */
+}
+
+.navbar-brand {
+    color: #ffffff;
+    font-size: 1.75rem;
+    font-weight: 800;
+    text-decoration: none;
+    border-radius: 0.5rem;
+    padding: 0.25rem 0.5rem;
+    transition: background-color 0.3s ease;
+}
+
+.navbar-brand:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.nav-links {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 1.5rem; /* Espacio entre los enlaces */
+}
+
+.nav-link {
+    color: #ffffff;
+    font-size: 1.125rem;
+    font-weight: 700;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.nav-link:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
+}
+
+/* Ajuste del contenedor principal para que no quede debajo del navbar */
 .container {
     display: flex;
     flex-direction: column;
@@ -19,6 +79,7 @@ body {
     padding: 1rem; /* p-4 */
     width: 100%;
     max-width: 24rem; /* max-w-sm */
+    margin-top: 6rem; /* Espacio para el navbar fijo */
 }
 
 .animal-card {

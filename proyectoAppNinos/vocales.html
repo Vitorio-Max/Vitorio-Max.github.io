@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aprendiendo Vocales</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Enlaza la fuente Inter desde Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Barra de navegación superior (mantenemos la misma estructura) -->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <a href="index.html" class="navbar-brand">AnimalApp</a>
+            <ul class="nav-links">
+                <li><a href="appninos.html" class="nav-link">Animales</a></li>
+                <li><a href="vocales.html" class="nav-link">Vocales</a></li>
+                <li><a href="#" class="nav-link">Acerca de</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- Tarjeta principal para mostrar la vocal -->
+        <div id="vowel-card" class="animal-card"> <!-- Reutilizamos 'animal-card' para el estilo -->
+            <!-- La vocal se mostrará aquí como texto grande -->
+            <h1 id="vowel-display" class="vowel-display"></h1>
+            <!-- Nombre de la vocal (opcional, si quieres que diga "A de avión") -->
+            <p id="vowel-name" class="vowel-name"></p>
+        </div>
+
+        <!-- Botón para ir a la siguiente vocal -->
+        <button id="next-vowel-btn" class="next-animal-btn"> <!-- Reutilizamos 'next-animal-btn' -->
+            Siguiente Vocal
+        </button>
+    </div>
+
+    <!-- Enlaza el archivo JavaScript específico para las vocales -->
+    <script src="vowels.js"></script>
+</body>
+</html>
