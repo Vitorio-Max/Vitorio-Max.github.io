@@ -9,7 +9,8 @@ body {
     align-items: center;
     min-height: 100vh;
     background: linear-gradient(to bottom right, #bfdbfe, #d8b4fe); /* from-blue-200 to-purple-200 */
-    overflow: hidden; /* Evita barras de desplazamiento innecesarias */
+    overflow-x: hidden; /* Evita barras de desplazamiento horizontal */
+    padding-top: 5rem; /* Espacio para el navbar fijo en desktop */
 }
 
 /* Estilos para la barra de navegación */
@@ -70,83 +71,239 @@ body {
     transform: translateY(-2px);
 }
 
-/* Ajuste del contenedor principal para que no quede debajo del navbar */
-.container {
+/* Contenedor principal para el contenido de las páginas (animales, vocales, letras) */
+.main-content-container {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 1rem; /* p-4 */
+    padding: 1rem;
     width: 100%;
-    max-width: 24rem; /* max-w-sm */
-    margin-top: 6rem; /* Espacio para el navbar fijo */
+    max-width: 1000px; /* Un poco más ancho para la cuadrícula de letras */
+    margin-top: 0; /* Eliminado, ahora lo maneja el padding-top del body */
+    margin-bottom: 2rem; /* Espacio inferior */
 }
 
+/* Estilos reutilizados para la tarjeta de animal/vocal */
 .animal-card {
-    background-color: #ffffff; /* bg-white */
-    border-radius: 1.5rem; /* rounded-3xl */
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); /* shadow-xl */
-    padding: 1.5rem; /* p-6 */
+    background-color: #ffffff;
+    border-radius: 1.5rem;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    padding: 1.5rem;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    space-y: 1.5rem; /* space-y-6 */
-    transition: transform 0.3s ease-in-out; /* transition-transform duration-300 */
+    transition: transform 0.3s ease-in-out;
     cursor: pointer;
-    width: 100%; /* w-full */
+    width: 100%;
+    max-width: 24rem; /* Restringe el ancho para las páginas de animales/vocales */
 }
 
 .animal-card:hover {
-    transform: scale(1.05); /* hover:scale-105 */
+    transform: scale(1.05);
 }
 
 .animal-image {
-    width: 12rem; /* w-48 */
-    height: 12rem; /* h-48 */
+    width: 12rem;
+    height: 12rem;
     object-fit: cover;
-    border-radius: 1rem; /* rounded-2xl */
-    border: 4px solid #60a5fa; /* border-4 border-blue-400 */
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); /* shadow-md */
+    border-radius: 1rem;
+    border: 4px solid #60a5fa;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
 }
 
-.animal-name {
-    font-size: 2.25rem; /* text-4xl */
-    font-weight: 800; /* font-extrabold */
-    color: #1d4ed8; /* text-blue-700 */
+.animal-name, .vowel-display { /* Aplica a ambos nombres de animal y display de vocal */
+    font-size: 2.25rem;
+    font-weight: 800;
+    color: #1d4ed8;
     text-align: center;
-    margin-top: 1.5rem; /* Equivalent to space-y in React, for separation */
+    margin-top: 1.5rem;
+}
+
+.vowel-name { /* Para el texto "A de avión" */
+    font-size: 1.5rem;
+    color: #4f46e5;
+    text-align: center;
+    margin-top: 0.5rem;
 }
 
 .next-animal-btn {
-    margin-top: 2rem; /* mt-8 */
-    padding: 1rem 2rem; /* px-8 py-4 */
-    background-color: #22c55e; /* bg-green-500 */
-    color: #ffffff; /* text-white */
-    font-weight: 700; /* font-bold */
-    font-size: 1.5rem; /* text-2xl */
-    border-radius: 9999px; /* rounded-full */
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); /* shadow-lg */
+    margin-top: 2rem;
+    padding: 1rem 2rem;
+    background-color: #22c55e;
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 1.5rem;
+    border-radius: 9999px;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
     border: none;
     cursor: pointer;
-    transition: all 0.3s ease-in-out; /* transition-all duration-300 */
+    transition: all 0.3s ease-in-out;
 }
 
 .next-animal-btn:hover {
-    background-color: #16a34a; /* hover:bg-green-600 */
-    transform: scale(1.05); /* hover:scale-105 */
+    background-color: #16a34a;
+    transform: scale(1.05);
 }
 
 .next-animal-btn:focus {
     outline: none;
-    box-shadow: 0 0 0 4px rgba(52, 211, 153, 0.5); /* focus:ring-4 focus:ring-green-300 */
+    box-shadow: 0 0 0 4px rgba(52, 211, 153, 0.5);
 }
 
 .next-animal-btn:active {
-    transform: scale(0.95); /* active:scale-95 */
+    transform: scale(0.95);
 }
 
+/* --- Estilos para el nuevo juego "Letras con palabras" --- */
+.letters-grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); /* Columnas responsivas */
+    gap: 1.5rem; /* Espacio entre las tarjetas */
+    justify-content: center;
+    width: 100%;
+    max-width: 900px; /* Ancho máximo para la cuadrícula */
+    margin: 0 auto;
+    padding: 1rem;
+}
+
+.flip-card {
+    background-color: transparent;
+    width: 150px; /* Ancho fijo para la tarjeta */
+    height: 200px; /* Alto fijo para la tarjeta */
+    perspective: 1000px; /* Necesario para el efecto 3D */
+    border-radius: 1.5rem; /* Bordes redondeados */
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    cursor: pointer;
+}
+
+.flip-card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transition: transform 0.6s; /* Transición para el volteo */
+    transform-style: preserve-3d; /* Mantiene el 3D en los hijos */
+    border-radius: 1.5rem;
+}
+
+/* Cuando la tarjeta tiene la clase 'flipped', la giramos */
+.flip-card.flipped .flip-card-inner {
+    transform: rotateY(180deg);
+}
+
+.flip-card-front, .flip-card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    -webkit-backface-visibility: hidden; /* Oculta la parte trasera al voltear */
+    backface-visibility: hidden;
+    border-radius: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+    box-sizing: border-box; /* Incluye padding en el tamaño total */
+}
+
+.flip-card-front {
+    background-color: #ffffff;
+    color: #1d4ed8;
+}
+
+.flip-card-back {
+    background-color: #60a5fa; /* Un azul más claro para el reverso */
+    color: white;
+    transform: rotateY(180deg); /* La parte trasera empieza volteada */
+}
+
+.letter-display {
+    font-size: 4rem; /* Tamaño grande para la letra */
+    font-weight: 800;
+    margin-bottom: 0.5rem;
+    line-height: 1; /* Ajusta el espaciado */
+}
+
+.letter-image {
+    width: 100px; /* Tamaño de la imagen dentro de la tarjeta */
+    height: 100px;
+    object-fit: cover;
+    border-radius: 0.75rem;
+    border: 3px solid #4f46e5;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.word-display {
+    font-size: 2.5rem; /* Tamaño grande para la palabra */
+    font-weight: 700;
+    text-align: center;
+    line-height: 1.2;
+}
+
+
 /* Media queries para responsividad */
+@media (max-width: 768px) { /* Para pantallas pequeñas/móviles */
+    .navbar-container {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .nav-links {
+        flex-direction: column;
+        width: 100%;
+        gap: 0.5rem;
+        margin-top: 0.5rem;
+    }
+    .nav-link {
+        width: 100%;
+        text-align: center;
+    }
+    /* Ajuste del padding-top del body para móvil */
+    body {
+        padding-top: 10rem; /* Más espacio para el navbar en móvil */
+    }
+    .main-content-container, .container { /* Asegurarse de que no tengan margin-top adicional */
+        margin-top: 0;
+    }
+    .game-title {
+        font-size: 2rem;
+    }
+    .animal-card {
+        padding: 1rem;
+    }
+    .animal-image {
+        width: 10rem;
+        height: 10rem;
+    }
+    .animal-name, .vowel-display {
+        font-size: 2rem;
+    }
+    .next-animal-btn {
+        font-size: 1.25rem;
+        padding: 0.75rem 1.5rem;
+    }
+
+    .letters-grid-container {
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); /* Tarjetas más pequeñas en móvil */
+        gap: 1rem;
+    }
+    .flip-card {
+        width: 120px;
+        height: 160px;
+    }
+    .letter-display {
+        font-size: 3rem;
+    }
+    .letter-image {
+        width: 80px;
+        height: 80px;
+    }
+    .word-display {
+        font-size: 1.8rem;
+    }
+}
+
 @media (min-width: 768px) { /* md breakpoint */
     .animal-card {
         padding: 2rem; /* md:p-8 */
@@ -157,7 +314,7 @@ body {
         height: 16rem; /* md:h-64 */
     }
 
-    .animal-name {
+    .animal-name, .vowel-display {
         font-size: 2.75rem; /* md:text-5xl */
     }
 }

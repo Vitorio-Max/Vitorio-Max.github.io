@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aprendiendo Vocales</title>
+    <title>Ordena los Números</title>
     <link rel="stylesheet" href="style.css">
     <!-- Enlaza la fuente Inter desde Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
-    <!-- Barra de navegación superior (mantenemos la misma estructura) -->
+    <!-- Barra de navegación superior -->
     <nav class="navbar">
         <div class="navbar-container">
             <a href="../index.html" class="navbar-brand">AnimalApp</a>
@@ -23,22 +23,25 @@
         </div>
     </nav>
 
-    <div class="container">
-        <!-- Tarjeta principal para mostrar la vocal -->
-        <div id="vowel-card" class="animal-card"> <!-- Reutilizamos 'animal-card' para el estilo -->
-            <!-- La vocal se mostrará aquí como texto grande -->
-            <h1 id="vowel-display" class="vowel-display"></h1>
-            <!-- Nombre de la vocal (opcional, si quieres que diga "A de avión") -->
-            <p id="vowel-name" class="vowel-name"></p>
+    <div class="main-content-container">
+        <h1 class="game-title">¡Ordena los Números!</h1>
+
+        <div class="game-area">
+            <div id="shuffled-numbers-container" class="numbers-grid-container shuffled-numbers-grid">
+                <!-- Los números mezclados se generarán aquí con JavaScript -->
+            </div>
+
+            <div id="ordered-numbers-container" class="numbers-grid-container ordered-numbers-grid">
+                <!-- Los números ordenados se colocarán aquí con JavaScript -->
+            </div>
         </div>
 
-        <!-- Botón para ir a la siguiente vocal -->
-        <button id="next-vowel-btn" class="next-animal-btn"> <!-- Reutilizamos 'next-animal-btn' -->
-            Siguiente Vocal
+        <button id="reset-btn" class="next-animal-btn">
+            Reiniciar Juego
         </button>
     </div>
 
-    <!-- Enlaza el archivo JavaScript específico para las vocales -->
-    <script src="vowels.js"></script>
+    <!-- Enlaza el archivo JavaScript específico para los números -->
+    <script src="numbers.js"></script>
 </body>
 </html>
