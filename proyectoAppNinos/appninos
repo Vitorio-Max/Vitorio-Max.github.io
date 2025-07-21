@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aprendiendo Animales</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Enlaza la fuente Inter desde Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- Tarjeta principal para mostrar el animal -->
+        <div id="animal-card" class="animal-card">
+            <!-- Imagen del animal -->
+            <img id="animal-image" src="" alt="Animal" class="animal-image">
+            <!-- Nombre del animal -->
+            <h1 id="animal-name" class="animal-name"></h1>
+        </div>
+
+        <!-- Botón para ir al siguiente animal -->
+        <button id="next-animal-btn" class="next-animal-btn">
+            Siguiente Animal
+        </button>
+    </div>
+
+    <!-- Enlaza el archivo JavaScript al final del body para asegurar que el DOM esté cargado -->
+    <script src="script.js"></script>
+</body>
+</html>

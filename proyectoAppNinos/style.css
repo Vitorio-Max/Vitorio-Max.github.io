@@ -1,0 +1,102 @@
+/* Importa la fuente Inter */
+body {
+    font-family: 'Inter', sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: linear-gradient(to bottom right, #bfdbfe, #d8b4fe); /* from-blue-200 to-purple-200 */
+    overflow: hidden; /* Evita barras de desplazamiento innecesarias */
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem; /* p-4 */
+    width: 100%;
+    max-width: 24rem; /* max-w-sm */
+}
+
+.animal-card {
+    background-color: #ffffff; /* bg-white */
+    border-radius: 1.5rem; /* rounded-3xl */
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); /* shadow-xl */
+    padding: 1.5rem; /* p-6 */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    space-y: 1.5rem; /* space-y-6 */
+    transition: transform 0.3s ease-in-out; /* transition-transform duration-300 */
+    cursor: pointer;
+    width: 100%; /* w-full */
+}
+
+.animal-card:hover {
+    transform: scale(1.05); /* hover:scale-105 */
+}
+
+.animal-image {
+    width: 12rem; /* w-48 */
+    height: 12rem; /* h-48 */
+    object-fit: cover;
+    border-radius: 1rem; /* rounded-2xl */
+    border: 4px solid #60a5fa; /* border-4 border-blue-400 */
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); /* shadow-md */
+}
+
+.animal-name {
+    font-size: 2.25rem; /* text-4xl */
+    font-weight: 800; /* font-extrabold */
+    color: #1d4ed8; /* text-blue-700 */
+    text-align: center;
+    margin-top: 1.5rem; /* Equivalent to space-y in React, for separation */
+}
+
+.next-animal-btn {
+    margin-top: 2rem; /* mt-8 */
+    padding: 1rem 2rem; /* px-8 py-4 */
+    background-color: #22c55e; /* bg-green-500 */
+    color: #ffffff; /* text-white */
+    font-weight: 700; /* font-bold */
+    font-size: 1.5rem; /* text-2xl */
+    border-radius: 9999px; /* rounded-full */
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); /* shadow-lg */
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out; /* transition-all duration-300 */
+}
+
+.next-animal-btn:hover {
+    background-color: #16a34a; /* hover:bg-green-600 */
+    transform: scale(1.05); /* hover:scale-105 */
+}
+
+.next-animal-btn:focus {
+    outline: none;
+    box-shadow: 0 0 0 4px rgba(52, 211, 153, 0.5); /* focus:ring-4 focus:ring-green-300 */
+}
+
+.next-animal-btn:active {
+    transform: scale(0.95); /* active:scale-95 */
+}
+
+/* Media queries para responsividad */
+@media (min-width: 768px) { /* md breakpoint */
+    .animal-card {
+        padding: 2rem; /* md:p-8 */
+    }
+
+    .animal-image {
+        width: 16rem; /* md:w-64 */
+        height: 16rem; /* md:h-64 */
+    }
+
+    .animal-name {
+        font-size: 2.75rem; /* md:text-5xl */
+    }
+}

@@ -1,0 +1,11 @@
+Siguientes pasos y mejoras posibles:
+
+Sonidos Reales: En lugar de la síntesis de voz, podrías añadir archivos de audio reales para los sonidos de los animales. Tendrías que alojar esos archivos y reproducirlos con el elemento <audio>.
+
+Más Animales: Amplía el array animals con más animales.
+
+Interactividad Adicional: Podrías añadir un botón para escuchar solo el sonido, o un pequeño juego de preguntas y respuestas.
+
+Personalización: Permitir a los padres añadir sus propios animales o grabar sus propias voces.
+
+Animaciones: Añadir animaciones sutiles cuando el animal cambia o cuando se hace clic en él.
