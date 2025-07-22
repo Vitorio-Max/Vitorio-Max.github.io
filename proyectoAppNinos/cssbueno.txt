@@ -1,6 +1,4 @@
 /* Importa la fuente Inter */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&display=swap');
-
 body {
     font-family: 'Inter', sans-serif;
     margin: 0;
@@ -86,17 +84,7 @@ body {
     margin-bottom: 2rem; /* Espacio inferior */
 }
 
-/* Título del juego */
-.game-title {
-    font-size: 2.5rem; /* Tamaño del título */
-    font-weight: 800;
-    color: #1d4ed8; /* Color similar a otros elementos de texto */
-    margin-top: 1.5rem;
-    margin-bottom: 2rem; /* Espacio después del título */
-    text-align: center;
-}
-
-/* Estilos reutilizados para la tarjeta de animal/vocal (se pueden mantener o eliminar si no se usan) */
+/* Estilos reutilizados para la tarjeta de animal/vocal */
 .animal-card {
     background-color: #ffffff;
     border-radius: 1.5rem;
@@ -168,8 +156,8 @@ body {
     transform: scale(0.95);
 }
 
-/* --- Estilos para el nuevo juego "Letras con palabras" (reutilizados para personajes) --- */
-.letters-grid-container { /* Renombrado en HTML a 'characters-grid-container' pero mantiene estilos */
+/* --- Estilos para el nuevo juego "Letras con palabras" --- */
+.letters-grid-container {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); /* Columnas responsivas */
     gap: 1.5rem; /* Espacio entre las tarjetas */
@@ -231,15 +219,14 @@ body {
     transform: rotateY(180deg); /* La parte trasera empieza volteada */
 }
 
-/* Renombramos 'letter-display' a 'character-name-front' para claridad si la usamos */
-.character-name-front {
-    font-size: 2.5rem; /* Ajustado para caber mejor, si se usa nombre corto */
+.letter-display {
+    font-size: 4rem; /* Tamaño grande para la letra */
     font-weight: 800;
     margin-bottom: 0.5rem;
-    line-height: 1;
+    line-height: 1; /* Ajusta el espaciado */
 }
 
-.character-image { /* Renombramos 'letter-image' a 'character-image' */
+.letter-image {
     width: 100px; /* Tamaño de la imagen dentro de la tarjeta */
     height: 100px;
     object-fit: cover;
@@ -248,12 +235,11 @@ body {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.character-name-back { /* Renombramos 'word-display' a 'character-name-back' */
-    font-size: 2rem; /* Tamaño para el nombre completo del personaje */
+.word-display {
+    font-size: 2.5rem; /* Tamaño grande para la palabra */
     font-weight: 700;
     text-align: center;
     line-height: 1.2;
-    padding: 0.5rem; /* Ajuste para nombres más largos */
 }
 
 
@@ -298,7 +284,7 @@ body {
         padding: 0.75rem 1.5rem;
     }
 
-    .letters-grid-container { /* También aplica a characters-grid-container */
+    .letters-grid-container {
         grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); /* Tarjetas más pequeñas en móvil */
         gap: 1rem;
     }
@@ -306,16 +292,15 @@ body {
         width: 120px;
         height: 160px;
     }
-    /* Ajustes para los nuevos nombres de clase de los personajes */
-    .character-name-front {
-        font-size: 2rem; /* Más pequeño para móvil */
+    .letter-display {
+        font-size: 3rem;
     }
-    .character-image {
+    .letter-image {
         width: 80px;
         height: 80px;
     }
-    .character-name-back {
-        font-size: 1.5rem; /* Más pequeño para móvil */
+    .word-display {
+        font-size: 1.8rem;
     }
 }
 

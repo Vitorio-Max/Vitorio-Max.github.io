@@ -3,13 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aprendiendo Animales</title>
-    <link rel="stylesheet" href="style.css">
-    <!-- Enlaza la fuente Inter desde Google Fonts -->
+    <title>Juego de Rompecabezas</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">ç
+    <link rel="stylesheet" href="stylePuzzle.css">
 </head>
 <body>
-    <!-- Barra de navegación superior -->
     <nav class="navbar">
         <div class="navbar-container">
             <a href="../index.html" class="navbar-brand">AnimalApp</a>
@@ -25,22 +24,21 @@
         </div>
     </nav>
 
-    <div class="container">
-        <!-- Tarjeta principal para mostrar el animal -->
-        <div id="animal-card" class="animal-card">
-            <!-- Imagen del animal -->
-            <img id="animal-image" src="" alt="Animal" class="animal-image">
-            <!-- Nombre del animal -->
-            <h1 id="animal-name" class="animal-name"></h1>
+    <div class="main-content-container">
+        <h1 class="game-title">¡Arma el Rompecabezas! 🧩</h1>
+        <div class="puzzle-controls">
+            <select id="imageSelector" class="puzzle-select">
+                </select>
+            <button id="startButton" class="next-animal-btn">Empezar Juego</button>
+            <button id="resetButton" class="next-animal-btn" style="display: none; background-color: #ef4444;">Reiniciar</button>
         </div>
-
-        <!-- Botón para ir al siguiente animal -->
-        <button id="next-animal-btn" class="next-animal-btn">
-            Siguiente Animal
-        </button>
+        <div id="puzzle-container" class="puzzle-grid-container">
+            </div>
+        <div id="puzzle-message" class="puzzle-message" style="display: none;">
+            ¡Felicidades, lo has logrado! 🎉
+        </div>
     </div>
 
-    <!-- Enlaza el archivo JavaScript al final del body para asegurar que el DOM esté cargado -->
-    <script src="script.js"></script>
+    <script src="puzzle.js"></script>
 </body>
 </html>
