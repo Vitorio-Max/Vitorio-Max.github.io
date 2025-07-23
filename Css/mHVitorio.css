@@ -1,55 +1,136 @@
+/* Importar fuentes una sola vez y al principio */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;0,900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
 /* box-sizing universal para cálculos de diseño más fáciles */
-*{
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Poppins', sans-serif; /* Usar Poppins como se especifica en @import */
+    font-family: 'Poppins', sans-serif;
 }
 
-/* Eliminar reglas de body redundantes y consolidar */
+/* --- ESTILOS GENERALES DEL BODY --- */
 body {
-    /* Estos estilos se aplican al fondo general de la página y a la altura mínima */
-    min-height: 100vh;
+    min-height: 100vh; /* Asegura que el fondo ocupe toda la altura de la ventana */
     background: linear-gradient(0deg, rgb(91, 255, 200) 0%, rgba(0,0,0,1) 100%);
     background-size: cover;
     background-position: center;
-    overflow-x: hidden; /* Evitar barra de desplazamiento horizontal */
-    padding-top: 80px; /* Ajustar según la altura de tu encabezado fijo */
-    /* Eliminar display: flex, justify-content, align-items del body si no es el contenedor flex principal para todo el contenido */
+    overflow-x: hidden; /* Evita la barra de desplazamiento horizontal */
+    padding-top: 80px; /* Espacio para el header fijo */
+    /* **Importante**: Eliminamos 'display: flex', 'justify-content', 'align-items' del body general, ya que solo el wrapper de login necesita centrarse con 'fixed'. */
 }
 
-.navbar {
-    width: 100%;
-    height: 80px; ;
-    background-color: #4f46e5; /* Un azul oscuro para la barra de navegación */
-    padding: 1rem 0;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    position: fixed; /* Fija la barra en la parte superior */
+/* --- ESTILOS DEL HEADER (CABECERA FIJA) --- */
+header {
+    position: fixed; /* Mantiene el header en la parte superior */
     top: 0;
     left: 0;
-    z-index: 1000; /* Asegura que esté por encima de otros elementos */
+    width: 100%;
+    height: 80px; /* Altura explícita del header */
+    background-color: #4f46e5; /* Color de fondo para toda la barra superior */
+    padding: 0 100px; /* Padding horizontal para el contenido del header */
     display: flex;
-    justify-content: space-between;
-}
-
-.navbar-container {
-    max-width: 1200px; /* Ancho máximo del contenido de la barra */
-    margin: 0; /* Centra el contenido */
-    margin-left: auto;
-    display: flex; /* Esto hace que los enlaces dentro de .navbar-links se comporten como flex items */
-    justify-content: space-between;
-    gap: 1rem; /* Añade espacio entre los enlaces */
+    justify-content: space-between; /* Para separar el logo/marca y el menú */
     align-items: center;
-    padding: 0 1rem; /* Espaciado horizontal */
+    z-index: 1000; /* Asegura que el header esté por encima de la mayoría de los elementos */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.logo {
-    margin-right: auto;
-    width: 100px;
-    height: 70px;
-    /* max-width: 2.5rem; */
+.navbar-brand { /* Tu logo o nombre de marca en el header */
+    color: #ffffff;
+    font-size: 1.75rem;
+    font-weight: 800;
+    text-decoration: none;
+    border-radius: 0.5rem;
+    padding: 0.25rem 0.5rem;
+    transition: background-color 0.3s ease;
 }
 
+.navbar-brand:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* --- ESTILOS DEL CONTENEDOR DE NAVEGACIÓN (DESKTOP) --- */
+/*
+  En el HTML, la estructura probable es:
+  <header>
+      <nav class="navbar" id="nav"> <-- Este es el contenedor general de la navegación
+          <a class="navbar-brand">...</a>
+          <div class="navbar-container"> <-- Este envuelve los links y el botón de login
+              <ul class="nav-links">...</ul>
+              <button class="btnLogin-popup">...</button>
+          </div>
+          <button class="abrir-menu">...</button>
+      </nav>
+  </header>
+*/
+
+/* La clase .navbar dentro del header, en desktop, solo necesita organizar sus elementos */
+.navbar {
+    width: 100%; /* Ocupa todo el ancho del header */
+    height: 100%; /* Ocupa toda la altura del header */
+    background-color: transparent; /* El fondo ya lo tiene el header */
+    padding: 0; /* Padding ya lo gestiona el header */
+    box-shadow: none; /* Sombra ya la gestiona el header */
+    display: flex; /* Permite organizar sus elementos hijos */
+    justify-content: space-between; /* Para alinear el brand a la izquierda y el container a la derecha */
+    align-items: center;
+    position: relative; /* No fixed, ya que el header es fixed */
+    z-index: auto; /* Z-index ya lo gestiona el header */
+}
+
+.navbar-container { /* Este envuelve los enlaces de navegación y el botón de login */
+    max-width: 1200px; /* Ancho máximo para el contenido del menú */
+    /* margin: 0 auto; - Si este div tuviera que centrar algo */
+    width: 100%; /* Ocupa el 100% del espacio disponible en el navbar */
+    display: flex;
+    justify-content: flex-end; /* Alinea los elementos a la derecha por defecto en desktop */
+    gap: 1.5rem; /* Espacio entre los enlaces y el botón */
+    align-items: center;
+    padding: 0 1rem; /* Espaciado horizontal dentro del contenedor */
+}
+
+.nav-links {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex; /* Para que los enlaces estén en fila */
+    gap: 1.5rem; /* Espacio entre los enlaces */
+    align-items: center;
+}
+
+.nav-link {
+    color: #ffffff;
+    font-size: 1.125rem;
+    font-weight: 700;
+    text-decoration: none;
+    padding: 0.5rem 0.2rem;
+    border-radius: 0.5rem;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    position: relative; /* Necesario para la animación ::after */
+}
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -6px;
+    width: 100%;
+    height: 3px;
+    background: #fff;
+    border-radius: 5px;
+    transform-origin: right;
+    transform: scaleX(0);
+    transition: transform .5s;
+}
+
+.nav-link:hover::after {
+    transform-origin: left;
+    transform: scaleX(1);
+}
+
+/* --- ESTILOS DEL BOTÓN DE INICIAR SESIÓN (GLOBAL) --- */
+/* (Aplica tanto en desktop como en móvil si no se sobrescribe) */
 .nav-links .btnLogin-popup {
     width: 130px;
     height: 50px;
@@ -70,146 +151,18 @@ body {
     color: #162938;
 }
 
-.navbar-brand {
-    color: #ffffff;
-    font-size: 1.75rem;
-    font-weight: 800;
-    text-decoration: none;
-    border-radius: 0.5rem;
-    padding: 0.25rem 0.5rem;
-    transition: background-color 0.3s ease;
-}
-
-.navbar-brand:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-}
-
-.nav-links {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    gap: 1.5rem; /* Espacio entre los enlaces */
-}
-
-.nav-link {
-    color: #ffffff;
-    font-size: 1.125rem;
-    font-weight: 700;
-    text-decoration: none;
-    padding: 0.5rem 0.2rem;
-    border-radius: 0.5rem;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-}
-
-.nav-link:hover {
-    background-color: rgba(255, 255, 255, 0.2);
-    transform: translateY(-2px);
-}
-
+/* --- BOTONES DE MENÚ DE HAMBURGUESA (OCULTOS POR DEFECTO EN DESKTOP) --- */
 .abrir-menu,
 .cerrar-menu{
-    
-    display: none;
-    
+    display: none; /* Ocultar por defecto */
 }
 
-.construccion{
-    height: 600px;
-}
-
-@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
-
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'poppins', sans-serif;
-}
-
-body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    background:  rgb(91, 255, 200) no-repeat;
-    background: linear-gradient(0deg,  rgb(91, 255, 200) 0%, rgba(0,0,0,1) 100%);
-    background-size: cover;
-    background-position: center;
-}
-
-header {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    padding: 20px 100px;
-    /* background: red; */
-    display: flex;
-    justify-content:space-between;
-    align-items: center;
-    z-index: 99;
-}
-
-.logo{
-    font-size: 2em;
-    color: #fff;
-}
-
-.navigation a {
-    position: relative;
-    font-size: 1.1em;
-    color: #fff;
-    text-decoration: none;
-    font-weight: 500;
-    margin-left: 40px;
-}
-
-.navigation a::after {
-    content: '';
-    position: absolute;
-    left: 0;
-    bottom: -6px;
-    width: 100%;
-    height: 3px;
-    background: #fff;
-    border-radius: 5px;
-    transform-origin: right;
-    transform: scaleX(0);
-    transition: transform .5s;
-}
-
-.navigation a:hover::after {
-    transform-origin: left;
-    transform: scaleX(1);
-}
-
-.navigation .btnLogin-popup {
-    width: 130px;
-    height: 50px;
-    background: transparent;
-    border: 2px solid #fff;
-    outline: none;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 1.1em;
-    color: #fff;
-    font-weight: 500;
-    margin-left: 40px;
-    transition: .5s;
-}
-
-.navigation .btnLogin-popup:hover {
-    background: #fff;
-    color: #162938;
-}
-
-/* Centrando el Wrapper */
+/* --- ESTILOS DEL WRAPPER (FORMULARIO DE LOGIN/REGISTRO) --- */
 .wrapper {
-    position: fixed; /* Usar posicionamiento fijo relativo a la ventana gráfica */
-    top: 50%; /* Mover el borde superior al centro vertical */
-    left: 50%; /* Mover el borde izquierdo al centro horizontal */
-    transform: translate(-50%, -50%); /* Ajustar por la mitad de su propio ancho/alto para centrarlo verdaderamente */
+    position: fixed; /* Posicionamiento fijo respecto a la ventana del navegador */
+    top: 50%; /* Alinea el borde superior al 50% de la altura de la ventana */
+    left: 50%; /* Alinea el borde izquierdo al 50% de la anchura de la ventana */
+    transform: translate(-50%, -50%) scale(0); /* Centra el elemento sobre sí mismo y lo esconde */
     width: 400px;
     height: 440px;
     background: transparent;
@@ -221,224 +174,148 @@ header {
     justify-content: center;
     align-items: center;
     overflow: hidden;
-    transform: scale(0) translate(-50%, -50%); /* Añadir translate a la transformación de escala */
     transition: transform .5s ease, height .2s ease;
-    z-index: 1001; /* Asegurarse de que esté por encima del encabezado y otros contenidos */
+    z-index: 1001; /* Asegura que esté por encima del header y el menú */
 }
 
-/* Ajustar active-popup para la transformación combinada */
 .wrapper.active-popup {
-    transform: scale(1) translate(-50%, -50%); /* Aplicar translate también al estado de escala */
+    transform: translate(-50%, -50%) scale(1); /* Muestra el wrapper centrado */
 }
 
-
-/* Todos los demás estilos de .wrapper y form-box pueden permanecer igual */
 .wrapper.active {
-    height: 520px;
+    height: 520px; /* Altura para el formulario de registro */
 }
 
-.wrapper .form-box {
-    width: 100%;
-    padding: 40px;
-}
-
-.wrapper .form-box.login{
-    transition: transform .18s ease;
-    transform: translateX(0);
-}
-
-.wrapper.active .form-box.login {
-    transition: none;
-    transform: translateX(-400px);
-}
-
-.wrapper .form-box.register {
-    position: absolute;
-    transition: none;
-    transform: translateX(400px);
-}
-
-.wrapper.active .form-box.register{
-    transition: transform .18s ease;
-    transform: translateX(0);
-}
-
+/* --- ESTILOS DE LOS FORMULARIOS DENTRO DEL WRAPPER --- */
+.wrapper .form-box { width: 100%; padding: 40px; }
+.wrapper .form-box.login{ transition: transform .18s ease; transform: translateX(0); }
+.wrapper.active .form-box.login { transition: none; transform: translateX(-400px); }
+.wrapper .form-box.register { position: absolute; transition: none; transform: translateX(400px); }
+.wrapper.active .form-box.register{ transition: transform .18s ease; transform: translateX(0); }
 .wrapper .icon-close {
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 45px;
-    height: 45px;
-    background: #162938;
-    font-size: 2em;
-    color: #fff;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-bottom-left-radius: 20px;
-    cursor: pointer;
-    z-index: 1;
+    position: absolute; top: 0; right: 0; width: 45px; height: 45px; background: #162938; font-size: 2em; color: #fff;
+    display: flex; justify-content: center; align-items: center; border-bottom-left-radius: 20px; cursor: pointer; z-index: 1;
 }
-
-.form-box h2{
-    font-size: 2em;
-    color: #162938;
-    text-align: center;
-}
-
-.input-box {
-    position: relative;
-    width: 100%;
-    height: 50px;
-    border-bottom: 2px solid #162938;
-    margin: 30px 0;
-}
-
+.form-box h2{ font-size: 2em; color: #162938; text-align: center; }
+.input-box { position: relative; width: 100%; height: 50px; border-bottom: 2px solid #162938; margin: 30px 0; }
 .input-box label {
-    position: absolute;
-    top: 50%;
-    left: 5px;
-    transform: translateY(-50%);
-    font-size: 1em;
-    color: #162938;
-    font-weight: 500;
-    pointer-events: none;
-    transition: .5s;
+    position: absolute; top: 50%; left: 5px; transform: translateY(-50%); font-size: 1em; color: #162938;
+    font-weight: 500; pointer-events: none; transition: .5s;
 }
-
-.input-box input:focus~label,
-.input-box input:valid~label {
-    top: -5px;
-}
-
+.input-box input:focus~label, .input-box input:valid~label { top: -5px; }
 .input-box input {
-    width: 100%;
-    height: 100%;
-    background: transparent;
-    border: none;
-    outline: none;
-    font-size: 1em;
-    color: #162938;
-    font-weight: 600;
-    padding: 0 35px 0 5px;
+    width: 100%; height: 100%; background: transparent; border: none; outline: none; font-size: 1em;
+    color: #162938; font-weight: 600; padding: 0 35px 0 5px;
 }
-
-.input-box .icon {
-    position: absolute;
-    right: 8px;
-    font-size: 1.2em;
-    color: #162938;
-    line-height: 57px;
-}
-
+.input-box .icon { position: absolute; right: 8px; font-size: 1.2em; color: #162938; line-height: 57px; }
 .remember-forgot {
-    font-size: .9em;
-    color: #162938;
-    font-weight: 500;
-    margin: -15px 0 15px;
-    display: flex;
-    justify-content: space-between;
+    font-size: .9em; color: #162938; font-weight: 500; margin: -15px 0 15px; display: flex; justify-content: space-between;
 }
-
-.remember-forgot label input{
-    accent-color: #162938;
-    margin-right: 3px;
-}
-
-.remember-forgot a {
-    color: #162938;
-    text-decoration: none;
-}
-
-.remember-forgot a:hover {
-    text-decoration: underline;
-}
-
+.remember-forgot label input{ accent-color: #162938; margin-right: 3px; }
+.remember-forgot a { color: #162938; text-decoration: none; }
+.remember-forgot a:hover { text-decoration: underline; }
 .btn {
-    width: 100%;
-    height: 45px;
-    background: #162938;
-    border: none;
-    outline: none;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 1em;
-    color: #fff;
-    font-weight: 500;
+    width: 100%; height: 45px; background: #162938; border: none; outline: none; border-radius: 6px; cursor: pointer;
+    font-size: 1em; color: #fff; font-weight: 500;
 }
-
-.login-register {
-    font-size: .9em;
-    color: #162938;
-    text-align: center;
-    font-weight: 500;
-    margin: 25px 0 10px;
-}
-
-.login-register p a {
-    color: #162938;
-    text-decoration: none;
-    font-weight: 600;
-}
-
-.login-register p a:hover {
-    text-decoration: underline;
-}
+.login-register { font-size: .9em; color: #162938; text-align: center; font-weight: 500; margin: 25px 0 10px; }
+.login-register p a { color: #162938; text-decoration: none; font-weight: 600; }
+.login-register p a:hover { text-decoration: underline; }
 
 
+/* --- MEDIA QUERY PARA MÓVILES --- */
 @media screen and (max-width: 700px) {
-    /* Mantener las consultas de medios existentes para la capacidad de respuesta */
+    /* Ajustes del Header en móvil */
+    header {
+        padding: 0 20px; /* Reducir padding horizontal para móvil */
+        justify-content: space-between; /* Mantener la separación */
+    }
+
+    /* Mostrar los botones de abrir/cerrar menú */
     .abrir-menu,
     .cerrar-menu{
-        display: block;
+        display: block; /* Ahora se muestran */
         border: 0;
-        font-size: 1.25rem;
+        font-size: 1.5rem; /* Icono un poco más grande */
         background-color: transparent;
         cursor: pointer;
+        color: white; /* Color para los iconos, para que contrasten con el fondo del header */
+        z-index: 1010; /* Asegurar que estén por encima de todo cuando el menú se abre */
+    }
+    .cerrar-menu {
+        position: absolute; /* Para posicionar la X en la esquina superior derecha del menú abierto */
+        top: 20px;
+        right: 20px;
     }
 
-    .abrir-menu {
-        color: black;
-        background-color: transparent;
-    }
-    
-    .cerrar-menu {
-        color: black;
-        background-color: transparent;
-    }
-        
-    .navbar {
+
+    /* El contenedor principal de la navegación en móvil (el menú desplegable) */
+    .navbar { /* Esta es la misma clase .navbar que está dentro del header en HTML */
         opacity: 0;
         visibility: hidden;
-        display: flex;
-        flex-direction: column;
-        align-items: end;
-        gap: 1rem;
-        position: absolute;
+        position: fixed; /* Fijo para que ocupe toda la pantalla */
         top: 0;
         right: 0;
         bottom: 0;
-        background-color: rgb(91, 255, 200);
+        width: 100%; /* Ocupa todo el ancho en móvil */
+        background-color: rgb(91, 255, 200); /* Color de fondo del menú desplegado */
         padding: 2rem;
-        box-shadow: 0 0 0 100vmax rgba(0, 0, 0, .5);
+        box-shadow: 0 0 0 100vmax rgba(0, 0, 0, .5); /* Overlay semitransparente fuera del menú */
+        display: flex; /* Ahora es flex para organizar su contenido */
+        flex-direction: column; /* Contenido apilado verticalmente */
+        align-items: flex-end; /* Alinea los elementos (enlaces, botón cerrar) a la derecha */
+        transition: opacity 0.3s ease, visibility 0.3s ease;
+        z-index: 999; /* Asegúrate de que esté debajo del wrapper de login si ambos pueden estar activos */
     }
 
-    .navbar.visible{
+    .navbar.visible {
         opacity: 1;
         visibility: visible;
     }
 
+    /* Ocultar la lista de enlaces por defecto, se mostrará con .navbar.visible */
     .nav-links {
-        flex-direction: column;
-        align-items: end;
+        display: none; /* Se oculta en móvil por defecto */
+        flex-direction: column; /* Se apilan verticalmente */
+        align-items: flex-end; /* Se alinean a la derecha del menú */
+        width: 100%; /* Ocupan todo el ancho disponible */
+        padding-right: 0; /* No es necesario si se alinean a la derecha */
+        margin-top: 60px; /* Espacio para el botón de cerrar */
+    }
+
+    /* Asegúrate de que los nav-links se muestren cuando el menú es visible */
+    .navbar.visible .nav-links {
+        display: flex; /* Mostrar los enlaces cuando el menú está visible */
+    }
+
+    /* Estilos específicos para los enlaces individuales en el menú móvil */
+    .nav-link {
+        color: rgb(0, 0, 0); /* Color oscuro para los enlaces en el menú móvil */
+        padding: 0.75rem 0.5rem; /* Un poco más de padding para mejor clic */
+        width: 100%; /* Ocupan todo el ancho del menú */
+        text-align: right; /* Alinea el texto a la derecha */
     }
     
-    .nav-links li a {
-        color: rgb(0, 0, 0);
+    .nav-link::after {
+        background: rgb(0, 0, 0); /* Cambiar color de la línea hover en móvil */
+        transform: scaleX(0); /* Reiniciar transformación por si acaso */
     }
-    
-    .nav-links li a:hover::after {
-        color: rgb(255, 255, 255);
-        transform: scaleX(2);
+    .nav-link:hover::after {
+        transform: scaleX(1); /* Animación de línea hover */
+    }
+
+    /* Ajuste para el botón de login en el menú móvil */
+    .nav-links .btnLogin-popup {
+        color: rgb(0, 0, 0); /* Color de texto para el botón en el menú móvil */
+        border-color: rgb(0, 0, 0); /* Color del borde para el botón en el menú móvil */
+        margin-left: 0; /* Eliminar margen para que se alinee con los demás */
+        margin-top: 1.5rem; /* Espacio superior para separarlo de los enlaces */
+        width: auto; /* Ancho automático para que se ajuste al contenido */
+        padding: 0.5em 1.5em; /* Padding para que no sea tan grande */
+    }
+
+    .nav-links .btnLogin-popup:hover {
+        background: #162938; /* Fondo al pasar el ratón */
+        color: #fff; /* Color del texto al pasar el ratón */
     }
 }
