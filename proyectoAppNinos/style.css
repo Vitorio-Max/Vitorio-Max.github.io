@@ -111,7 +111,7 @@ body {
 .abrir-menu,
 .cerrar-menu{
     
-    display: flex;
+    display: none;
     
 }
 
@@ -300,7 +300,94 @@ body {
 
 
 /* Media queries para responsividad */
-@media (max-width: 768px) { /* Para pantallas pequeñas/móviles */
+@media (max-width: 768px) { 
+
+/* Mostrar los botones de abrir/cerrar menú */
+    .abrir-menu,
+    .cerrar-menu{
+        display: block; /* Ahora se muestran por defecto en móvil */
+        border: 0;
+        font-size: 1.5rem; /* Icono un poco más grande */
+        background-color: transparent;
+        cursor: pointer;
+        color: white; /* Color para los iconos, para que contrasten con el fondo del header */
+        z-index: 1010; /* Asegurar que estén por encima de todo cuando el menú se abre */
+    }
+
+    /* Ocultar el botón de abrir menú cuando el header tiene la clase 'menu-abierto' */
+    header.menu-abierto .abrir-menu {
+        display: none;
+    }
+
+    /* Ocultar el botón de cerrar menú por defecto (cuando el menú está cerrado) */
+    .cerrar-menu {
+        display: none; /* Por defecto, se oculta en móvil */
+        position: absolute; /* Para posicionar la X en la esquina superior derecha del menú abierto */
+        top: 20px;
+        right: 20px;
+    }
+
+    /* MOSTRAR el botón de cerrar menú cuando el navbar está visible */
+    .navbar.visible .cerrar-menu {
+        display: block; /* Se muestra solo cuando el .navbar es visible */
+    }
+
+    /* El contenedor principal de la navegación en móvil (el menú desplegable) */
+    .navbar { /* Esta es la misma clase .navbar que está dentro del header en HTML */
+        opacity: 0;
+        visibility: hidden;
+        position: fixed; /* Fijo para que ocupe toda la pantalla */
+        top: 0;
+        right: 0;
+        bottom: 0;
+        width: 100%; /* Ocupa todo el ancho en móvil */
+        background-color: rgb(91, 255, 200); /* Color de fondo del menú desplegado */
+        padding: 2rem;
+        box-shadow: 0 0 0 100vmax rgba(0, 0, 0, .5); /* Overlay semitransparente fuera del menú */
+        display: flex; /* Ahora es flex para organizar su contenido */
+        flex-direction: column; /* Contenido apilado verticalmente */
+        align-items: flex-end; /* Alinea los elementos (enlaces, botón cerrar) a la derecha */
+        transition: opacity 0.3s ease, visibility 0.3s ease;
+        z-index: 999; /* Asegúrate de que esté debajo del wrapper de login si ambos pueden estar activos */
+    }
+
+    .navbar.visible {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    /* Ocultar la lista de enlaces por defecto, se mostrará con .navbar.visible */
+    .nav-links {
+        display: none; /* Se oculta en móvil por defecto */
+        flex-direction: column; /* Se apilan verticalmente */
+        align-items: flex-end; /* Se alinean a la derecha del menú */
+        width: 100%; /* Ocupan todo el ancho disponible */
+        padding-right: 0; /* No es necesario si se alinean a la derecha */
+        margin-top: 60px; /* Espacio para el botón de cerrar */
+    }
+
+    /* Asegúrate de que los nav-links se muestren cuando el menú es visible */
+    .navbar.visible .nav-links {
+        display: flex; /* Mostrar los enlaces cuando el menú está visible */
+    }
+
+    /* Estilos específicos para los enlaces individuales en el menú móvil */
+    .nav-link {
+        color: rgb(0, 0, 0); /* Color oscuro para los enlaces en el menú móvil */
+        padding: 0.75rem 0.5rem; /* Un poco más de padding para mejor clic */
+        width: 100%; /* Ocupan todo el ancho del menú */
+        text-align: right; /* Alinea el texto a la derecha */
+    }
+    
+    .nav-link::after {
+        background: rgb(0, 0, 0); /* Cambiar color de la línea hover en móvil */
+        transform: scaleX(0); /* Reiniciar transformación por si acaso */
+    }
+    .nav-link:hover::after {
+        transform: scaleX(1); /* Animación de línea hover */
+    }
+
+/* Para pantallas pequeñas/móviles */
     .navbar-container {
         flex-direction: column;
         align-items: flex-start;
@@ -603,3 +690,4 @@ h1 {
         font-size: 1.3rem;
     }
 }
+
