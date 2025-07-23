@@ -204,8 +204,12 @@ header {
     color: #162938;
 }
 
+/* Centrando el Wrapper */
 .wrapper {
-    position: relative;
+    position: fixed; /* Usar posicionamiento fijo relativo a la ventana gráfica */
+    top: 50%; /* Mover el borde superior al centro vertical */
+    left: 50%; /* Mover el borde izquierdo al centro horizontal */
+    transform: translate(-50%, -50%); /* Ajustar por la mitad de su propio ancho/alto para centrarlo verdaderamente */
     width: 400px;
     height: 440px;
     background: transparent;
@@ -217,14 +221,18 @@ header {
     justify-content: center;
     align-items: center;
     overflow: hidden;
-    transform: scale(0);
+    transform: scale(0) translate(-50%, -50%); /* Añadir translate a la transformación de escala */
     transition: transform .5s ease, height .2s ease;
+    z-index: 1001; /* Asegurarse de que esté por encima del encabezado y otros contenidos */
 }
 
+/* Ajustar active-popup para la transformación combinada */
 .wrapper.active-popup {
-    transform: scale(1);
+    transform: scale(1) translate(-50%, -50%); /* Aplicar translate también al estado de escala */
 }
 
+
+/* Todos los demás estilos de .wrapper y form-box pueden permanecer igual */
 .wrapper.active {
     height: 520px;
 }
@@ -243,8 +251,6 @@ header {
     transition: none;
     transform: translateX(-400px);
 }
-
-
 
 .wrapper .form-box.register {
     position: absolute;
@@ -379,10 +385,11 @@ header {
     text-decoration: underline;
 }
 
-@media screen and (max-width: 700px) {
 
-       .abrir-menu,
-       .cerrar-menu{
+@media screen and (max-width: 700px) {
+    /* Mantener las consultas de medios existentes para la capacidad de respuesta */
+    .abrir-menu,
+    .cerrar-menu{
         display: block;
         border: 0;
         font-size: 1.25rem;
@@ -392,15 +399,14 @@ header {
 
     .abrir-menu {
         color: black;
-        background-color: transparent;/*prueba*/
+        background-color: transparent;
     }
-   
+    
     .cerrar-menu {
         color: black;
-        background-color: transparent;/*prueba*/
+        background-color: transparent;
     }
         
-
     .navbar {
         opacity: 0;
         visibility: hidden;
@@ -415,13 +421,12 @@ header {
         background-color: rgb(91, 255, 200);
         padding: 2rem;
         box-shadow: 0 0 0 100vmax rgba(0, 0, 0, .5);
-       
-        }
+    }
 
     .navbar.visible{
-            opacity: 1;
-            visibility: visible;
-        }
+        opacity: 1;
+        visibility: visible;
+    }
 
     .nav-links {
         flex-direction: column;
@@ -429,12 +434,11 @@ header {
     }
     
     .nav-links li a {
-     color: rgb(0, 0, 0);
+        color: rgb(0, 0, 0);
     }
-   
+    
     .nav-links li a:hover::after {
         color: rgb(255, 255, 255);
         transform: scaleX(2);
-       }
-
+    }
 }
