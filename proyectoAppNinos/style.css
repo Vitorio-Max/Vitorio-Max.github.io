@@ -111,7 +111,7 @@ body {
 .abrir-menu,
 .cerrar-menu{
     
-    display: none;
+    display: flex;
     
 }
 
