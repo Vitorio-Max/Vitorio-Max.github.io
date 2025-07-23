@@ -18,36 +18,88 @@ body {
     /* Eliminar display: flex, justify-content, align-items del body si no es el contenedor flex principal para todo el contenido */
 }
 
-.navbar {
-    width: 100%;
-    height: 80px; ;
-    background-color: #4f46e5; /* Un azul oscuro para la barra de navegación */
-    padding: 1rem 0;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    position: fixed; /* Fija la barra en la parte superior */
+/* Asegurar que el encabezado esté siempre en la parte superior */
+header {
+    position: fixed;
     top: 0;
     left: 0;
-    z-index: 1000; /* Asegura que esté por encima de otros elementos */
+    width: 100%;
+    padding: 20px 100px; /* Ajustar el padding según sea necesario */
+    background-color: #4f46e5; /* Fondo consistente con la barra de navegación */
     display: flex;
     justify-content: space-between;
+    align-items: center;
+    z-index: 99;
+    height: 80px; /* Altura explícita para el encabezado */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Mantener la sombra para separación visual */
+}
+
+/* Consolidar estilos de navbar en el encabezado */
+.navbar {
+    /* No es necesario el posicionamiento fijo aquí ya que el encabezado es fijo */
+    width: 100%; /* Ocupar todo el ancho del encabezado */
+    height: 100%; /* Ocupar toda la altura del encabezado */
+    background-color: transparent; /* El fondo ahora está en el encabezado */
+    padding: 0; /* Sin padding aquí, manejado por el encabezado */
+    box-shadow: none; /* Sin sombra aquí, manejado por el encabezado */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .navbar-container {
     max-width: 1200px; /* Ancho máximo del contenido de la barra */
-    margin: 0; /* Centra el contenido */
-    margin-left: auto;
-    display: flex; /* Esto hace que los enlaces dentro de .navbar-links se comporten como flex items */
+    margin: 0 auto; /* Centra el contenido horizontalmente dentro de la navbar */
+    display: flex;
     justify-content: space-between;
-    gap: 1rem; /* Añade espacio entre los enlaces */
+    gap: 1rem;
     align-items: center;
-    padding: 0 1rem; /* Espaciado horizontal */
+    padding: 0 1rem;
+    width: 100%; /* Asegurarse de que ocupe todo el padre */
 }
 
+/* Mantener el resto de tus estilos de encabezado/navbar tal como están para la estética */
 .logo {
-    margin-right: auto;
-    width: 100px;
-    height: 70px;
-    /* max-width: 2.5rem; */
+    font-size: 2em;
+    color: #fff;
+    /* Considera si aún necesitas estilos específicos de imagen de logo del primer conjunto de CSS */
+}
+
+.navbar-brand {
+    color: #ffffff;
+    font-size: 1.75rem;
+    font-weight: 800;
+    text-decoration: none;
+    border-radius: 0.5rem;
+    padding: 0.25rem 0.5rem;
+    transition: background-color 0.3s ease;
+}
+
+.navbar-brand:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.nav-links {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 1.5rem;
+}
+
+.nav-link {
+    color: #ffffff;
+    font-size: 1.125rem;
+    font-weight: 700;
+    text-decoration: none;
+    padding: 0.5rem 0.2rem;
+    border-radius: 0.5rem;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.nav-link:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
 }
 
 .nav-links .btnLogin-popup {
@@ -70,142 +122,12 @@ body {
     color: #162938;
 }
 
-.navbar-brand {
-    color: #ffffff;
-    font-size: 1.75rem;
-    font-weight: 800;
-    text-decoration: none;
-    border-radius: 0.5rem;
-    padding: 0.25rem 0.5rem;
-    transition: background-color 0.3s ease;
-}
-
-.navbar-brand:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-}
-
-.nav-links {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    gap: 1.5rem; /* Espacio entre los enlaces */
-}
-
-.nav-link {
-    color: #ffffff;
-    font-size: 1.125rem;
-    font-weight: 700;
-    text-decoration: none;
-    padding: 0.5rem 0.2rem;
-    border-radius: 0.5rem;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-}
-
-.nav-link:hover {
-    background-color: rgba(255, 255, 255, 0.2);
-    transform: translateY(-2px);
-}
-
-.abrir-menu,
-.cerrar-menu{
-    
-    display: none;
-    
-}
-
-.construccion{
-    height: 600px;
-}
-
-@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
-
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'poppins', sans-serif;
-}
-
-body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    background:  rgb(91, 255, 200) no-repeat;
-    background: linear-gradient(0deg,  rgb(91, 255, 200) 0%, rgba(0,0,0,1) 100%);
-    background-size: cover;
-    background-position: center;
-}
-
-header {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    padding: 20px 100px;
-    /* background: red; */
-    display: flex;
-    justify-content:space-between;
-    align-items: center;
-    z-index: 99;
-}
-
-.logo{
-    font-size: 2em;
-    color: #fff;
-}
-
-.navigation a {
-    position: relative;
-    font-size: 1.1em;
-    color: #fff;
-    text-decoration: none;
-    font-weight: 500;
-    margin-left: 40px;
-}
-
-.navigation a::after {
-    content: '';
-    position: absolute;
-    left: 0;
-    bottom: -6px;
-    width: 100%;
-    height: 3px;
-    background: #fff;
-    border-radius: 5px;
-    transform-origin: right;
-    transform: scaleX(0);
-    transition: transform .5s;
-}
-
-.navigation a:hover::after {
-    transform-origin: left;
-    transform: scaleX(1);
-}
-
-.navigation .btnLogin-popup {
-    width: 130px;
-    height: 50px;
-    background: transparent;
-    border: 2px solid #fff;
-    outline: none;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 1.1em;
-    color: #fff;
-    font-weight: 500;
-    margin-left: 40px;
-    transition: .5s;
-}
-
-.navigation .btnLogin-popup:hover {
-    background: #fff;
-    color: #162938;
-}
-
+/* Centrando el Wrapper */
 .wrapper {
-    position: relative;
+    position: fixed; /* Usar posicionamiento fijo relativo a la ventana gráfica */
+    top: 50%; /* Mover el borde superior al centro vertical */
+    left: 50%; /* Mover el borde izquierdo al centro horizontal */
+    transform: translate(-50%, -50%); /* Ajustar por la mitad de su propio ancho/alto para centrarlo verdaderamente */
     width: 400px;
     height: 440px;
     background: transparent;
@@ -217,14 +139,18 @@ header {
     justify-content: center;
     align-items: center;
     overflow: hidden;
-    transform: scale(0);
+    transform: scale(0) translate(-50%, -50%); /* Añadir translate a la transformación de escala */
     transition: transform .5s ease, height .2s ease;
+    z-index: 1001; /* Asegurarse de que esté por encima del encabezado y otros contenidos */
 }
 
+/* Ajustar active-popup para la transformación combinada */
 .wrapper.active-popup {
-    transform: scale(1);
+    transform: scale(1) translate(-50%, -50%); /* Aplicar translate también al estado de escala */
 }
 
+
+/* Todos los demás estilos de .wrapper y form-box pueden permanecer igual */
 .wrapper.active {
     height: 520px;
 }
@@ -243,8 +169,6 @@ header {
     transition: none;
     transform: translateX(-400px);
 }
-
-
 
 .wrapper .form-box.register {
     position: absolute;
@@ -380,9 +304,9 @@ header {
 }
 
 @media screen and (max-width: 700px) {
-
-       .abrir-menu,
-       .cerrar-menu{
+    /* Mantener las consultas de medios existentes para la capacidad de respuesta */
+    .abrir-menu,
+    .cerrar-menu{
         display: block;
         border: 0;
         font-size: 1.25rem;
@@ -392,15 +316,14 @@ header {
 
     .abrir-menu {
         color: black;
-        background-color: transparent;/*prueba*/
+        background-color: transparent;
     }
-   
+    
     .cerrar-menu {
         color: black;
-        background-color: transparent;/*prueba*/
+        background-color: transparent;
     }
         
-
     .navbar {
         opacity: 0;
         visibility: hidden;
@@ -415,13 +338,12 @@ header {
         background-color: rgb(91, 255, 200);
         padding: 2rem;
         box-shadow: 0 0 0 100vmax rgba(0, 0, 0, .5);
-       
-        }
+    }
 
     .navbar.visible{
-            opacity: 1;
-            visibility: visible;
-        }
+        opacity: 1;
+        visibility: visible;
+    }
 
     .nav-links {
         flex-direction: column;
@@ -429,12 +351,11 @@ header {
     }
     
     .nav-links li a {
-     color: rgb(0, 0, 0);
+        color: rgb(0, 0, 0);
     }
-   
+    
     .nav-links li a:hover::after {
         color: rgb(255, 255, 255);
         transform: scaleX(2);
-       }
-
+    }
 }

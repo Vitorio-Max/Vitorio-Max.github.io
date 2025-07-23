@@ -1,6 +1,13 @@
 /* Importa la fuente Inter */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&display=swap');
 
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: sans-serif;
+}
+
 body {
     font-family: 'Inter', sans-serif;
     margin: 0;
@@ -56,6 +63,28 @@ body {
     background-color: rgba(255, 255, 255, 0.1);
 }
 
+.nav-links .btnLogin-popup {
+    width: 130px;
+    height: 50px;
+    background: transparent;
+    border: 2px solid #fff;
+    outline: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1.1em;
+    color: #fff;
+    font-weight: 500;
+    margin-left: 40px;
+    transition: .5s;
+}
+
+.nav-links .btnLogin-popup:hover {
+    background: #fff;
+    color: #162938;
+}
+
+
+
 .nav-links {
     list-style: none;
     margin: 0;
@@ -81,8 +110,9 @@ body {
 
 .abrir-menu,
 .cerrar-menu{
+    
     display: none;
-    background-color: transparent;/*prueba*/   
+    
 }
 
 /* Contenedor principal para el contenido de las páginas (animales, vocales, letras) */
