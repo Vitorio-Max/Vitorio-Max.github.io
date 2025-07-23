@@ -82,11 +82,7 @@ p{
     transition: all .5s ease;
    } */
 
-.abrir-menu,
-.cerrar-menu{
-    display: none;
-    background-color: transparent;/*prueba*/   
-}
+
 
 .construccion{
     height: 600px;

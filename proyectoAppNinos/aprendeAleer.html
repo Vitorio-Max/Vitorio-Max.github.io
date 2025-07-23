@@ -3,10 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Juego de Rompecabezas</title>
+    <title>Aprende a Leer</title>
+    <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">ç
-    <link rel="stylesheet" href="stylePuzzle.css">
 </head>
 <body>
     <nav class="navbar">
@@ -25,21 +24,28 @@
         </div>
     </nav>
 
-    <div class="main-content-container">
-        <h1 class="game-title">¡Arma el Rompecabezas! 🧩</h1>
-        <div class="puzzle-controls">
-            <select id="imageSelector" class="puzzle-select">
-                </select>
-            <button id="startButton" class="next-animal-btn">Empezar Juego</button>
-            <button id="resetButton" class="next-animal-btn" style="display: none; background-color: #ef4444;">Reiniciar</button>
-        </div>
-        <div id="puzzle-container" class="puzzle-grid-container">
+    <div class="container main-content-container">
+        <h1 class="game-title">¡Aprende a Leer! 📚</h1>
+
+        <div class="reading-game-container">
+            <div id="word-display-area" class="word-display-area">
+                <span id="current-word-text" class="current-word-text"></span>
             </div>
-        <div id="puzzle-message" class="puzzle-message" style="display: none;">
-            ¡Felicidades, lo has logrado! 🎉
+
+            <div id="syllables-container" class="syllables-container">
+                </div>
+
+            <div id="drop-area" class="drop-area">
+                <p>Arrastra las sílabas aquí para formar la palabra</p>
+                </div>
+
+            <button id="check-word-btn" class="next-animal-btn check-btn">Comprobar Palabra</button>
+            <button id="next-word-btn" class="next-animal-btn next-btn">Siguiente Palabra</button>
+
+            <div id="feedback-message" class="feedback-message"></div>
         </div>
     </div>
 
-    <script src="puzzle.js"></script>
+    <script src="aprendeAleer.js"></script>
 </body>
 </html>

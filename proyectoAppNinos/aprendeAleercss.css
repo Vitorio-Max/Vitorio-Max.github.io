@@ -1,0 +1,191 @@
+/* --- ESTILOS GENERALES Y DE LA NAVEGACIÓN (COPIADOS/ADAPTADOS DE TU EJEMPLO) --- */
+body {
+    font-family: 'Inter', Arial, sans-serif; /* Usamos la fuente Inter */
+    margin: 0;
+    padding: 0;
+    background-color: #f0f2f5; /* Un fondo suave */
+    color: #333;
+    line-height: 1.6;
+}
+
+.navbar {
+    background-color: #4CAF50; /* Un color verde amigable */
+    padding: 10px 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+}
+
+.navbar-brand {
+    color: white;
+    font-size: 24px;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.nav-links {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+
+.nav-links li {
+    margin-left: 20px;
+}
+
+.nav-link {
+    color: white;
+    text-decoration: none;
+    font-weight: 400;
+    transition: color 0.3s ease;
+}
+
+.nav-link:hover {
+    color: #e0e0e0;
+}
+
+.container {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 30px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+    text-align: center; /* Centrar el contenido dentro del contenedor */
+}
+
+/* --- ESTILOS ESPECÍFICOS DE APRENDE A LEER (INTEGRACIÓN DE `aprendeAleercss.css`) --- */
+
+.main-title {
+    color: #007bff; /* Un azul vibrante */
+    font-size: 2.5em;
+    margin-bottom: 15px;
+    font-weight: 800; /* Más peso para el título principal */
+}
+
+.intro-text {
+    font-size: 1.1em;
+    color: #555;
+    margin-bottom: 30px;
+}
+
+.reading-section {
+    background-color: #f9f9f9;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 25px;
+    margin-bottom: 30px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.section-heading {
+    color: #28a745; /* Verde para los títulos de sección */
+    font-size: 1.8em;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #28a745;
+    padding-bottom: 10px;
+}
+
+.syllable-container, .word-display {
+    display: flex;
+    justify-content: center;
+    gap: 15px; /* Espacio entre sílabas/partes de palabras */
+    margin-bottom: 25px;
+    flex-wrap: wrap; /* Para que las sílabas se ajusten en pantallas pequeñas */
+}
+
+.syllable, .word-part {
+    background-color: #ffe0b2; /* Un naranja claro para las sílabas */
+    color: #e65100; /* Naranja oscuro para el texto */
+    padding: 15px 25px;
+    border-radius: 8px;
+    font-size: 2.2em;
+    font-weight: 700;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease-in-out;
+    cursor: pointer;
+}
+
+.syllable:hover, .word-part:hover {
+    transform: translateY(-3px);
+}
+
+.hint-text {
+    font-style: italic;
+    color: #777;
+    margin-top: -10px;
+    margin-bottom: 25px;
+}
+
+.action-button {
+    background-color: #007bff;
+    color: white;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.1em;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.action-button:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px);
+}
+
+/* --- ESTILOS DE `aprendeAleercss.css` que no estaban en `style.css` original (ejemplos) --- */
+/* Si tenías algo específico para una clase `.mi-boton` o `.seccion-lectura` en el aprendeAleercss.css,
+   asegúrate de que estén aquí o ajustados a las nuevas clases como `.action-button` o `.reading-section`. */
+/* Por ejemplo, si en aprendeAleercss.css tenías:
+.mi-boton { background-color: purple; }
+Ahora podría ser:
+.action-button { background-color: purple; } o añadirla como una clase extra si quieres botones con diferentes estilos
+*/
+
+/* --- Media Queries para Responsive Design (opcional, pero recomendado) --- */
+@media (max-width: 768px) {
+    .navbar-container {
+        flex-direction: column;
+    }
+    .nav-links {
+        margin-top: 10px;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    .nav-links li {
+        margin: 5px 10px;
+    }
+    .container {
+        margin: 20px auto;
+        padding: 20px;
+    }
+    .syllable, .word-part {
+        font-size: 1.8em;
+        padding: 12px 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .main-title {
+        font-size: 2em;
+    }
+    .section-heading {
+        font-size: 1.5em;
+    }
+    .syllable, .word-part {
+        font-size: 1.5em;
+        padding: 10px 15px;
+    }
+    .action-button {
+        padding: 10px 20px;
+        font-size: 1em;
+    }
+}
