@@ -234,7 +234,7 @@ header {
     /* Mostrar los botones de abrir/cerrar menú */
     .abrir-menu,
     .cerrar-menu{
-        display: block; /* Ahora se muestran */
+        display: block; /* Ahora se muestran por defecto en móvil */
         border: 0;
         font-size: 1.5rem; /* Icono un poco más grande */
         background-color: transparent;
@@ -242,12 +242,24 @@ header {
         color: white; /* Color para los iconos, para que contrasten con el fondo del header */
         z-index: 1010; /* Asegurar que estén por encima de todo cuando el menú se abre */
     }
+
+    /* Ocultar el botón de abrir menú cuando el header tiene la clase 'menu-abierto' */
+    header.menu-abierto .abrir-menu {
+        display: none;
+    }
+
+    /* Ocultar el botón de cerrar menú por defecto (cuando el menú está cerrado) */
     .cerrar-menu {
+        display: none; /* Por defecto, se oculta en móvil */
         position: absolute; /* Para posicionar la X en la esquina superior derecha del menú abierto */
         top: 20px;
         right: 20px;
     }
 
+    /* MOSTRAR el botón de cerrar menú cuando el navbar está visible */
+    .navbar.visible .cerrar-menu {
+        display: block; /* Se muestra solo cuando el .navbar es visible */
+    }
 
     /* El contenedor principal de la navegación en móvil (el menú desplegable) */
     .navbar { /* Esta es la misma clase .navbar que está dentro del header en HTML */
