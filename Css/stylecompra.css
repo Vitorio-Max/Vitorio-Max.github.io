@@ -1,94 +1,274 @@
-body {
+/*
+ * Archivo: stylecompra.css
+ * Propósito: Contiene los estilos específicos para la página de la Lista de la Compra.
+ * Los estilos globales del header y body se gestionan en 'estilosNuevo.css'.
+ */
+
+/* Eliminamos este bloque duplicado, ya está en estilosNuevo.css */
+/* * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: sans-serif;
+} */
+
+/* Eliminamos el body de aquí para evitar sobrescribir estilosNuevo.css.
+   El fondo y el espacio para el header se manejarán con el .main-lista-compra */
+/* body {
     font-family: sans-serif;
     margin: 20px;
     background-color: #f4f4f4;
+} */
+
+/* Nuevo estilo para el contenedor principal de la lista de la compra */
+.main-lista-compra {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centra el contenido horizontalmente */
+    flex-grow: 1; /* Permite que ocupe el espacio restante verticalmente */
+    width: 100%;
+    /* Ajusta min-height para que ocupe la altura disponible debajo del header */
+    min-height: calc(100vh - 80px); /* 100vh - altura del header */
+    background: linear-gradient(0deg, rgb(91, 255, 200) 0%, rgba(0,0,0,1) 100%); /* Fondo para esta sección */
+    padding: 2rem 1rem; /* Padding general para el contenido */
+    box-sizing: border-box; /* Incluye padding en el cálculo del tamaño */
 }
+
 
 h1 {
     text-align: center;
-    color: #333;
+    color: white; /* Color para que se vea sobre el degradado */
+    margin-top: 0; /* Asegurarse de que no tenga un margen superior extra */
+    margin-bottom: 1.5rem; /* Espacio debajo del título */
+    font-size: 2.5em; /* Tamaño de fuente más grande */
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.3); /* Pequeña sombra para el texto */
 }
 
+/* Contenedor de los inputs de añadir artículo */
 .input-container {
     display: flex;
-    margin-bottom: 15px;
+    margin-bottom: 1.5rem; /* Aumenta el espacio inferior */
     gap: 10px; /* Espacio entre los elementos de entrada */
+    max-width: 700px; /* Limita el ancho para que no se extienda demasiado */
+    width: 90%; /* Responsivo */
+    background-color: rgba(255, 255, 255, 0.9); /* Fondo claro para los inputs */
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    flex-wrap: wrap; /* Permite que los inputs se envuelvan en pantallas pequeñas */
+    justify-content: center; /* Centra los items si se envuelven */
 }
 
-#newItem {
-    flex-grow: 2;
-    padding: 10px;
+.input-container input[type="text"],
+.input-container input[type="number"] {
+    padding: 12px; /* Más padding para los inputs */
     border: 1px solid #ccc;
     border-radius: 5px;
+    font-size: 1em;
+    flex: 1; /* Permite que crezcan y se encojan */
+    min-width: 120px; /* Ancho mínimo para cada input */
 }
 
-#newQuantity,
-#newPrice {
-    flex-grow: 1;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+.input-container #newItem {
+    flex-basis: 40%; /* El artículo toma un poco más de espacio si hay mucho */
+    min-width: 180px; /* Ancho mínimo para el campo de artículo */
 }
 
-button {
-    padding: 10px 15px;
-    background-color: #5cb85c;
+
+.input-container button {
+    padding: 12px 20px; /* Más padding para el botón */
+    background-color: #28a745; /* Verde más oscuro */
     color: white;
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+    flex-shrink: 0; /* Evita que el botón se encoja */
+    min-width: 90px;
 }
 
-button:hover {
-    background-color: #4cae4c;
+.input-container button:hover {
+    background-color: #218838; /* Verde aún más oscuro al pasar el ratón */
 }
 
-ul {
+/* Lista de artículos */
+ul#shoppingList { /* Especificidad para evitar conflictos con otras listas */
     list-style-type: none;
     padding: 0;
+    margin: 0; /* Eliminar margen predeterminado */
+    width: 90%;
+    max-width: 700px; /* Mismo ancho máximo que el input-container */
+    background-color: rgba(255, 255, 255, 0.9); /* Fondo claro para la lista */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding-top: 10px;
+    padding-bottom: 5px; /* Pequeño padding interno */
 }
 
-li {
+ul#shoppingList li {
     display: grid;
-    grid-template-columns: 2fr 1fr 1fr auto; /* Artículo | Cantidad | Precio | Eliminar */
+    /* Articulo (con nombre + cantidad) | Precio | Botón Eliminar */
+    grid-template-columns: 3fr 1fr auto; 
     align-items: center;
-    padding: 10px;
-    margin-bottom: 8px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    background-color: white;
-    gap: 10px;
+    padding: 12px 15px; /* Más padding */
+    margin-bottom: 5px; /* Menos margen entre items para que se vea más compacto */
+    border-bottom: 1px solid #eee; /* Línea separadora */
+    background-color: transparent; /* El fondo ya lo tiene el ul#shoppingList */
+    gap: 15px; /* Espacio entre columnas */
+    font-size: 1.1em; /* Un poco más grande el texto */
+    color: #333; /* Color de texto para los ítems */
 }
 
-/*li span {
-    /* El nombre del artículo ocupa más espacio 
-}*/
+ul#shoppingList li:last-child {
+    border-bottom: none; /* No hay línea en el último item */
+}
 
 .item-details {
     display: flex;
-    gap: 5px;
-    align-items: center;
+    gap: 8px; /* Espacio entre el nombre del artículo y la cantidad/precio */
+    align-items: baseline; /* Alinea por la base del texto */
+    font-weight: 500;
 }
 
+.item-details span:first-child { /* El nombre del artículo */
+    font-weight: bold;
+    color: #0056b3; /* Un azul para el nombre */
+}
+
+.item-details span:nth-child(2) { /* Cantidad */
+    color: #555;
+    font-size: 0.9em;
+}
+
+
+/* Eliminar el botón */
 .delete-btn {
-    background-color: #d9534f;
+    background-color: #dc3545; /* Rojo más fuerte */
     color: white;
     border: none;
-    padding: 5px 10px;
-    border-radius: 3px;
+    padding: 8px 12px; /* Ajuste de padding */
+    border-radius: 5px; /* Más redondeado */
     cursor: pointer;
+    font-size: 0.9em;
+    transition: background-color 0.3s ease;
 }
 
 .delete-btn:hover {
-    background-color: #c9302c;
+    background-color: #c82333; /* Rojo más oscuro al pasar el ratón */
 }
 
+/* Contenedor del total */
 .total-container {
-    margin-top: 20px;
+    margin-top: 2rem; /* Más espacio superior */
     text-align: right;
+    width: 90%;
+    max-width: 700px;
+    padding: 15px;
+    background-color: rgba(0, 0, 0, 0.4); /* Fondo oscuro para el total */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end; /* Alinea los elementos a la derecha */
+    color: white; /* Color de texto blanco */
+}
+
+.total-container button {
+    margin-bottom: 1rem; /* Espacio entre el botón y el precio total */
+    background-color: #007bff; /* Azul para el botón de calcular */
+}
+
+.total-container button:hover {
+    background-color: #0056b3; /* Azul más oscuro al pasar el ratón */
 }
 
 #totalPrice {
     font-weight: bold;
-    font-size: 1.2em;
+    font-size: 1.5em; /* Tamaño de fuente más grande */
+    color: #ffe066; /* Un color amarillo/dorado para el total */
+}
+
+/* --- MEDIA QUERIES (Responsividad) --- */
+
+@media (max-width: 768px) { /* Tabletas y móviles grandes */
+    .main-lista-compra {
+        padding: 1.5rem 0.5rem;
+    }
+
+    h1 {
+        font-size: 2em;
+        margin-bottom: 1rem;
+    }
+
+    .input-container {
+        flex-direction: column; /* Apila los inputs verticalmente */
+        align-items: center; /* Centra los inputs apilados */
+        width: 95%; /* Ocupa más ancho */
+        padding: 10px;
+    }
+    .input-container input,
+    .input-container button {
+        width: 100%; /* Ocupan todo el ancho disponible */
+        margin-bottom: 10px; /* Espacio entre inputs apilados */
+    }
+    .input-container button {
+        margin-bottom: 0; /* Eliminar margen del último botón */
+    }
+
+    ul#shoppingList {
+        width: 95%;
+        padding: 5px;
+    }
+
+    ul#shoppingList li {
+        grid-template-columns: 1fr auto; /* Artículo | Botón Eliminar (precio y cantidad dentro del artículo) */
+        padding: 10px;
+        gap: 10px;
+        font-size: 1em;
+    }
+    .item-details {
+        flex-direction: column; /* Apila nombre, cantidad y precio */
+        align-items: flex-start; /* Alinea a la izquierda en móvil */
+        gap: 2px;
+    }
+    .item-details span:nth-child(2) { /* Cantidad */
+        margin-left: 0.5em; /* Pequeña indentación */
+    }
+
+
+    .total-container {
+        width: 95%;
+        padding: 10px;
+    }
+    #totalPrice {
+        font-size: 1.3em;
+    }
+}
+
+@media (max-width: 480px) { /* Móviles pequeños */
+    h1 {
+        font-size: 1.8em;
+    }
+    .input-container {
+        padding: 10px;
+    }
+    .input-container input[type="text"],
+    .input-container input[type="number"],
+    .input-container button {
+        padding: 10px;
+        font-size: 0.9em;
+    }
+
+    ul#shoppingList li {
+        padding: 8px;
+        font-size: 0.9em;
+    }
+    .delete-btn {
+        padding: 6px 10px;
+        font-size: 0.8em;
+    }
+    #totalPrice {
+        font-size: 1.1em;
+    }
 }
