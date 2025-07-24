@@ -26,8 +26,12 @@
 }
 
 .cuenta-atras {
-    display: grid;
+    display: flex;
     grid-template-columns: repeat(4, 1fr); /* 4 columnas iguales */
+    justify-content: center; /* Centra verticalmente el contenido */
+    align-items: center; /* Centra horizontalmente el contenido */
+    text-align: center; /* Asegura que el texto mismo se centre */
+
     gap: 1.5rem; /* Espacio entre los grupos de tiempo */
     padding: 1rem;
     background-color: rgba(0, 0, 0, 0.4); /* Fondo semi-transparente para la sección de la cuenta atrás */

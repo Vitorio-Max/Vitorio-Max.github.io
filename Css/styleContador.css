@@ -1,58 +1,149 @@
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family:Arial, Helvetica, sans-serif;
-    /* font-size: 18px; */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;0,900&family=Inter:wght@400;700;800&display=swap');
+
+
+
+:root {
+    --primary-gradient-start: rgb(91, 255, 200);
+    --primary-gradient-end: rgba(0,0,0,1);
+    --header-bg-color: #4f46e5; /* Usado en estilosNuevo.css */
+    --header-border-color: #424242;
+    --text-light: #ffffff;
+    --text-dark: #000000;
+    --accent-color-light: #60a5fa; /* Azul claro para números grandes */
+    --accent-color-dark: #4f46e5; /* Color que combina con el header */
+    --card-background: rgba(0, 0, 0, 0.4);
+    --button-bg-color: #162938; /* Color de botón del login de estilosNuevo.css */
+    --button-hover-color: #000;
 }
 
-body {
-    background:  rgb(91, 255, 200);
-    background: linear-gradient(0deg,  rgb(91, 255, 200) 0%, rgba(0,0,0,1) 100%);
-    height: 100vh;
-}
 
-.header {
-    border-bottom: 3px solid#424242;
-    padding: 20px;
-    text-align: center;
-}
-
-.header_h1 {
-    color: #fff;
-    font-size: 2em;
-}
-
-.counter {
-    height: 80vh;
-    color: #fff;
+.article {
+    flex-grow: 1; /* Permite que ocupe todo el espacio disponible */
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    text-align: center;
+    justify-content: center; /* Centra el contenido verticalmente */
+    align-items: center;     /* Centra el contenido horizontalmente */
+    width: 100%;
+    /* Aplicamos el fondo degradado aquí para que empiece después del header (si el body no lo tiene) */
+    background: linear-gradient(0deg, var(--primary-gradient-start) 0%, var(--primary-gradient-end) 100%);
+    padding: 2rem 1rem; /* Padding para evitar que el contenido toque los bordes */
+    box-sizing: border-box;
+    /* Si el header es fijo, el min-height es respecto al espacio restante */
+    /* Si estilosNuevo.css ya maneja un min-height para el body y padding-top, esto puede no ser necesario */
+    min-height: calc(100vh - 80px); /* Asumiendo que el header tiene 80px de alto */
+    color: var(--text-light);
 }
- .counter_h2 {
-    font-size: 3em;
- }
 
- .counter_div-p{
+/* Contenedor de la Sección del Contador */
+.counter {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centra horizontalmente el título y el div de botones/número */
+    width: 100%;
+    max-width: 600px; /* Ancho máximo para toda la sección del contador */
     text-align: center;
-    font-size: 8em;
- }
+    padding: 2rem; /* Padding interno para la sección */
+    background-color: var(--card-background); /* Fondo semi-transparente para la "tarjeta" principal */
+    border-radius: 1rem;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
 
- .buttonReset {
-    margin: 0px 10px;
- }
+/* Título del Contador */
+.counterh2 { /* Usas 'counterh2' en el HTML, no 'counter_h2' */
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--text-light);
+    margin-bottom: 2rem;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+}
 
- .counter_div-button {
-    border: navajowhite;
-    height: 100px;
-    width: 200px;
-    font-size: 1.8em;
- }
+/* Contenedor de los elementos del contador (número y botones) */
+.counter_div {
+    display: flex;
+    flex-direction: column; /* Apila el número y los botones */
+    align-items: center; /* Centra los elementos */
+    width: 100%;
+    gap: 1.5rem; /* Espacio entre el número y los botones, y entre los botones */
+}
 
- .counter_div-button:hover {
-    background-color: #000;
-    color: #ddd;
-    transition: .3s;
- }
+/* Estilo para el número del contador */
+.counter_div-p { /* Esta clase es para el P que contiene el número */
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-size: 8em; /* Tamaño grande para el número */
+    font-weight: 800;
+    color: var(--accent-color-light); /* Color distintivo */
+    line-height: 1; /* Ajusta la altura de línea */
+    margin-bottom: 1rem; /* Espacio entre el número y los botones */
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+/* Estilos de los botones */
+.counter_div-button {
+    width: 80%; /* Los botones ocuparán un 80% del ancho del contenedor */
+    max-width: 300px; /* Limita el ancho máximo para evitar botones demasiado anchos en desktop */
+    height: 60px;
+    padding: 10px 20px;
+    font-size: 1.4em;
+    font-weight: 600;
+    background: var(--button-bg-color);
+    border: 2px solid var(--text-light);
+    outline: none;
+    border-radius: 6px;
+    cursor: pointer;
+    color: var(--text-light);
+    transition: all .3s ease;
+    text-transform: uppercase;
+}
+
+.counter_div-button:hover {
+    background: var(--text-light);
+    color: var(--button-bg-color); /* Invierte los colores al pasar el ratón */
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+/* Estilo específico para el botón de Reset (si necesita diferencias) */
+/* .buttonReset {
+    
+} */
+
+/* --- Media Queries (Responsividad) --- */
+
+@media (max-width: 768px) { /* Tabletas y pantallas medianas */
+    .counterh2 {
+        font-size: 2rem;
+        margin-bottom: 1.5rem;
+    }
+    .counter_div-p {
+        font-size: 6em; /* Reducir tamaño del número */
+    }
+    .counter_div-button {
+        height: 50px;
+        font-size: 1.2em;
+        width: 90%; /* Los botones ocupan más ancho en tabletas */
+    }
+    .counter {
+        padding: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) { /* Móviles pequeños */
+    .counterh2 {
+        font-size: 1.8rem;
+        margin-bottom: 1rem;
+    }
+    .counter_div-p {
+        font-size: 4em; /* Reducir aún más el número */
+    }
+    .counter_div-button {
+        height: 45px;
+        font-size: 1.1em;
+        width: 95%; /* Los botones casi al 100% en móviles pequeños */
+    }
+    .counter {
+        padding: 1rem;
+    }
+    .article {
+        padding: 1rem 0.5rem; /* Menos padding general */
+        min-height: calc(100vh - 60px); /* Ajuste si el header móvil es de 60px */
+    }
+}

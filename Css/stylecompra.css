@@ -1,274 +1,272 @@
-/*
- * Archivo: stylecompra.css
- * Propósito: Contiene los estilos específicos para la página de la Lista de la Compra.
- * Los estilos globales del header y body se gestionan en 'estilosNuevo.css'.
- */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;0,900&family=Inter:wght@400;700;800&display=swap');
 
-/* Eliminamos este bloque duplicado, ya está en estilosNuevo.css */
-/* * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: sans-serif;
-} */
+/* --- Variables CSS (Recomendado para consistencia global) --- */
+/* Estas variables deberían estar en un archivo global como estilosNuevo.css,
+   pero las repito aquí por referencia si no lo están.
+   Si ya existen en estilosNuevo.css, puedes quitar este bloque `:root`. */
+:root {
+    --primary-gradient-start: rgb(91, 255, 200);
+    --primary-gradient-end: rgba(0,0,0,1);
+    --header-bg-color: #4f46e5;
+    --header-border-color: #424242;
+    --text-light: #ffffff;
+    --text-dark: #000000;
+    --accent-color-light: #60a5fa; /* Azul claro */
+    --accent-color-dark: #4f46e5; /* Color que combina con el header */
+    --card-background: rgba(0, 0, 0, 0.4);
+    --button-bg-color: #162938;
+    --button-hover-color: #000;
+    --item-bg-color: rgba(255, 255, 255, 0.1); /* Fondo para los ítems de la lista */
+    --item-hover-color: rgba(255, 255, 255, 0.2);
+    --border-color: rgba(255, 255, 255, 0.2);
+}
 
-/* Eliminamos el body de aquí para evitar sobrescribir estilosNuevo.css.
-   El fondo y el espacio para el header se manejarán con el .main-lista-compra */
-/* body {
-    font-family: sans-serif;
-    margin: 20px;
-    background-color: #f4f4f4;
-} */
-
-/* Nuevo estilo para el contenedor principal de la lista de la compra */
+/* --- Estilos del Contenedor Principal de la Lista de la Compra --- */
+/* Este main contendrá todo el contenido específico de la lista de la compra */
 .main-lista-compra {
+    flex-grow: 1; /* Permite que ocupe todo el espacio disponible */
     display: flex;
     flex-direction: column;
-    align-items: center; /* Centra el contenido horizontalmente */
-    flex-grow: 1; /* Permite que ocupe el espacio restante verticalmente */
+    justify-content: flex-start; /* Alinea el contenido al inicio verticalmente */
+    align-items: center;     /* Centra el contenido horizontalmente */
     width: 100%;
-    /* Ajusta min-height para que ocupe la altura disponible debajo del header */
-    min-height: calc(100vh - 80px); /* 100vh - altura del header */
-    background: linear-gradient(0deg, rgb(91, 255, 200) 0%, rgba(0,0,0,1) 100%); /* Fondo para esta sección */
-    padding: 2rem 1rem; /* Padding general para el contenido */
-    box-sizing: border-box; /* Incluye padding en el cálculo del tamaño */
+    min-height: calc(100vh - 80px); /* Ocupa el espacio restante después del header fijo */
+    /* Aplicamos el fondo degradado aquí para que empiece después del header */
+    background: linear-gradient(0deg, var(--primary-gradient-start) 0%, var(--primary-gradient-end) 100%);
+    padding: 2rem 1rem; /* Padding para evitar que el contenido toque los bordes */
+    box-sizing: border-box;
+    color: var(--text-light); /* Color de texto predeterminado para el contenido */
+    overflow-y: auto; /* Permite scroll si la lista es muy larga */
 }
 
+/* Contenedor central de la lista (simulando una tarjeta grande) */
+.main-lista-compra > * { /* Aplica un ancho máximo a todos los hijos directos del main */
+    max-width: 800px;
+    width: 100%; /* Asegura que ocupen el ancho disponible dentro del max-width */
+    margin-bottom: 1.5rem; /* Espacio entre secciones */
+}
 
-h1 {
+/* Título de la lista */
+.main-lista-compra h1 {
+    font-size: 3em;
+    font-weight: 800;
+    color: var(--text-light);
+    margin-bottom: 1.5rem;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
     text-align: center;
-    color: white; /* Color para que se vea sobre el degradado */
-    margin-top: 0; /* Asegurarse de que no tenga un margen superior extra */
-    margin-bottom: 1.5rem; /* Espacio debajo del título */
-    font-size: 2.5em; /* Tamaño de fuente más grande */
-    text-shadow: 1px 1px 2px rgba(0,0,0,0.3); /* Pequeña sombra para el texto */
 }
 
-/* Contenedor de los inputs de añadir artículo */
+/* Estilo para el enlace "Inicio" */
+.main-lista-compra a {
+    color: var(--accent-color-light);
+    text-decoration: none;
+    font-size: 1.1em;
+    margin-bottom: 2rem;
+    transition: color 0.3s ease;
+}
+
+.main-lista-compra a:hover {
+    color: var(--text-light);
+}
+
+/* Contenedor de Inputs para añadir nuevos artículos */
 .input-container {
-    display: flex;
-    margin-bottom: 1.5rem; /* Aumenta el espacio inferior */
-    gap: 10px; /* Espacio entre los elementos de entrada */
-    max-width: 700px; /* Limita el ancho para que no se extienda demasiado */
-    width: 90%; /* Responsivo */
-    background-color: rgba(255, 255, 255, 0.9); /* Fondo claro para los inputs */
-    padding: 15px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    flex-wrap: wrap; /* Permite que los inputs se envuelvan en pantallas pequeñas */
-    justify-content: center; /* Centra los items si se envuelven */
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* Columnas responsivas */
+    gap: 1rem;
+    padding: 1.5rem;
+    background-color: var(--card-background);
+    border-radius: 1rem;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    margin-bottom: 2rem;
 }
 
 .input-container input[type="text"],
 .input-container input[type="number"] {
-    padding: 12px; /* Más padding para los inputs */
-    border: 1px solid #ccc;
-    border-radius: 5px;
+    padding: 0.8rem;
+    border: 1px solid var(--border-color);
+    border-radius: 0.5rem;
+    background-color: rgba(255, 255, 255, 0.1);
+    color: var(--text-light);
     font-size: 1em;
-    flex: 1; /* Permite que crezcan y se encojan */
-    min-width: 120px; /* Ancho mínimo para cada input */
+    outline: none;
+    transition: border-color 0.3s ease, background-color 0.3s ease;
 }
 
-.input-container #newItem {
-    flex-basis: 40%; /* El artículo toma un poco más de espacio si hay mucho */
-    min-width: 180px; /* Ancho mínimo para el campo de artículo */
+.input-container input[type="text"]::placeholder,
+.input-container input[type="number"]::placeholder {
+    color: rgba(255, 255, 255, 0.7);
 }
 
+.input-container input[type="text"]:focus,
+.input-container input[type="number"]:focus {
+    border-color: var(--accent-color-light);
+    background-color: rgba(255, 255, 255, 0.2);
+}
 
 .input-container button {
-    padding: 12px 20px; /* Más padding para el botón */
-    background-color: #28a745; /* Verde más oscuro */
-    color: white;
-    border: none;
-    border-radius: 5px;
+    padding: 0.8rem 1.5rem;
+    background-color: var(--button-bg-color);
+    color: var(--text-light);
+    border: 2px solid var(--text-light);
+    border-radius: 0.5rem;
     cursor: pointer;
-    font-weight: bold;
-    transition: background-color 0.3s ease;
-    flex-shrink: 0; /* Evita que el botón se encoja */
-    min-width: 90px;
+    font-size: 1.1em;
+    font-weight: 600;
+    transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+    text-transform: uppercase;
 }
 
 .input-container button:hover {
-    background-color: #218838; /* Verde aún más oscuro al pasar el ratón */
+    background-color: var(--text-light);
+    color: var(--button-bg-color);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
 }
 
-/* Lista de artículos */
-ul#shoppingList { /* Especificidad para evitar conflictos con otras listas */
-    list-style-type: none;
+/* Estilos de la lista de la compra (UL) */
+#shoppingList {
+    list-style: none; /* Elimina los puntos predeterminados */
     padding: 0;
-    margin: 0; /* Eliminar margen predeterminado */
-    width: 90%;
-    max-width: 700px; /* Mismo ancho máximo que el input-container */
-    background-color: rgba(255, 255, 255, 0.9); /* Fondo claro para la lista */
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    padding-top: 10px;
-    padding-bottom: 5px; /* Pequeño padding interno */
+    width: 100%;
+    background-color: var(--card-background);
+    border-radius: 1rem;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    overflow: hidden; /* Asegura que los bordes redondeados se apliquen a los ítems */
+    max-height: 400px; /* Altura máxima para la lista, con scroll si excede */
+    overflow-y: auto; /* Habilita el scroll dentro de la lista */
+    margin-bottom: 2rem;
 }
 
-ul#shoppingList li {
-    display: grid;
-    /* Articulo (con nombre + cantidad) | Precio | Botón Eliminar */
-    grid-template-columns: 3fr 1fr auto; 
-    align-items: center;
-    padding: 12px 15px; /* Más padding */
-    margin-bottom: 5px; /* Menos margen entre items para que se vea más compacto */
-    border-bottom: 1px solid #eee; /* Línea separadora */
-    background-color: transparent; /* El fondo ya lo tiene el ul#shoppingList */
-    gap: 15px; /* Espacio entre columnas */
-    font-size: 1.1em; /* Un poco más grande el texto */
-    color: #333; /* Color de texto para los ítems */
-}
-
-ul#shoppingList li:last-child {
-    border-bottom: none; /* No hay línea en el último item */
-}
-
-.item-details {
+/* Estilo para cada ítem de la lista (LI) */
+#shoppingList li {
     display: flex;
-    gap: 8px; /* Espacio entre el nombre del artículo y la cantidad/precio */
-    align-items: baseline; /* Alinea por la base del texto */
-    font-weight: 500;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid var(--border-color);
+    font-size: 1.1em;
+    color: var(--text-light);
+    transition: background-color 0.3s ease;
 }
 
-.item-details span:first-child { /* El nombre del artículo */
-    font-weight: bold;
-    color: #0056b3; /* Un azul para el nombre */
+#shoppingList li:last-child {
+    border-bottom: none; /* No hay borde en el último ítem */
 }
 
-.item-details span:nth-child(2) { /* Cantidad */
-    color: #555;
-    font-size: 0.9em;
+#shoppingList li:hover {
+    background-color: var(--item-hover-color);
 }
 
+#shoppingList li span {
+    margin-right: 1rem; /* Espacio entre el texto y el botón de eliminar */
+}
 
-/* Eliminar el botón */
-.delete-btn {
-    background-color: #dc3545; /* Rojo más fuerte */
-    color: white;
+#shoppingList li button {
+    background-color: #dc3545; /* Rojo para eliminar */
+    color: var(--text-light);
     border: none;
-    padding: 8px 12px; /* Ajuste de padding */
-    border-radius: 5px; /* Más redondeado */
+    border-radius: 0.3rem;
+    padding: 0.5rem 0.8rem;
     cursor: pointer;
     font-size: 0.9em;
     transition: background-color 0.3s ease;
 }
 
-.delete-btn:hover {
-    background-color: #c82333; /* Rojo más oscuro al pasar el ratón */
+#shoppingList li button:hover {
+    background-color: #c82333;
 }
 
 /* Contenedor del total */
 .total-container {
-    margin-top: 2rem; /* Más espacio superior */
-    text-align: right;
-    width: 90%;
-    max-width: 700px;
-    padding: 15px;
-    background-color: rgba(0, 0, 0, 0.4); /* Fondo oscuro para el total */
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     display: flex;
-    flex-direction: column;
-    align-items: flex-end; /* Alinea los elementos a la derecha */
-    color: white; /* Color de texto blanco */
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem;
+    background-color: var(--card-background);
+    border-radius: 1rem;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    font-size: 1.5em;
+    font-weight: 600;
+    color: var(--text-light);
+    margin-bottom: 0; /* Última sección, no necesita margin-bottom */
 }
 
 .total-container button {
-    margin-bottom: 1rem; /* Espacio entre el botón y el precio total */
-    background-color: #007bff; /* Azul para el botón de calcular */
+    padding: 0.8rem 1.5rem;
+    background-color: var(--button-bg-color);
+    color: var(--text-light);
+    border: 2px solid var(--text-light);
+    border-radius: 0.5rem;
+    cursor: pointer;
+    font-size: 1em; /* Un poco más pequeño que el añadir */
+    font-weight: 600;
+    transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+    text-transform: uppercase;
 }
 
 .total-container button:hover {
-    background-color: #0056b3; /* Azul más oscuro al pasar el ratón */
+    background-color: var(--text-light);
+    color: var(--button-bg-color);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
 }
 
-#totalPrice {
-    font-weight: bold;
-    font-size: 1.5em; /* Tamaño de fuente más grande */
-    color: #ffe066; /* Un color amarillo/dorado para el total */
-}
+/* --- Media Queries (Responsividad) --- */
 
-/* --- MEDIA QUERIES (Responsividad) --- */
-
-@media (max-width: 768px) { /* Tabletas y móviles grandes */
-    .main-lista-compra {
-        padding: 1.5rem 0.5rem;
-    }
-
-    h1 {
-        font-size: 2em;
+@media (max-width: 768px) {
+    .main-lista-compra h1 {
+        font-size: 2.5em;
         margin-bottom: 1rem;
     }
-
+    .main-lista-compra a {
+        margin-bottom: 1.5rem;
+    }
     .input-container {
-        flex-direction: column; /* Apila los inputs verticalmente */
-        align-items: center; /* Centra los inputs apilados */
-        width: 95%; /* Ocupa más ancho */
-        padding: 10px;
-    }
-    .input-container input,
-    .input-container button {
-        width: 100%; /* Ocupan todo el ancho disponible */
-        margin-bottom: 10px; /* Espacio entre inputs apilados */
+        grid-template-columns: 1fr; /* Una columna en tabletas */
+        padding: 1rem;
     }
     .input-container button {
-        margin-bottom: 0; /* Eliminar margen del último botón */
+        width: 100%; /* Botón de añadir ocupa todo el ancho */
     }
-
-    ul#shoppingList {
-        width: 95%;
-        padding: 5px;
+    #shoppingList li {
+        flex-direction: column; /* Apila contenido en ítems de lista */
+        align-items: flex-start;
+        padding: 0.8rem 1rem;
     }
-
-    ul#shoppingList li {
-        grid-template-columns: 1fr auto; /* Artículo | Botón Eliminar (precio y cantidad dentro del artículo) */
-        padding: 10px;
-        gap: 10px;
-        font-size: 1em;
+    #shoppingList li span {
+        margin-bottom: 0.5rem;
+        margin-right: 0;
     }
-    .item-details {
-        flex-direction: column; /* Apila nombre, cantidad y precio */
-        align-items: flex-start; /* Alinea a la izquierda en móvil */
-        gap: 2px;
-    }
-    .item-details span:nth-child(2) { /* Cantidad */
-        margin-left: 0.5em; /* Pequeña indentación */
-    }
-
-
     .total-container {
-        width: 95%;
-        padding: 10px;
+        flex-direction: column;
+        font-size: 1.2em;
+        padding: 1rem;
+        gap: 1rem;
     }
-    #totalPrice {
-        font-size: 1.3em;
+    .total-container button {
+        width: 100%;
+        font-size: 0.9em;
     }
 }
 
-@media (max-width: 480px) { /* Móviles pequeños */
-    h1 {
-        font-size: 1.8em;
+@media (max-width: 480px) {
+    .main-lista-compra {
+        padding: 1rem 0.5rem;
+        min-height: calc(100vh - 60px); /* Ajuste si el header móvil es de 60px */
+    }
+    .main-lista-compra h1 {
+        font-size: 2em;
     }
     .input-container {
-        padding: 10px;
+        padding: 0.8rem;
     }
-    .input-container input[type="text"],
-    .input-container input[type="number"],
-    .input-container button {
-        padding: 10px;
-        font-size: 0.9em;
+    #shoppingList li {
+        font-size: 1em;
     }
-
-    ul#shoppingList li {
-        padding: 8px;
-        font-size: 0.9em;
-    }
-    .delete-btn {
-        padding: 6px 10px;
+    #shoppingList li button {
+        padding: 0.4rem 0.6rem;
         font-size: 0.8em;
     }
-    #totalPrice {
+    .total-container {
         font-size: 1.1em;
     }
 }
