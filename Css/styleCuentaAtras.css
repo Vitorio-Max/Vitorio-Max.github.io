@@ -1,59 +1,132 @@
-*{
+/*
+ * Archivo: styleCuentaAtras.css
+ * Propósito: Contiene los estilos específicos para la página de la cuenta atrás.
+ * Los estilos globales del header y body se gestionan en 'estilosNuevo.css'.
+ */
+
+/* Eliminamos este bloque duplicado. El estilo general ya está en estilosNuevo.css */
+/* * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family:Arial, Helvetica, sans-serif;
+    font-family: Arial, Helvetica, sans-serif;
+} */
+
+/*
+ * Eliminamos la mayoría de los estilos del body aquí para evitar duplicidad
+ * y conflictos con 'estilosNuevo.css'.
+ * Solo mantenemos el fondo específico si lo deseas para esta página.
+ */
+body {
+    /* El background ya lo controla estilosNuevo.css, o si quieres un fondo específico
+       para esta página, asegúrate de que no entre en conflicto con el padding-top del body.
+       Una buena práctica es que 'estilosNuevo.css' tenga un fondo general y luego
+       los fondos específicos de página se apliquen a un contenedor dentro del body. */
+    /* background: linear-gradient(0deg, rgb(91, 255, 200) 0%, rgba(0,0,0,1) 100%); */
+    /* min-height: 100vh; */ /* Esto ya lo maneja estilosNuevo.css */
+    /* display: flex; flex-direction: column; align-items: center; justify-content: flex-start; */
+    /* Estas propiedades son importantes para el centrado, pero deben ser controladas por estilosNuevo.css
+       o por el contenedor <main> si lo añades. */
+    /* gap: 1rem; */ /* Si mantienes el body como flex container para el contenido, puedes mantenerlo */
 }
 
-
-
-
-body{
-    background:  rgb(91, 255, 200);
-    background: linear-gradient(0deg,  rgb(91, 255, 200) 0%, rgba(0,0,0,1) 100%);
-    min-height: 100vh;
-    
-    gap: 1rem;
-    /* text-align: center; */
+/* Si añadiste la etiqueta <main> como sugerí en el HTML */
+.main-cuenta-atras {
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Centra el contenido verticalmente */
+    align-items: center;     /* Centra el contenido horizontalmente */
+    flex-grow: 1; /* Permite que este main ocupe todo el espacio disponible */
+    width: 100%;
+    /* El fondo con degradado se aplica a este main para que empiece después del header */
+    background: linear-gradient(0deg, rgb(91, 255, 200) 0%, rgba(0,0,0,1) 100%);
+    padding: 2rem 1rem; /* Padding para evitar que el contenido toque los bordes */
+    box-sizing: border-box; /* Para que el padding no afecte el cálculo del ancho/alto */
+    min-height: calc(100vh - 80px); /* Ocupa el espacio restante después del header fijo */
 }
+
 
 .fecha {
     text-align: center;
+    color: white; /* Asegúrate de que el color del texto sea visible sobre el fondo */
+    font-size: 1.5rem; /* Tamaño de fuente más grande */
+    margin-bottom: 2rem; /* Espacio debajo del texto de la fecha */
 }
 
 .fecha span {
     font-weight: 600;
+    color: #4f46e5; /* Color que combine con el header, si te gusta */
 }
 
 .cuenta-atras {
-    /* display: flex;
-    flex-direction: column;
-    gap: 2rem;
-    align-items: center;
-    justify-content: center; */
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-columns: repeat(4, 1fr); /* 4 columnas iguales */
+    gap: 1.5rem; /* Espacio entre los grupos de tiempo */
+    padding: 1rem;
+    background-color: rgba(0, 0, 0, 0.4); /* Fondo semi-transparente para la sección de la cuenta atrás */
+    border-radius: 1rem;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    max-width: 900px; /* Ancho máximo para la cuenta atrás en desktop */
+    width: 95%; /* Ocupa casi todo el ancho disponible en móvil */
+    text-align: center; /* Centra el texto dentro de cada grupo */
+    color: white; /* Color del texto dentro de la cuenta atrás */
 }
 
 .grupo {
-    line-height: 1;
-}
-.grande {
-    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-    font-size: 6rem;
-    font-weight: 800;
+    display: flex; /* Para centrar 'grande' y 'chico' */
+    flex-direction: column;
+    align-items: center; /* Centra horizontalmente */
+    line-height: 1.2; /* Ajusta la altura de línea */
 }
 
-@media (width < 550px){
-    .cuenta-atras{
-        display: grid;
-        grid-template-columns: 1fr 1fr;
+.grande {
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-size: 5rem; /* Un poco más pequeño para mejorar la responsividad y evitar desbordamientos */
+    font-weight: 800;
+    color: #60a5fa; /* Un color distinto para los números grandes */
+}
+
+.chico {
+    font-size: 1.2rem;
+    font-weight: 400;
+    text-transform: uppercase; /* Para que "días", "horas" estén en mayúsculas */
+    opacity: 0.8; /* Ligeramente más tenue */
+}
+
+/* --- MEDIA QUERIES (Responsividad) --- */
+
+@media (max-width: 768px) { /* Tabletas */
+    .fecha {
+        font-size: 1.2rem;
+    }
+    .cuenta-atras {
+        grid-template-columns: repeat(2, 1fr); /* 2 columnas en tabletas */
+        gap: 1rem;
+    }
+    .grande {
+        font-size: 4rem; /* Números más pequeños en tabletas */
+    }
+    .chico {
+        font-size: 1rem;
     }
 }
 
-@media (width < 350px){
-    .cuenta-atras{
-        display: flex;
-        flex-direction: column;
+@media (max-width: 480px) { /* Móviles pequeños */
+    .fecha {
+        font-size: 1rem;
+        margin-bottom: 1.5rem;
+    }
+    .cuenta-atras {
+        grid-template-columns: 1fr; /* Una sola columna en móviles muy pequeños */
+        gap: 0.75rem;
+    }
+    .grande {
+        font-size: 3rem; /* Números aún más pequeños */
+    }
+    .chico {
+        font-size: 0.9rem;
+    }
+    .main-cuenta-atras {
+        padding: 1rem 0.5rem; /* Menos padding en móviles muy pequeños */
     }
 }
