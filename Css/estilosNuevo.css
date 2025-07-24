@@ -1,0 +1,691 @@
+/* --- Importar fuentes al principio del archivo --- */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;0,900&family=Inter:wght@400;700;800&display=swap');
+
+/* --- Box-sizing universal para cálculos de diseño más fáciles y reseteo básico --- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif; /* Fuente principal por defecto */
+}
+
+/* --- ESTILOS GENERALES DEL BODY --- */
+body {
+    min-height: 100vh; /* Asegura que el fondo ocupe toda la altura de la ventana */
+    background: linear-gradient(0deg, rgb(91, 255, 200) 0%, rgba(0,0,0,1) 100%); /* Fondo por defecto de mHvitorio.css */
+    background-size: cover;
+    background-position: center;
+    overflow-x: hidden; /* Evita la barra de desplazamiento horizontal */
+    padding-top: 80px; /* Espacio para el header fijo */
+    font-family: 'Inter', sans-serif; /* Fuente específica para el contenido del body si se prefiere */
+    display: flex;
+    flex-direction: column; /* Para alinear el contenido principal debajo del header */
+    align-items: center; /* Centra el contenido horizontalmente */
+    justify-content: flex-start; /* Alinea el contenido al inicio verticalmente */
+}
+
+/* --- Estilos para la barra de navegación (Header) --- */
+header {
+    position: fixed; /* Mantiene el header en la parte superior */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 80px; /* Altura explícita del header */
+    background-color: #4f46e5; /* Color de fondo para toda la barra superior */
+    padding: 0 100px; /* Padding horizontal para el contenido del header */
+    display: flex;
+    justify-content: space-between; /* Para separar el logo/marca y el menú */
+    align-items: center;
+    z-index: 1000; /* Asegura que el header esté por encima de la mayoría de los elementos */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.navbar { /* Contenedor general de la navegación dentro del header */
+    width: 100%; /* Ocupa todo el ancho del header */
+    height: 100%; /* Ocupa toda la altura del header */
+    background-color: transparent; /* El fondo ya lo tiene el header */
+    padding: 0; /* Padding ya lo gestiona el header */
+    box-shadow: none; /* Sombra ya la gestiona el header */
+    display: flex; /* Permite organizar sus elementos hijos */
+    justify-content: space-between; /* Para alinear el brand a la izquierda y el container a la derecha */
+    align-items: center;
+    position: relative; /* No fixed, ya que el header es fixed */
+    z-index: auto; /* Z-index ya lo gestiona el header */
+}
+
+.navbar-brand { /* Tu logo o nombre de marca en el header */
+    color: #ffffff;
+    font-size: 1.75rem;
+    font-weight: 800;
+    text-decoration: none;
+    border-radius: 0.5rem;
+    padding: 0.25rem 0.5rem;
+    transition: background-color 0.3s ease;
+}
+
+.navbar-brand:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.navbar-container { /* Este envuelve los enlaces de navegación y el botón de login */
+    max-width: 1200px; /* Ancho máximo para el contenido del menú */
+    width: 100%; /* Ocupa el 100% del espacio disponible en el navbar */
+    display: flex;
+    justify-content: flex-end; /* Alinea los elementos a la derecha por defecto en desktop */
+    gap: 1.5rem; /* Espacio entre los enlaces y el botón */
+    align-items: center;
+    padding: 0 1rem; /* Espaciado horizontal dentro del contenedor */
+}
+
+.nav-links {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex; /* Para que los enlaces estén en fila */
+    gap: 1.5rem; /* Espacio entre los enlaces */
+    align-items: center;
+}
+
+.nav-link {
+    color: #ffffff;
+    font-size: 1.125rem;
+    font-weight: 700;
+    text-decoration: none;
+    padding: 0.5rem 0.2rem;
+    border-radius: 0.5rem;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    position: relative; /* Necesario para la animación ::after */
+}
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -6px;
+    width: 100%;
+    height: 3px;
+    background: #fff;
+    border-radius: 5px;
+    transform-origin: right;
+    transform: scaleX(0);
+    transition: transform .5s;
+}
+
+.nav-link:hover::after {
+    transform-origin: left;
+    transform: scaleX(1);
+}
+
+/* --- ESTILOS DEL BOTÓN DE INICIAR SESIÓN (GLOBAL) --- */
+.btnLogin-popup {
+    width: 130px;
+    height: 50px;
+    background: transparent;
+    border: 2px solid #fff;
+    outline: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1.1em;
+    color: #fff;
+    font-weight: 500;
+    margin-left: 40px;
+    transition: .5s;
+}
+
+.btnLogin-popup:hover {
+    background: #fff;
+    color: #162938;
+}
+
+/* --- BOTONES DE MENÚ DE HAMBURGUESA (OCULTOS POR DEFECTO EN DESKTOP) --- */
+.abrir-menu,
+.cerrar-menu{
+    display: none; /* Ocultar por defecto en desktop */
+}
+
+/* --- ESTILOS DEL WRAPPER (FORMULARIO DE LOGIN/REGISTRO) --- */
+.wrapper {
+    position: fixed; /* Posicionamiento fijo respecto a la ventana del navegador */
+    top: 50%; /* Alinea el borde superior al 50% de la altura de la ventana */
+    left: 50%; /* Alinea el borde izquierdo al 50% de la anchura de la ventana */
+    transform: translate(-50%, -50%) scale(0); /* Centra el elemento sobre sí mismo y lo esconde */
+    width: 400px;
+    height: 440px;
+    background: transparent;
+    border: 2px solid rgba(255,255,255, .5);
+    border-radius: 20px;
+    backdrop-filter: blur(20px);
+    box-shadow: 0 0 30px rgba(0,0,0,.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    transition: transform .5s ease, height .2s ease;
+    z-index: 1001; /* Asegura que esté por encima del header y el menú */
+}
+
+.wrapper.active-popup {
+    transform: translate(-50%, -50%) scale(1); /* Muestra el wrapper centrado */
+}
+
+.wrapper.active {
+    height: 520px; /* Altura para el formulario de registro */
+}
+
+/* --- ESTILOS DE LOS FORMULARIOS DENTRO DEL WRAPPER --- */
+.wrapper .form-box { width: 100%; padding: 40px; }
+.wrapper .form-box.login{ transition: transform .18s ease; transform: translateX(0); }
+.wrapper.active .form-box.login { transition: none; transform: translateX(-400px); }
+.wrapper .form-box.register { position: absolute; transition: none; transform: translateX(400px); }
+.wrapper.active .form-box.register{ transition: transform .18s ease; transform: translateX(0); }
+.wrapper .icon-close {
+    position: absolute; top: 0; right: 0; width: 45px; height: 45px; background: #162938; font-size: 2em; color: #fff;
+    display: flex; justify-content: center; align-items: center; border-bottom-left-radius: 20px; cursor: pointer; z-index: 1;
+}
+.form-box h2{ font-size: 2em; color: #162938; text-align: center; }
+.input-box { position: relative; width: 100%; height: 50px; border-bottom: 2px solid #162938; margin: 30px 0; }
+.input-box label {
+    position: absolute; top: 50%; left: 5px; transform: translateY(-50%); font-size: 1em; color: #162938;
+    font-weight: 500; pointer-events: none; transition: .5s;
+}
+.input-box input:focus~label, .input-box input:valid~label { top: -5px; }
+.input-box input {
+    width: 100%; height: 100%; background: transparent; border: none; outline: none; font-size: 1em;
+    color: #162938; font-weight: 600; padding: 0 35px 0 5px;
+}
+.input-box .icon { position: absolute; right: 8px; font-size: 1.2em; color: #162938; line-height: 57px; }
+.remember-forgot {
+    font-size: .9em; color: #162938; font-weight: 500; margin: -15px 0 15px; display: flex; justify-content: space-between;
+}
+.remember-forgot label input{ accent-color: #162938; margin-right: 3px; }
+.remember-forgot a { color: #162938; text-decoration: none; }
+.remember-forgot a:hover { text-decoration: underline; }
+.btn {
+    width: 100%; height: 45px; background: #162938; border: none; outline: none; border-radius: 6px; cursor: pointer;
+    font-size: 1em; color: #fff; font-weight: 500;
+}
+.login-register { font-size: .9em; color: #162938; text-align: center; font-weight: 500; margin: 25px 0 10px; }
+.login-register p a { color: #162938; text-decoration: none; font-weight: 600; }
+.login-register p a:hover { text-decoration: underline; }
+
+/* --- Contenedor principal para las tarjetas de juego (Cuentos, Juegos, etc.) --- */
+.container {
+    display: flex;
+    flex-wrap: wrap; /* Permite que las tarjetas se envuelvan a la siguiente línea */
+    justify-content: center; /* Centra las tarjetas horizontalmente */
+    gap: 2rem; /* Espacio entre las tarjetas */
+    padding: 2rem 1rem; /* Espaciado general del contenedor */
+    width: 100%;
+    max-width: 1200px; /* Ancho máximo para el contenedor de tarjetas */
+    margin-top: 2rem; /* Espacio superior para separar del header */
+    margin-bottom: 2rem; /* Espacio inferior */
+}
+
+.card {
+    background-color: #ffffff;
+    border-radius: 1.5rem;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    width: 300px; /* Ancho fijo para cada tarjeta */
+    overflow: hidden; /* Asegura que la imagen no se desborde */
+    transition: transform 0.3s ease-in-out;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.card:hover {
+    transform: translateY(-10px); /* Efecto flotante al pasar el ratón */
+}
+
+.card figure {
+    width: 100%;
+    height: 200px; /* Altura fija para la imagen */
+    overflow: hidden;
+    margin: 0;
+}
+
+.card figure img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Recorta la imagen para que llene el espacio */
+    border-top-left-radius: 1.5rem;
+    border-top-right-radius: 1.5rem;
+}
+
+.card .contenido {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.card .contenido h3 {
+    font-size: 1.75rem;
+    font-weight: 800;
+    color: #1d4ed8;
+}
+
+.card .contenido p {
+    font-size: 1rem;
+    color: #4f46e5;
+    line-height: 1.5;
+}
+
+.card .contenido a {
+    display: inline-block;
+    background-color: #22c55e;
+    color: #ffffff;
+    padding: 0.75rem 1.5rem;
+    border-radius: 9999px;
+    text-decoration: none;
+    font-weight: 700;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    margin-top: 1rem;
+}
+
+.card .contenido a:hover {
+    background-color: #16a34a;
+    transform: translateY(-2px);
+}
+
+/* --- Estilos para el nuevo juego "Letras con palabras" y similares (contenido principal) --- */
+.main-content-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    width: 100%;
+    max-width: 1000px; /* Un poco más ancho para la cuadrícula de letras */
+    margin-top: 0; /* Ya lo maneja el padding-top del body */
+    margin-bottom: 2rem; /* Espacio inferior */
+}
+
+/* Título del juego */
+.game-title {
+    font-size: 2.5rem; /* Tamaño del título */
+    font-weight: 800;
+    color: #1d4ed8; /* Color similar a otros elementos de texto */
+    margin-top: 1.5rem;
+    margin-bottom: 2rem; /* Espacio después del título */
+    text-align: center;
+}
+
+/* Estilos reutilizados para la tarjeta de animal/vocal */
+.animal-card {
+    background-color: #ffffff;
+    border-radius: 1.5rem;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s ease-in-out;
+    cursor: pointer;
+    width: 100%;
+    max-width: 24rem; /* Restringe el ancho para las páginas de animales/vocales */
+}
+
+.animal-card:hover {
+    transform: scale(1.05);
+}
+
+.animal-image {
+    width: 12rem;
+    height: 12rem;
+    object-fit: cover;
+    border-radius: 1rem;
+    border: 4px solid #60a5fa;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.animal-name, .vowel-display { /* Aplica a ambos nombres de animal y display de vocal */
+    font-size: 2.25rem;
+    font-weight: 800;
+    color: #1d4ed8;
+    text-align: center;
+    margin-top: 1.5rem;
+}
+
+.vowel-name { /* Para el texto "A de avión" */
+    font-size: 1.5rem;
+    color: #4f46e5;
+    text-align: center;
+    margin-top: 0.5rem;
+}
+
+.next-animal-btn {
+    margin-top: 2rem;
+    padding: 1rem 2rem;
+    background-color: #22c55e;
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 1.5rem;
+    border-radius: 9999px;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+
+.next-animal-btn:hover {
+    background-color: #16a34a;
+    transform: scale(1.05);
+}
+
+.next-animal-btn:focus {
+    outline: none;
+    box-shadow: 0 0 0 4px rgba(52, 211, 153, 0.5);
+}
+
+.next-animal-btn:active {
+    transform: scale(0.95);
+}
+
+/* --- Estilos para el juego de "Letras con palabras" (Flip Card) --- */
+.characters-grid-container { /* Ahora apunta a la clase correcta en HTML */
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); /* Columnas responsivas */
+    gap: 1.5rem; /* Espacio entre las tarjetas */
+    justify-content: center;
+    width: 100%;
+    max-width: 900px; /* Ancho máximo para la cuadrícula */
+    margin: 0 auto;
+    padding: 1rem;
+}
+
+.flip-card {
+    background-color: transparent;
+    width: 150px; /* Ancho fijo para la tarjeta */
+    height: 200px; /* Alto fijo para la tarjeta */
+    perspective: 1000px; /* Necesario para el efecto 3D */
+    border-radius: 1.5rem; /* Bordes redondeados */
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    cursor: pointer;
+}
+
+.flip-card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transition: transform 0.6s; /* Transición para el volteo */
+    transform-style: preserve-3d; /* Mantiene el 3D en los hijos */
+    border-radius: 1.5rem;
+}
+
+/* Cuando la tarjeta tiene la clase 'flipped', la giramos */
+.flip-card.flipped .flip-card-inner {
+    transform: rotateY(180deg);
+}
+
+.flip-card-front, .flip-card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    -webkit-backface-visibility: hidden; /* Oculta la parte trasera al voltear */
+    backface-visibility: hidden;
+    border-radius: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+    box-sizing: border-box; /* Incluye padding en el tamaño total */
+}
+
+.flip-card-front {
+    background-color: #ffffff;
+    color: #1d4ed8;
+}
+
+.flip-card-back {
+    background-color: #60a5fa; /* Un azul más claro para el reverso */
+    color: white;
+    transform: rotateY(180deg); /* La parte trasera empieza volteada */
+}
+
+.character-name-front { /* Renombrado para claridad */
+    font-size: 2.5rem; /* Ajustado para caber mejor, si se usa nombre corto */
+    font-weight: 800;
+    margin-bottom: 0.5rem;
+    line-height: 1;
+}
+
+.character-image { /* Renombrado para claridad */
+    width: 100px; /* Tamaño de la imagen dentro de la tarjeta */
+    height: 100px;
+    object-fit: cover;
+    border-radius: 0.75rem;
+    border: 3px solid #4f46e5;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.character-name-back { /* Renombrado para claridad */
+    font-size: 2rem; /* Tamaño para el nombre completo del personaje */
+    font-weight: 700;
+    text-align: center;
+    line-height: 1.2;
+    padding: 0.5rem; /* Ajuste para nombres más largos */
+}
+
+/* --- MEDIA QUERIES (Responsividad) --- */
+
+@media screen and (max-width: 768px) {
+    /* Ajustes del Header en móvil */
+    header {
+        padding: 0 20px; /* Reducir padding horizontal para móvil */
+        justify-content: space-between; /* Mantener la separación */
+    }
+
+    /* Mostrar los botones de abrir/cerrar menú */
+    .abrir-menu,
+    .cerrar-menu{
+        display: block; /* Ahora se muestran por defecto en móvil */
+        border: 0;
+        font-size: 1.5rem; /* Icono un poco más grande */
+        background-color: transparent;
+        cursor: pointer;
+        color: white; /* Color para los iconos, para que contrasten con el fondo del header */
+        z-index: 1010; /* Asegurar que estén por encima de todo cuando el menú se abre */
+    }
+
+    /* Ocultar el botón de abrir menú cuando el navbar está visible */
+    .navbar.visible .abrir-menu {
+        display: none;
+    }
+
+    /* Ocultar el botón de cerrar menú por defecto (cuando el menú está cerrado) */
+    .cerrar-menu {
+        display: none; /* Por defecto, se oculta en móvil */
+        position: absolute; /* Para posicionar la X en la esquina superior derecha del menú abierto */
+        top: 20px;
+        right: 20px;
+    }
+
+    /* MOSTRAR el botón de cerrar menú cuando el navbar está visible */
+    .navbar.visible .cerrar-menu {
+        display: block; /* Se muestra solo cuando el .navbar es visible */
+    }
+
+    /* El contenedor principal de la navegación en móvil (el menú desplegable) */
+    .navbar { /* Esta es la misma clase .navbar que está dentro del header en HTML */
+        opacity: 0;
+        visibility: hidden;
+        position: fixed; /* Fijo para que ocupe toda la pantalla */
+        top: 0;
+        right: 0;
+        bottom: 0;
+        width: 100%; /* Ocupa todo el ancho en móvil */
+        background-color: rgb(91, 255, 200); /* Color de fondo del menú desplegado */
+        padding: 2rem;
+        box-shadow: 0 0 0 100vmax rgba(0, 0, 0, .5); /* Overlay semitransparente fuera del menú */
+        display: flex; /* Ahora es flex para organizar su contenido */
+        flex-direction: column; /* Contenido apilado verticalmente */
+        align-items: flex-end; /* Alinea los elementos (enlaces, botón cerrar) a la derecha */
+        transition: opacity 0.3s ease, visibility 0.3s ease;
+        z-index: 999; /* Asegúrate de que esté debajo del wrapper de login si ambos pueden estar activos */
+    }
+
+    .navbar.visible {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    /* Ocultar el navbar-brand cuando el menú se abre */
+    .navbar.visible .navbar-brand {
+        display: none;
+    }
+
+    /* Ocultar la lista de enlaces por defecto, se mostrará con .navbar.visible */
+    .nav-links {
+        display: none; /* Se oculta en móvil por defecto */
+        flex-direction: column; /* Se apilan verticalmente */
+        align-items: flex-end; /* Se alinean a la derecha del menú */
+        width: 100%; /* Ocupan todo el ancho disponible */
+        padding-right: 0; /* No es necesario si se alinean a la derecha */
+        margin-top: 60px; /* Espacio para el botón de cerrar */
+    }
+
+    /* Asegúrate de que los nav-links se muestren cuando el menú es visible */
+    .navbar.visible .nav-links {
+        display: flex; /* Mostrar los enlaces cuando el menú está visible */
+    }
+
+    /* Estilos específicos para los enlaces individuales en el menú móvil */
+    .nav-link {
+        color: rgb(0, 0, 0); /* Color oscuro para los enlaces en el menú móvil */
+        padding: 0.75rem 0.5rem; /* Un poco más de padding para mejor clic */
+        width: 100%; /* Ocupan todo el ancho del menú */
+        text-align: right; /* Alinea el texto a la derecha */
+    }
+
+    .nav-link::after {
+        background: rgb(0, 0, 0); /* Cambiar color de la línea hover en móvil */
+        transform: scaleX(0); /* Reiniciar transformación por si acaso */
+    }
+    .nav-link:hover::after {
+        transform: scaleX(1); /* Animación de línea hover */
+    }
+
+    /* Ajuste para el botón de login en el menú móvil */
+    .nav-links .btnLogin-popup {
+        color: rgb(0, 0, 0); /* Color de texto para el botón en el menú móvil */
+        border-color: rgb(0, 0, 0); /* Color del borde para el botón en el menú móvil */
+        margin-left: 0; /* Eliminar margen para que se alinee con los demás */
+        margin-top: 1.5rem; /* Espacio superior para separarlo de los enlaces */
+        width: auto; /* Ancho automático para que se ajuste al contenido */
+        padding: 0.5em 1.5em; /* Padding para que no sea tan grande */
+        align-self: flex-end; /* Alinea el botón a la derecha en el menú móvil */
+    }
+
+    .nav-links .btnLogin-popup:hover {
+        background: #162938; /* Fondo al pasar el ratón */
+        color: #fff; /* Color del texto al pasar el ratón */
+    }
+
+    /* Ajustes para el contenido de la página en móvil */
+    body {
+        padding-top: 80px; /* El padding superior sigue siendo el mismo para el header fijo */
+    }
+    .main-content-container, .container {
+        margin-top: 1rem; /* Ajuste el margen superior para el contenido */
+        padding: 1rem 0.5rem; /* Reducir padding horizontal */
+    }
+    .game-title {
+        font-size: 2rem;
+        margin-top: 1rem;
+        margin-bottom: 1.5rem;
+    }
+    .animal-card {
+        padding: 1rem;
+    }
+    .animal-image {
+        width: 10rem;
+        height: 10rem;
+    }
+    .animal-name, .vowel-display {
+        font-size: 1.8rem;
+    }
+    .vowel-name {
+        font-size: 1.2rem;
+    }
+    .next-animal-btn {
+        font-size: 1.2rem;
+        padding: 0.8rem 1.5rem;
+    }
+    .characters-grid-container {
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); /* Columnas más pequeñas en móvil */
+        gap: 1rem;
+    }
+    .flip-card {
+        width: 120px;
+        height: 180px;
+    }
+    .character-name-front {
+        font-size: 2rem;
+    }
+    .character-image {
+        width: 80px;
+        height: 80px;
+    }
+    .character-name-back {
+        font-size: 1.5rem;
+    }
+}
+
+/* Para pantallas aún más pequeñas (ej: móviles muy pequeños) */
+@media screen and (max-width: 480px) {
+    header {
+        padding: 0 15px;
+    }
+    .navbar {
+        padding: 1.5rem;
+    }
+    .nav-link {
+        font-size: 1rem;
+    }
+    .btnLogin-popup {
+        width: 110px;
+        height: 40px;
+        font-size: 1em;
+    }
+    .wrapper {
+        width: 90%; /* Hace el wrapper de login más responsivo */
+        height: auto; /* Ajusta la altura automáticamente */
+        max-height: 90vh; /* Para evitar que se desborde en pantallas muy pequeñas */
+        overflow-y: auto; /* Permite desplazamiento si el contenido es muy largo */
+    }
+    .form-box {
+        padding: 20px;
+    }
+    .input-box {
+        margin: 20px 0;
+    }
+    .game-title {
+        font-size: 1.8rem;
+    }
+    .card {
+        width: 90%; /* Las tarjetas ocupan más ancho en móviles muy pequeños */
+    }
+    .characters-grid-container {
+        grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    }
+    .flip-card {
+        width: 100px;
+        height: 160px;
+    }
+    .character-name-front {
+        font-size: 1.8rem;
+    }
+    .character-image {
+        width: 70px;
+        height: 70px;
+    }
+    .character-name-back {
+        font-size: 1.3rem;
+    }
+}
