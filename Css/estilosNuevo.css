@@ -538,7 +538,7 @@ header {
         top: 0;
         right: 0;
         bottom: 0;
-        width: 40%; /* Ocupa todo el ancho en móvil */
+        width: 50%; /* Ocupa todo el ancho en móvil */
         background-color: rgb(91, 255, 200); /* Color de fondo del menú desplegado */
         padding: 0.5rem;
         box-shadow: 0 0 0 100vmax rgba(0, 0, 0, .5); /* Overlay semitransparente fuera del menú */
