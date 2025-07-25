@@ -666,23 +666,8 @@ header {
     header {
         padding: 0 15px;
     }
-    .navbar { /* Esta es la misma clase .navbar que está dentro del header en HTML */
-        opacity: 0;
-        visibility: hidden;
-        position: fixed; /* Fijo para que ocupe toda la pantalla */
-        top: 0;
-        right: 0;
-        bottom: 0;
-        width: 40%; /* Ocupa todo el ancho en móvil */
-        background-color: rgb(91, 255, 200); /* Color de fondo del menú desplegado */
-        padding: 0.5rem;
-        box-shadow: 0 0 0 100vmax rgba(0, 0, 0, .5); /* Overlay semitransparente fuera del menú */
-        display: flex; /* Ahora es flex para organizar su contenido */
-        flex-direction: column; /* Contenido apilado verticalmente */
-        align-items: flex-end; /* Alinea los elementos (enlaces, botón cerrar) a la derecha */
-        transition: opacity 0.3s ease, visibility 0.3s ease;
-        z-index: 999; /* Asegúrate de que esté debajo del wrapper de login si ambos pueden estar activos */
-        
+    .navbar {
+        padding: 1.5rem;
     }
     .nav-link {
         font-size: 1rem;
