@@ -5,26 +5,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Aprendiendo Vocales</title>
     <link rel="stylesheet" href="style.css">
-    <!-- Enlaza la fuente Inter desde Google Fonts -->
+    <link rel="stylesheet" href="../Css/navbarJuegos.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
-    <!-- Barra de navegación superior (mantenemos la misma estructura) -->
-    <nav class="navbar">
-        <div class="navbar-container">
-            <a href="../index.html" class="navbar-brand">AnimalApp</a>
-            <ul class="nav-links">
-                <li><a href="numbers.html" class="nav-link">Números</a></li>
-                <li><a href="appninos.html" class="nav-link">Animales</a></li>
-                <li><a href="vocales.html" class="nav-link">Vocales</a></li>
-                <li><a href="letters.html" class="nav-link">Letras</a></li>
-                <li><a href="quienesquien.html" class="nav-link">¿Quién es quién?</a></li>
-                <li><a href="puzzle.html" class="nav-link">Puzzle</a></li>
-                <li><a href="aprendeAleer.html" class="nav-link">Aprende a Leer</a></li>
-                <li><a href="targetJuegos1.html" class="nav-link">Volver</a></li>
-            </ul>
-        </div>
-    </nav>
+    <!-- Barra de navegación superior -->
+    <header> <button id="abrir-juegos" class="abrir-menu-juegos"><i class="bi bi-list"></i></button>
+        <nav class="navbar" id="nav-juegos"> <div class="navbar-container">
+                <a href="../index.html" class="navbar-brand">AnimalApp</a> <button class="cerrar-menu-juegos" id="cerrar-juegos"><i class="bi bi-x"></i></button>
+                <ul class="nav-links">
+                    <li><a href="numbers.html" class="nav-link">Números</a></li>
+                    <li><a href="appninos.html" class="nav-link">Animales</a></li>
+                    <li><a href="vocales.html" class="nav-link">Vocales</a></li>
+                    <li><a href="letters.html" class="nav-link">Letras</a></li>
+                    <li><a href="quienesquien.html" class="nav-link">¿Quién es quién?</a></li>
+                    <li><a href="puzzle.html" class="nav-link">Puzzle</a></li>
+                    <li><a href="aprendeAleer.html" class="nav-link">Aprende a Leer</a></li>
+                    <li><a href="targetJuegos1.html" class="nav-link">Volver</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
 
     <div class="container">
         <!-- Tarjeta principal para mostrar la vocal -->
@@ -43,5 +45,6 @@
 
     <!-- Enlaza el archivo JavaScript específico para las vocales -->
     <script src="vowels.js"></script>
+    <script src="../JavaScript/menuJuegos.js"></script>
 </body>
 </html>
