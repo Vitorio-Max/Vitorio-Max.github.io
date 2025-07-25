@@ -503,26 +503,31 @@ header {
         font-size: 1.5rem; /* Icono un poco más grande */
         background-color: transparent;
         cursor: pointer;
-        color: white; /* Color para los iconos, para que contrasten con el fondo del header */
         z-index: 1010; /* Asegurar que estén por encima de todo cuando el menú se abre */
     }
 
-    /* Ocultar el botón de abrir menú cuando el navbar está visible */
-    .navbar.visible .abrir-menu {
-        display: none;
+    .abrir-menu{
+        color: white; /*Color para los iconos, para que contrasten con el fondo del header Se mantiene blanco */
     }
 
+    
     /* Ocultar el botón de cerrar menú por defecto (cuando el menú está cerrado) */
     .cerrar-menu {
         display: none; /* Por defecto, se oculta en móvil */
         position: absolute; /* Para posicionar la X en la esquina superior derecha del menú abierto */
         top: 20px;
         right: 20px;
+        color: black; /* <-- ¡ESTE CAMBIA A NEGRO! */
     }
 
     /* MOSTRAR el botón de cerrar menú cuando el navbar está visible */
     .navbar.visible .cerrar-menu {
         display: block; /* Se muestra solo cuando el .navbar es visible */
+    }
+
+    /* Ocultar el botón de abrir menú cuando el header tiene el menú abierto */
+    header.menu-abierto .abrir-menu {
+        display: none;
     }
 
     /* El contenedor principal de la navegación en móvil (el menú desplegable) */
@@ -533,15 +538,16 @@ header {
         top: 0;
         right: 0;
         bottom: 0;
-        width: 100%; /* Ocupa todo el ancho en móvil */
+        width: 40%; /* Ocupa todo el ancho en móvil */
         background-color: rgb(91, 255, 200); /* Color de fondo del menú desplegado */
-        padding: 2rem;
+        padding: 0.5rem;
         box-shadow: 0 0 0 100vmax rgba(0, 0, 0, .5); /* Overlay semitransparente fuera del menú */
         display: flex; /* Ahora es flex para organizar su contenido */
         flex-direction: column; /* Contenido apilado verticalmente */
         align-items: flex-end; /* Alinea los elementos (enlaces, botón cerrar) a la derecha */
         transition: opacity 0.3s ease, visibility 0.3s ease;
         z-index: 999; /* Asegúrate de que esté debajo del wrapper de login si ambos pueden estar activos */
+        
     }
 
     .navbar-logo {
