@@ -509,7 +509,8 @@ header {
     }
 
     .abrir-menu{
-        color: white; /*Color para los iconos, para que contrasten con el fondo del header Se mantiene blanco */display: block; /* Ahora se muestran por defecto en móvil */
+        color: white; /*Color para los iconos, para que contrasten con el fondo del header Se mantiene blanco */
+        display: block; /* Ahora se muestran por defecto en móvil */
         border: 0;
         font-size: 1.8rem; /* Icono un poco más grande */
         background-color: transparent;
