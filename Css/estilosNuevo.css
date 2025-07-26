@@ -494,7 +494,7 @@ header {
     header {
         padding: 0 20px; /* Reducir padding horizontal para móvil */
         justify-content: space-between; /* Mantener la separación */
-        z-index: 1002;
+       
     }
 
     /* Mostrar los botones de abrir/cerrar menú */
@@ -549,21 +549,16 @@ header {
         top: 0;
         right: 0;
         bottom: 0;
-        height: 100vh; /* Asegura que cubra el 100% del viewport height */
-        width: 60%; /* Ocupa todo el ancho en móvil por defecto para la transición */
-        left: 100%; /* Inicia fuera de la pantalla a la derecha para animar desde ahí */
-        background-color: rgb(91, 255, 200); /* Color de fondo del menú desplegado (verde claro) */
-        padding: 2rem 1rem; /* Padding general del menú */
+        width: 60%; /* Ocupa todo el ancho en móvil */
+        background-color: rgb(91, 255, 200); /* Color de fondo del menú desplegado */
+        padding: 2rem;
         box-shadow: 0 0 0 100vmax rgba(0, 0, 0, .5); /* Overlay semitransparente fuera del menú */
         display: flex; /* Ahora es flex para organizar su contenido */
         flex-direction: column; /* Contenido apilado verticalmente */
-        align-items: center; /* Centra los elementos horizontalmente en el menú */
-        justify-content: center; /* Centra los elementos verticalmente */
-        transition: opacity 0.4s ease, visibility 0.4s ease, left 0.4s ease; /* Transición para la animación de entrada */
-        z-index: 999;
-        margin-left: 0; /* Desactiva el margen auto de desktop */
+        align-items: flex-end; /* Alinea los elementos (enlaces, botón cerrar) a la derecha */
+        transition: opacity 0.3s ease, visibility 0.3s ease;
+        z-index: 999; /* Asegúrate de que esté debajo del wrapper de login si ambos pueden estar activos */
     }
-
     
 
     .navbar-logo {
@@ -573,16 +568,9 @@ header {
     .navbar.visible {
         opacity: 1;
         visibility: visible;
-        left: 0; /* Se desliza hacia la izquierda para ocupar toda la pantalla */
     }
 
-    header.menu-open .abrir-menu { /* Si tu JS añade 'menu-open' al header */
-        display: none;
-    }
-
-    header.menu-open .navbar-brand { /* Si 'menu-open' se añade al header */
-        display: none;
-    }
+    
 
     /* Ocultar el navbar-brand cuando el menú se abre */
     .navbar.visible .navbar-brand {
@@ -617,8 +605,7 @@ header {
     .nav-link::after {
         background: rgb(0, 0, 0); /* Cambiar color de la línea hover en móvil */
         transform: scaleX(0); /* Reiniciar transformación por si acaso */
-        bottom: -4px; /* Un poco más arriba del borde inferior */
-        height: 3px;
+        
     }
     .nav-link:hover::after {
         transform: scaleX(1); /* Animación de línea hover */
