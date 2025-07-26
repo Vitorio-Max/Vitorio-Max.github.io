@@ -49,8 +49,9 @@ header {
     padding: 0; /* Padding ya lo gestiona el header */
     box-shadow: none; /* Sombra ya la gestiona el header */
     display: flex; /* Permite organizar sus elementos hijos */
-    justify-content: space-between; /* Para alinear el brand a la izquierda y el container a la derecha */
+    justify-content: flex-end; /* Para alinear el brand a la izquierda y el container a la derecha */
     align-items: center;
+    
     position: relative; /* No fixed, ya que el header es fixed */
     z-index: auto; /* Z-index ya lo gestiona el header */
     
