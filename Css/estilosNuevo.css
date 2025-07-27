@@ -713,9 +713,9 @@ header {
         font-size: 1rem;
     }
     .btnLogin-popup {
-        width: 110px;
-        height: 40px;
-        font-size: 1em;
+        width: auto;
+        padding: 0.5em 0.8em; /* Posiblemente incluso menos padding para pantallas muy pequeñas */
+        font-size: 0.85em; /* Podría necesitar ser más pequeño aquí */
     }
     .wrapper {
         width: 90%; /* Hace el wrapper de login más responsivo */
