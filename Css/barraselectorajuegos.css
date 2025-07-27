@@ -1,0 +1,99 @@
+/* --- Estilos para la nueva franja de selección de juegos --- */
+
+.game-selector-strip {
+    width: 100%;
+    background-color: #333; /* Un color oscuro para contrastar con el navbar */
+    padding: 10px 0; /* Un poco de padding vertical */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Sombra sutil */
+    position: fixed; /* Para que se mantenga debajo del navbar al hacer scroll */
+    top: 80px; /* Se posiciona justo debajo del header de 80px de alto */
+    left: 0;
+    z-index: 999; /* Un z-index alto, pero menor que el del header (1000) */
+    display: flex;
+    justify-content: center; /* Centra los enlaces horizontalmente */
+    align-items: center;
+}
+
+.game-selector-nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap; /* Permite que los elementos se envuelvan si no hay espacio */
+    justify-content: center; /* Centra los elementos de la lista */
+    gap: 15px; /* Espacio entre los enlaces de los juegos */
+}
+
+.game-selector-nav li {
+    display: inline-block; /* Asegura que los li se comporten como bloques en línea */
+}
+
+.game-link {
+    display: block; /* Para que el padding se aplique bien al área de clic */
+    color: #fff; /* Color del texto del enlace */
+    text-decoration: none;
+    font-size: 1em;
+    font-weight: 600;
+    padding: 8px 15px; /* Padding dentro de cada botón de juego */
+    border-radius: 5px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    white-space: nowrap; /* Evita que el texto del enlace se rompa en varias líneas */
+}
+
+.game-link:hover {
+    background-color: #555; /* Color al pasar el ratón */
+    color: #fff;
+}
+
+.game-link.current-game {
+    background-color: #4f46e5; /* Color para el juego activo (página actual) */
+    color: #fff;
+    font-weight: 700;
+    cursor: default; /* No permitir clic en el juego actual */
+}
+
+/* --- Ajuste para el contenido principal si la franja es fija --- */
+/* Debes ajustar el padding-top del main para que no quede oculto bajo la franja */
+main.letters-game-content {
+    padding-top: 50px; /* Ajusta este valor (altura de la franja + su padding) */
+    /* Este padding se sumará al padding-top del body (80px),
+       así que el contenido total estará debajo del header + la nueva franja */
+}
+
+
+/* --- Media Queries para la franja en móvil --- */
+@media screen and (max-width: 768px) {
+    .game-selector-strip {
+        padding: 8px 10px; /* Un poco menos de padding en móvil */
+        top: 80px; /* Sigue estando debajo del header */
+    }
+
+    .game-selector-nav ul {
+        gap: 10px; /* Menos espacio entre enlaces en móvil */
+    }
+
+    .game-link {
+        font-size: 0.9em; /* Fuente un poco más pequeña en móvil */
+        padding: 6px 10px;
+    }
+
+    main.letters-game-content {
+        padding-top: 45px; /* Ajuste del padding-top del contenido principal para móvil */
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .game-selector-nav ul {
+        flex-direction: column; /* Apila los enlaces verticalmente si no caben */
+        align-items: center; /* Centra los enlaces verticalmente */
+        gap: 8px;
+    }
+    .game-link {
+        width: 90%; /* Ocupa casi todo el ancho disponible si están apilados */
+        text-align: center; /* Centra el texto del botón */
+    }
+    main.letters-game-content {
+        padding-top: 150px; /* Puede que necesites más padding si se apilan varios botones */
+        /* Considera que el nav.game-selector-nav ya es relativo al div.game-selector-strip */
+    }
+}

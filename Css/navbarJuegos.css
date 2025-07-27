@@ -157,6 +157,16 @@ header {
     display: none; /* Ocultar por defecto en desktop */
 }
 
+
+
+
+
+
+
+
+
+
+
 /* --- MEDIA QUERIES (Responsividad) --- */
 
 @media screen and (max-width: 768px) {
