@@ -219,6 +219,7 @@ header {
         position: fixed; /* Fijo para que ocupe toda la pantalla */
         top: 0;
         right: 0;
+        left: auto;
         bottom: 0;
         width: 60%; /* Ocupa todo el ancho en móvil */
         background-color: rgb(91, 255, 200); /* Color de fondo del menú desplegado */
@@ -227,7 +228,8 @@ header {
         display: flex; /* Ahora es flex para organizar su contenido */
         flex-direction: column; /* Contenido apilado verticalmente */
         align-items: flex-end; /* Alinea los elementos (enlaces, botón cerrar) a la derecha */
-        transition: opacity 0.3s ease, visibility 0.3s ease;
+        transform: translateX(100%); /* Inicialmente fuera de pantalla a la derecha */
+        transition: transform 0.3s ease-out; /* Transición para el movimiento */        
         z-index: 999; /* Asegúrate de que esté debajo del wrapper de login si ambos pueden estar activos */
     }
 
@@ -235,6 +237,7 @@ header {
     .navbar.visible {
         opacity: 1;
         visibility: visible;
+        transform: translateX(0); /* Mover a la posición visible (dentro de la pantalla) */
     }
 
     /* Ocultar el navbar-brand cuando el menú se abre */
@@ -296,14 +299,19 @@ header {
         padding: 0 15px;
     }
     .navbar {
-        padding: 1.5rem;
+        right: 0;
+        left: auto;
+        width: 80%; /* Quizás un ancho mayor para móviles muy pequeños */
+        transform: translateX(100%);
+    }
+    .navbar.visible {
+        transform: translateX(0);
     }
     .nav-link {
-        font-size: 1rem;
+        font-size: 0.95rem;
     }
     .btnLogin-popup {
-        width: 110px;
-        height: 40px;
-        font-size: 1em;
+        padding: 0.4em 0.8em; /* Más reducido para pantallas muy pequeñas */
+        font-size: 0.8em; /* Más pequeño aún si es necesario */
     }
 }
