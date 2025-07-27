@@ -597,7 +597,8 @@ header {
     /* CAMBIO CLAVE: Alinea los <li> (enlaces individuales) a la derecha dentro del <ul> */
     align-items: flex-end; /* <--- CAMBIO: Alinea los enlaces a la derecha */
     width: 100%; /* Asegura que la lista ocupe todo el ancho para que la alineación funcione */
-    padding: 0;
+    padding-right: 0;
+    padding-left: 0;
     margin-top: 2rem;
     gap: 1.2rem;
     }
@@ -633,9 +634,9 @@ header {
         margin-left: auto; /* Eliminar margen para que se alinee con los demás */
         margin-top: 1.5rem; /* Espacio superior para separarlo de los enlaces */
         width: auto; /* Ancho automático para que se ajuste al contenido */
-        padding: 0.5em 1.5em; /* Padding para que no sea tan grande */
+        padding: 0.5em 1em; /* Padding para que no sea tan grande */
         align-self: flex-end; /* Alinea el botón a la derecha en el menú móvil */
-        font-size: 1.2em; /* Texto más grande */
+        font-size: 0.9em; /* Texto más grande */
         font-weight: 700;
         border-radius: 8px; /* Bordes más suaves */
         transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
@@ -708,14 +709,15 @@ header {
     }
     .navbar {
         padding: 1.5rem;
+        width: 80%;
     }
     .nav-link {
         font-size: 1rem;
     }
     .btnLogin-popup {
         width: auto;
-        padding: 0.5em 0.8em; /* Posiblemente incluso menos padding para pantallas muy pequeñas */
-        font-size: 0.85em; /* Podría necesitar ser más pequeño aquí */
+        padding: 0.5em 0.7em; /* Posiblemente incluso menos padding para pantallas muy pequeñas */
+        font-size: 0.8em; /* Podría necesitar ser más pequeño aquí */
     }
     .wrapper {
         width: 90%; /* Hace el wrapper de login más responsivo */
