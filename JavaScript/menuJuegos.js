@@ -5,12 +5,12 @@ const headerJuegos = document.querySelector("header"); // El header que contiene
 
 abrirJuegos.addEventListener("click", () => {
     navJuegos.classList.add("visible");
-    headerJuegos.classList.add("menu-abierto-juegos");
+    headerJuegos.classList.add("menu-abierto");
 });
 
 cerrarJuegos.addEventListener("click", () => {
     navJuegos.classList.remove("visible");
-    headerJuegos.classList.remove("menu-abierto-juegos");
+    headerJuegos.classList.remove("menu-abierto");
 });
 
 
