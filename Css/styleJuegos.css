@@ -1,0 +1,179 @@
+/* --- englishGame.css --- */
+
+.english-game-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    width: 100%;
+    max-width: 600px; /* Ancho máximo para el contenedor del juego */
+    margin: 2rem auto; /* Centrar y dar margen vertical */
+    background-color: #f0f8ff; /* Color de fondo suave (azul claro) */
+    border-radius: 20px;
+    box-shadow: 0 15px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+    border: 2px solid #60a5fa; /* Borde suave */
+}
+
+.english-game-title {
+    font-size: 2.8rem;
+    font-weight: 800;
+    color: #1d4ed8; /* Azul vibrante */
+    margin-bottom: 2rem;
+    text-align: center;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+}
+
+.english-card {
+    background-color: #ffffff;
+    border-radius: 1.5rem;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 350px; /* Tamaño de la tarjeta del juego */
+    margin-bottom: 2rem;
+    transition: transform 0.3s ease-in-out;
+}
+
+.english-card:hover {
+    transform: translateY(-5px);
+}
+
+.english-image {
+    width: 180px; /* Tamaño de la imagen */
+    height: 180px;
+    object-fit: contain; /* Ajustar la imagen sin recortar */
+    border-radius: 1rem;
+    border: 4px solid #93c5fd; /* Borde de imagen */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 1.5rem;
+    background-color: #e0f2fe; /* Fondo ligero para la imagen */
+}
+
+.english-word {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #1d4ed8;
+    text-align: center;
+    text-transform: capitalize; /* La primera letra en mayúscula */
+    margin: 0;
+    padding: 0;
+}
+
+.english-controls {
+    display: flex;
+    gap: 1.5rem; /* Espacio entre los botones */
+    flex-wrap: wrap; /* Permite que los botones se envuelvan en pantallas pequeñas */
+    justify-content: center;
+    width: 100%;
+}
+
+.english-btn {
+    padding: 1.2rem 2.5rem;
+    background-color: #22c55e; /* Verde vibrante */
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 1.3rem;
+    border-radius: 9999px; /* Botones redondeados */
+    box-shadow: 0 8px 15px -3px rgba(0, 0, 0, 0.15), 0 4px 6px -2px rgba(0, 0, 0, 0.08);
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    display: flex; /* Para centrar el icono y texto */
+    align-items: center;
+    gap: 10px;
+}
+
+.english-btn:hover {
+    background-color: #16a34a; /* Verde más oscuro al pasar el ratón */
+    transform: scale(1.03);
+}
+
+.english-btn:active {
+    transform: scale(0.98);
+    box-shadow: 0 4px 8px -2px rgba(0, 0, 0, 0.15);
+}
+
+.english-btn i {
+    font-size: 1.5rem; /* Tamaño de los iconos de Bootstrap Icons */
+}
+
+/* --- Media Queries para Responsividad --- */
+@media screen and (max-width: 768px) {
+    .english-game-container {
+        padding: 1.5rem;
+        margin: 1.5rem auto;
+    }
+
+    .english-game-title {
+        font-size: 2.2rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .english-card {
+        padding: 1rem;
+        max-width: 300px;
+        margin-bottom: 1.5rem;
+    }
+
+    .english-image {
+        width: 150px;
+        height: 150px;
+        margin-bottom: 1rem;
+    }
+
+    .english-word {
+        font-size: 2rem;
+    }
+
+    .english-btn {
+        padding: 1rem 2rem;
+        font-size: 1.1rem;
+        gap: 8px;
+    }
+
+    .english-btn i {
+        font-size: 1.3rem;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .english-game-container {
+        padding: 1rem;
+        margin: 1rem auto;
+    }
+
+    .english-game-title {
+        font-size: 1.8rem;
+        margin-bottom: 1rem;
+    }
+
+    .english-card {
+        max-width: 250px;
+    }
+
+    .english-image {
+        width: 120px;
+        height: 120px;
+    }
+
+    .english-word {
+        font-size: 1.8rem;
+    }
+
+    .english-controls {
+        flex-direction: column; /* Apilar botones en pantallas muy pequeñas */
+        gap: 1rem;
+    }
+
+    .english-btn {
+        width: 100%; /* Botones de ancho completo */
+        padding: 0.8rem 1.5rem;
+        font-size: 1rem;
+        justify-content: center; /* Centrar texto e icono */
+    }
+}

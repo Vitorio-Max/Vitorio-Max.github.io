@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ordena los Números</title>
+    <title>Palabras en inglés</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="../Css/estilosNuevo.css">
     <link rel="stylesheet" href="../Css/barraselectorajuegos.css">
-    
+    <link rel="stylesheet" href="../Css/styleJuegos.css">
 </head>
 <body>
     <header> 
@@ -51,7 +51,7 @@
                 <option value="quienesquien.html">¿Quién es Quién?</option>
                 <option value="puzzle.html">Puzzle</option>
                 <option value="aprendeAleer.html">Aprende a Leer</option>
-                <option value="palabrasingles.html">Palabras en inglés</option>
+                <option value="palabrasingles.html">Números</option>
                 <option value="targetJuegos1.html">Volver</option>
             </select>
 
@@ -71,23 +71,18 @@
     <main class="letters-game-content">
         </main>
 
-    <div class="main-content-container">
-        <h1 class="game-title">¡Ordena los Números!</h1>
-
-        <div class="game-area">
-            <div id="shuffled-numbers-container" class="numbers-grid-container shuffled-numbers-grid">
-                </div>
-
-            <div id="ordered-numbers-container" class="numbers-grid-container ordered-numbers-grid">
-                </div>
+    <div class="english-game-container">
+        <h2 class="english-game-title">¡Aprende Inglés!</h2>
+        <div class="english-card">
+            <img id="english-image" src="" alt="Palabra en inglés" class="english-image">
+            <p id="english-word" class="english-word"></p>
         </div>
-
-        <button id="reset-btn" class="next-animal-btn">
-            Reiniciar Juego
-        </button>
+        <div class="english-controls">
+            <button id="play-sound-btn" class="english-btn"><i class="bi bi-volume-up-fill"></i> Escuchar</button>
+            <button id="next-word-btn" class="english-btn">Siguiente <i class="bi bi-arrow-right-circle-fill"></i></button>
+        </div>
     </div>
 
-    <script src="numbers.js"></script>
     <script src="../JavaScript/menuJuegos.js"></script>
 </body>
 </html>
