@@ -33,7 +33,7 @@
     margin: 0;
     padding: 0;
     display: flex;
-    flex-wrap: wrap; /* Permite que los elementos se envuelvan */
+    /*flex-wrap: wrap;  Permite que los elementos se envuelvan */
     justify-content: center;
     gap: 20px; /* Espacio entre los enlaces */
 }
@@ -44,7 +44,7 @@
     margin: 0;
     padding: 0;
     display: flex;
-    flex-wrap: wrap; /* Permite que los elementos se envuelvan si no hay espacio */
+    /*flex-wrap: wrap;  Permite que los elementos se envuelvan */
     justify-content: center; /* Centra los elementos de la lista */
     gap: 15px; /* Espacio entre los enlaces de los juegos */
 }
