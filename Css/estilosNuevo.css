@@ -34,7 +34,7 @@ header {
     width: 100%;
     height: 80px; /* Altura explícita del header */
     background-color: #4f46e5; /* Color de fondo para toda la barra superior */
-    padding: 0 100px; /* Padding horizontal para el contenido del header */
+    padding: 0 100px 0 50px; /* Padding horizontal para el contenido del header */
     display: flex;
     justify-content: space-between; /* Para separar el logo/marca y el menú */
     align-items: center;
@@ -71,11 +71,11 @@ header {
 }
 
 .navbar-logo {
-    height: 100%; /* La imagen ocupará el 100% de la altura del enlace (y por ende, del navbar) */
+    height: 200px; /* La imagen ocupará el 100% de la altura del enlace (y por ende, del navbar) */
     width: auto; /* Mantiene la proporción de la imagen */
     max-width: 150px; /* Limita el ancho máximo para que no sea demasiado grande */
     object-fit: contain; /* Asegura que la imagen se ajuste sin cortarse */
-    padding: 5px 0; /* Un poco de padding vertical para que no toque los bordes del header */
+    
 }
 
 .navbar-brand:hover {
