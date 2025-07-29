@@ -711,6 +711,11 @@ header {
         padding: 1.5rem;
         width: 80%;
     }
+    .navbar-logo {
+    height: 150px; /* La imagen ocupará el 100% de la altura del enlace (y por ende, del navbar) */
+    max-width: 120px; /* Limita el ancho máximo para que no sea demasiado grande */
+    
+}
     .nav-link {
         font-size: 1rem;
     }
