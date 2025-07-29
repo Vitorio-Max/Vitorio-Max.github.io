@@ -18,7 +18,7 @@ body {
     background-size: cover;
     background-position: center;
     overflow-x: hidden; /* Evita la barra de desplazamiento horizontal */
-    padding-top: 80px; /* Espacio para el header fijo */
+    padding-top: 110px; /* Espacio para el header fijo */
     font-family: 'Poppins', Arial, Helvetica, sans-serif; /* Fuente específica para el contenido del body si se prefiere */
     display: flex;
     flex-direction: column; /* Para alinear el contenido principal debajo del header */
@@ -305,28 +305,163 @@ header {
     transform: translateY(-2px);
 }
 
-/* --- Estilos para el nuevo juego "Letras con palabras" y similares (contenido principal) --- */
+/* --- Estilos para los juegos (CONTENEDOR PRINCIPAL) --- */
 .main-content-container {
+    background-color: rgba(255, 255, 255, 0.95); /* Fondo blanco semitransparente */
+    border-radius: 25px; /* Bordes redondeados */
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2); /* Sombra para profundidad */
+    padding: 3rem 2rem; /* Espaciado interno generoso */
+    width: 90%; /* Ancho responsivo */
+    max-width: 800px; /* Ancho máximo en pantallas grandes */
+    margin-top: 2rem; /* Espacio superior para separar de la barra de juegos */
+    margin-bottom: 3rem; /* Espacio inferior */
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 1rem;
-    width: 100%;
-    max-width: 1000px; /* Un poco más ancho para la cuadrícula de letras */
-    margin-top: 0; /* Ya lo maneja el padding-top del body */
-    margin-bottom: 2rem; /* Espacio inferior */
+    text-align: center;
+    animation: fadeInScale 0.7s ease-out forwards; /* Animación de entrada */
+}
+
+/* Animación de entrada */
+@keyframes fadeInScale {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
 }
 
 /* Título del juego */
 .game-title {
-    font-size: 2.5rem; /* Tamaño del título */
-    font-weight: 800;
-    color: #1d4ed8; /* Color similar a otros elementos de texto */
-    margin-top: 1.5rem;
-    margin-bottom: 2rem; /* Espacio después del título */
-    text-align: center;
+    font-size: 3.2rem; /* Tamaño grande */
+    font-weight: 900; /* Extra bold */
+    color: #1d4ed8; /* Azul oscuro */
+    margin-bottom: 2.5rem; /* Espacio debajo */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1); /* Ligera sombra */
 }
+
+/*JUEGO NÚMEROS*/
+.game-area {
+    display: flex;
+    flex-direction: column; /* Apila los contenedores verticalmente */
+    align-items: center;
+    gap: 30px; /* Espacio entre los dos contenedores */
+    width: 100%;
+    margin-bottom: 2.5rem; /* Espacio antes del botón */
+}
+
+.numbers-grid-container {
+    display: flex; /* Utiliza flexbox para centrar y distribuir los elementos */
+    flex-wrap: wrap; /* Permite que los números se envuelvan */
+    justify-content: center; /* Centra los números horizontalmente */
+    align-items: center;
+    gap: 15px; /* Espacio entre los números */
+    width: 100%;
+    padding: 20px;
+    border-radius: 15px;
+    min-height: 120px; /* Altura mínima para visibilidad */
+    transition: background-color 0.3s ease-in-out, border 0.3s ease-in-out;
+}
+
+.shuffled-numbers-grid {
+    background-color: #e0f2fe; /* Azul muy claro */
+    border: 3px dashed #60a5fa; /* Borde punteado para "arrastrable" */
+}
+
+.ordered-numbers-grid {
+    background-color: #d1fae5; /* Verde muy claro */
+    border: 3px solid #22c55e; /* Borde sólido para "destino" */
+}
+
+.number-card { /* Esta clase es la que tu JS añade a cada número */
+    background-color: #60a5fa; /* Azul para los números */
+    color: white;
+    font-size: 2.2rem;
+    font-weight: 700;
+    width: 80px; /* Ancho fijo */
+    height: 80px; /* Altura fija */
+    border-radius: 50%; /* ¡Hace el número circular! */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: grab; /* Cursor interactivo */
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15); /* Sombra para profundidad */
+    transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+    user-select: none; /* Evita selección de texto */
+}
+
+.number-card:hover {
+    transform: translateY(-5px) scale(1.05); /* Efecto de elevación */
+    background-color: #4f46e5; /* Azul más oscuro al pasar ratón */
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.25);
+}
+
+.number-card:active {
+    cursor: grabbing;
+    transform: scale(0.95); /* Ligeramente más pequeño al clickear */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilo cuando el número es colocado correctamente */
+.number-card.placed {
+    background-color: #22c55e; /* Verde brillante */
+    cursor: default;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+    transform: none;
+    pointer-events: none; /* No clickable después de colocado */
+}
+
+/* Estilo cuando se hace clic en un número incorrecto */
+.number-card.incorrect {
+    background-color: #ef4444; /* Rojo para error */
+    animation: shake 0.5s ease-in-out; /* Animación de "sacudida" */
+}
+
+/* Animación de sacudida para números incorrectos */
+@keyframes shake {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    50% { transform: translateX(5px); }
+    75% { transform: translateX(-5px); }
+    100% { transform: translateX(0); }
+}
+
+.next-animal-btn { /* Esta clase es la que tiene tu botón "Reiniciar Juego" */
+    margin-top: 1.5rem;
+    padding: 1.2rem 3rem;
+    background-color: #22c55e; /* Verde brillante */
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 1.8rem; /* Tamaño de fuente grande */
+    border-radius: 9999px; /* Forma de píldora */
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+
+.next-animal-btn:hover {
+    background-color: #16a34a; /* Verde más oscuro al pasar ratón */
+    transform: translateY(-3px) scale(1.02);
+}
+
+.next-animal-btn:focus {
+    outline: none;
+    box-shadow: 0 0 0 4px rgba(52, 211, 153, 0.5);
+}
+
+.next-animal-btn:active {
+    transform: translateY(0) scale(0.98);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+}
+
+/*--------FIN-------JUEGO NÚMEROS*/
 
 /* Estilos reutilizados para la tarjeta de animal/vocal */
 .animal-card {
@@ -370,34 +505,6 @@ header {
     color: #4f46e5;
     text-align: center;
     margin-top: 0.5rem;
-}
-
-.next-animal-btn {
-    margin-top: 2rem;
-    padding: 1rem 2rem;
-    background-color: #22c55e;
-    color: #ffffff;
-    font-weight: 700;
-    font-size: 1.5rem;
-    border-radius: 9999px;
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-    border: none;
-    cursor: pointer;
-    transition: all 0.3s ease-in-out;
-}
-
-.next-animal-btn:hover {
-    background-color: #16a34a;
-    transform: scale(1.05);
-}
-
-.next-animal-btn:focus {
-    outline: none;
-    box-shadow: 0 0 0 4px rgba(52, 211, 153, 0.5);
-}
-
-.next-animal-btn:active {
-    transform: scale(0.95);
 }
 
 /* --- Estilos para el juego de "Letras con palabras" (Flip Card) --- */
@@ -653,18 +760,42 @@ header {
     }
 
     /* Ajustes para el contenido de la página en móvil */
+    
+    /*-----JUEGO NUMEROS-----*/
+
+    .main-content-container {
+        padding: 2rem 1rem;
+        width: 95%;
+        margin-top: 1.5rem;
+    }
+    .game-title {
+        font-size: 2.5rem;
+        margin-bottom: 2rem;
+    }
+    .game-area {
+        gap: 20px;
+    }
+    .numbers-grid-container {
+        gap: 10px;
+        padding: 15px;
+    }
+    .number-card { /* Ajuste del tamaño de los números en tabletas */
+        width: 65px;
+        height: 65px;
+        font-size: 1.8rem;
+    }
+    .next-animal-btn {
+        padding: 1rem 2rem;
+        font-size: 1.5rem;
+        margin-top: 1rem;
+    }
+    
     body {
         padding-top: 80px; /* El padding superior sigue siendo el mismo para el header fijo */
     }
-    .main-content-container, .container {
-        margin-top: 1rem; /* Ajuste el margen superior para el contenido */
-        padding: 1rem 0.5rem; /* Reducir padding horizontal */
-    }
-    .game-title {
-        font-size: 2rem;
-        margin-top: 1rem;
-        margin-bottom: 1.5rem;
-    }
+    /*-----FIN---JUEGO NUMEROS-----*/
+    
+    
     .animal-card {
         padding: 1rem;
     }
@@ -678,10 +809,7 @@ header {
     .vowel-name {
         font-size: 1.2rem;
     }
-    .next-animal-btn {
-        font-size: 1.2rem;
-        padding: 0.8rem 1.5rem;
-    }
+    
     .characters-grid-container {
         grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); /* Columnas más pequeñas en móvil */
         gap: 1rem;
@@ -759,4 +887,28 @@ header {
     .character-name-back {
         font-size: 1.3rem;
     }
+    /*-----JUEGO NUMEROS-----*/
+    .main-content-container {
+        padding: 1.5rem 0.8rem;
+    }
+    .game-title {
+        font-size: 2rem;
+        margin-bottom: 1.5rem;
+    }
+    .numbers-grid-container {
+        gap: 8px;
+        padding: 10px;
+    }
+    .number-card { /* Ajuste del tamaño de los números en móviles pequeños */
+        width: 55px;
+        height: 55px;
+        font-size: 1.5rem;
+    }
+    .next-animal-btn {
+        padding: 0.8rem 1.5rem;
+        font-size: 1.2rem;
+    }
+
+    /*-----FIN----JUEGO NUMEROS-----*/
+
 }
