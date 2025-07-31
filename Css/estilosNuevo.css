@@ -704,15 +704,15 @@ header {
     }
 
     .navbar-container {
-    display: flex;
-    flex-direction: column; /* Ya está así, se mantiene */
-    /* CAMBIO CLAVE: Alinea los elementos hijos (nav-links y btnLogin-popup) a la derecha */
-    align-items: flex-end; /* <--- CAMBIO: Alinea los elementos a la derecha */
-    justify-content: center; /* Se mantiene para centrado vertical */
-    width: 100%;
-    height: 100%;
-    padding: 0;
-    gap: 1rem;
+        display: flex;
+        flex-direction: column; /* Ya está así, se mantiene */
+        /* CAMBIO CLAVE: Alinea los elementos hijos (nav-links y btnLogin-popup) a la derecha */
+        align-items: flex-end; /* <--- CAMBIO: Alinea los elementos a la derecha */
+        justify-content: center; /* Se mantiene para centrado vertical */
+        width: 100%;
+        height: 100%;
+        padding: 0;
+        gap: 1rem;
     }
     
 
@@ -736,14 +736,14 @@ header {
     /* Ocultar la lista de enlaces por defecto, se mostrará con .navbar.visible */
     .nav-links {
          display: flex;
-    flex-direction: column; /* Ya está así, se mantiene */
-    /* CAMBIO CLAVE: Alinea los <li> (enlaces individuales) a la derecha dentro del <ul> */
-    align-items: flex-end; /* <--- CAMBIO: Alinea los enlaces a la derecha */
-    width: 100%; /* Asegura que la lista ocupe todo el ancho para que la alineación funcione */
-    padding-right: 0;
-    padding-left: 0;
-    margin-top: 2rem;
-    gap: 1.2rem;
+        flex-direction: column; /* Ya está así, se mantiene */
+        /* CAMBIO CLAVE: Alinea los <li> (enlaces individuales) a la derecha dentro del <ul> */
+        align-items: flex-end; /* <--- CAMBIO: Alinea los enlaces a la derecha */
+        width: 100%; /* Asegura que la lista ocupe todo el ancho para que la alineación funcione */
+        padding-right: 0;
+        padding-left: 0;
+        margin-top: 2rem;
+        gap: 1.2rem;
     }
 
     /* Asegúrate de que los nav-links se muestren cuando el menú es visible */
@@ -802,7 +802,7 @@ header {
     .main-content-container {
         padding: 2rem 1rem;
         width: 95%;
-        margin-top: 1.5rem;
+        margin-top: 0.5rem;
     }
     .game-title {
         font-size: 2.5rem;

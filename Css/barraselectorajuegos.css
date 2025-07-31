@@ -118,7 +118,7 @@ main.letters-game-content {
 /* --- Media Queries para la franja en móvil --- */
 @media screen and (max-width: 768px) {
     .game-selector-strip {
-        padding: 10px 15px; /* Un poco menos de padding en móvil */
+        padding: 0.5rem; /* Un poco menos de padding en móvil */
         top: 80px; /* Sigue estando debajo del header */
     }
 
