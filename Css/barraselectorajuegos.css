@@ -143,6 +143,17 @@ main.letters-game-content {
 }
 
 @media screen and (max-width: 480px) {
+
+    /* -----JUEGO NUMEROS----- */
+    .main-content-container {
+        padding: 2rem 1rem;
+        width: 95%;
+        margin-top: 1.5rem; /* ESTA ES LA PROPIEDAD A AJUSTAR DE NUEVO */
+    }
+
+    /* ----FIN-JUEGO NUMEROS----- */
+
+
     .game-selector-dropdown {
         width: 95%; /* Hace el select casi al 100% de ancho en pantallas muy pequeñas */
         font-size: 1em;
