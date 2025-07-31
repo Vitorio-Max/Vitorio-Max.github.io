@@ -341,11 +341,11 @@ header {
     background-color: rgba(255, 255, 255, 0.95); /* Fondo blanco semitransparente */
     border-radius: 25px; /* Bordes redondeados */
     box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2); /* Sombra para profundidad */
-    padding: 3rem 2rem; /* Espaciado interno generoso */
+    padding: 1rem; /* Espaciado interno generoso */
     width: 90%; /* Ancho responsivo */
     max-width: 800px; /* Ancho máximo en pantallas grandes */
-    margin-top: 2rem; /* Espacio superior para separar de la barra de juegos */
-    margin-bottom: 3rem; /* Espacio inferior */
+    margin-top: 0.5rem; /* Espacio superior para separar de la barra de juegos */
+    margin-bottom: 0.5rem; /* Espacio inferior */
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -368,10 +368,10 @@ header {
 
 /* Título del juego */
 .game-title {
-    font-size: 3.2rem; /* Tamaño grande */
+    font-size: 2.2rem; /* Tamaño grande */
     font-weight: 900; /* Extra bold */
     color: #1d4ed8; /* Azul oscuro */
-    margin-bottom: 2.5rem; /* Espacio debajo */
+    margin-bottom: 1rem; /* Espacio debajo */
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1); /* Ligera sombra */
 }
 
@@ -380,9 +380,9 @@ header {
     display: flex;
     flex-direction: column; /* Apila los contenedores verticalmente */
     align-items: center;
-    gap: 30px; /* Espacio entre los dos contenedores */
+    gap: 15px; /* Espacio entre los dos contenedores */
     width: 100%;
-    margin-bottom: 2.5rem; /* Espacio antes del botón */
+    margin-bottom: 1rem; /* Espacio antes del botón */
 }
 
 .numbers-grid-container {
@@ -411,10 +411,10 @@ header {
 .number-card { /* Esta clase es la que tu JS añade a cada número */
     background-color: #60a5fa; /* Azul para los números */
     color: white;
-    font-size: 2.2rem;
+    font-size: 1.6rem;
     font-weight: 700;
-    width: 80px; /* Ancho fijo */
-    height: 80px; /* Altura fija */
+    width: 60px; /* Ancho fijo */
+    height: 60px; /* Altura fija */
     border-radius: 50%; /* ¡Hace el número circular! */
     display: flex;
     justify-content: center;

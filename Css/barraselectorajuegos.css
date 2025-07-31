@@ -12,6 +12,7 @@
     display: flex;
     justify-content: center; /* Centra los enlaces horizontalmente */
     align-items: center;
+    height: 60px;
 }
 
 .game-selector-nav {
