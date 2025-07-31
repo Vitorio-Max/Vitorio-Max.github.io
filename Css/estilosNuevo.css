@@ -32,7 +32,7 @@ header {
     top: 0;
     left: 0;
     width: 100%;
-    height: 80px; /* Altura explícita del header */
+    height: 70px; /* Altura explícita del header */
     background-color: #4f46e5; /* Color de fondo para toda la barra superior */
     padding: 0 100px 0 50px; /* Padding horizontal para el contenido del header */
     display: flex;
@@ -229,19 +229,19 @@ header {
     display: flex;
     flex-wrap: wrap; /* Permite que las tarjetas se envuelvan a la siguiente línea */
     justify-content: center; /* Centra las tarjetas horizontalmente */
-    gap: 3rem; /* Aumentamos el espacio para un aspecto más abierto y menos saturado */
-    padding: 3rem 1.5rem; /* Más espaciado general para "respirar" */
+    gap: 1rem; /* Aumentamos el espacio para un aspecto más abierto y menos saturado */
+    padding: 1rem; /* Más espaciado general para "respirar" */
     width: 100%;
-    max-width: 2000px; /* Un poco más de ancho máximo para el contenedor */
-    margin-top: 3rem; /* Más espacio superior para separar del header */
-    margin-bottom: 3rem; /* Más espacio inferior */
+    max-width: 3000px; /* Un poco más de ancho máximo para el contenedor */
+    margin-top: 0rem; /* Más espacio superior para separar del header */
+    margin-bottom: 1rem; /* Más espacio inferior */
 }
 
 .card {
     background-color: #F8F8F8; /* Un blanco muy suave, casi gris claro, para un fondo acogedor */
     border-radius: 2rem; /* Bordes aún más redondeados para un aspecto más amigable y de juego */
     box-shadow: 0 18px 30px -8px rgba(0, 0, 0, 0.25), 0 6px 10px -3px rgba(0, 0, 0, 0.1); /* Sombra más pronunciada y juguetona */
-    width: 250px; /* Mantener un ancho manejable para móviles y tabletas */
+    width: 200px; /* Mantener un ancho manejable para móviles y tabletas */
     overflow: hidden; /* Asegura que la imagen no se desborde */
     transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), background-color 0.3s ease; /* Transición más suave y añadir background */
     cursor: pointer;
@@ -263,7 +263,7 @@ header {
 /* Estilo para la imagen dentro de la tarjeta */
 .card figure {
     width: 100%;
-    height: 160px; /* Altura fija para todas las imágenes */
+    height: 120px; /* Altura fija para todas las imágenes */
     overflow: hidden;
     margin: 0;
     position: relative; /* Para superponer efectos si es necesario */
@@ -287,27 +287,27 @@ header {
 
 /* Contenido de la tarjeta (título, descripción, botón) */
 .card .contenido {
-    padding: 0.8rem; /* Más padding para que el contenido respire */
+    padding: 0.5rem; /* Más padding para que el contenido respire */
     display: flex;
     flex-direction: column;
-    gap: 0.5rem; /* Más espacio entre los elementos del contenido */
+    gap: 0.2rem; /* Más espacio entre los elementos del contenido */
     flex-grow: 1; /* Permite que el contenido ocupe el espacio disponible */
     justify-content: space-between; /* Empuja el botón hacia abajo si el contenido varía en altura */
 }
 
 .card .contenido h3 {
-    font-size: 1.4rem; /* Título grande y fácil de leer */
+    font-size: 1rem; /* Título grande y fácil de leer */
     font-weight: 900; /* Extra bold para que destaque */
     color: #4CAF50; /* Verde brillante, asociado con la naturaleza y el aprendizaje */
     text-shadow: 2px 2px 4px rgba(0,0,0,0.1); /* Sombra de texto sutil para pop */
-    margin-bottom: 0.5rem; /* Espacio debajo del título */
+    margin-bottom: 0.1rem; /* Espacio debajo del título */
     font-family: 'Poppins', sans-serif; /* Asegurar que se use una fuente legible y amigable */
 }
 
 .card .contenido p {
-    font-size: 0.95rem; /* Texto de descripción más grande para legibilidad */
+    font-size: 0.8rem; /* Texto de descripción más grande para legibilidad */
     color: #6C7A89; /* Un gris azulado suave, fácil para la vista */
-    line-height: 1.6; /* Mejor espaciado de línea para lectura */
+    line-height: 1.4; /* Mejor espaciado de línea para lectura */
     font-family: 'Inter', sans-serif; /* Otra fuente legible y moderna */
 }
 
@@ -316,13 +316,13 @@ header {
     display: inline-block;
     background-color: #FF6F61; /* Rojo coral brillante, atractivo y cálido */
     color: #ffffff;
-    padding: 0.5rem 1.2rem; /* Botón más grande y fácil de tocar */
+    padding: 0.4rem 0.8rem; /* Botón más grande y fácil de tocar */
     border-radius: 50px; /* Forma de píldora para un aspecto amigable */
     text-decoration: none;
     font-weight: 700;
-    font-size: 1.1rem; /* Texto del botón más grande */
+    font-size: 0.9rem; /* Texto del botón más grande */
     transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
-    margin-top: 0.8rem; /* Más espacio encima del botón */
+    margin-top: 0.2rem; /* Más espacio encima del botón */
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15); /* Sombra para que el botón parezca "flotar" */
     letter-spacing: 0.5px; /* Ligeramente espaciado para mejor lectura */
 }
