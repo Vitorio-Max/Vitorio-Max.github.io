@@ -32,7 +32,7 @@ header {
     top: 0;
     left: 0;
     width: 100%;
-    height: 70px; /* Altura explícita del header */
+    height: 80px; /* Altura explícita del header */
     background-color: #4f46e5; /* Color de fondo para toda la barra superior */
     padding: 0 100px 0 50px; /* Padding horizontal para el contenido del header */
     display: flex;
