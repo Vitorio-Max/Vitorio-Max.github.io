@@ -18,7 +18,7 @@ body {
     background-size: cover;
     background-position: center;
     overflow-x: hidden; /* Evita la barra de desplazamiento horizontal */
-    padding-top: 140px; /* Espacio para el header fijo */
+    padding-top: 80px; /* Espacio para el header fijo */
     font-family: 'Poppins', Arial, Helvetica, sans-serif; /* Fuente específica para el contenido del body si se prefiere */
     display: flex;
     flex-direction: column; /* Para alinear el contenido principal debajo del header */

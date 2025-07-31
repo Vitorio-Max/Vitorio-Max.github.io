@@ -134,7 +134,7 @@ main.letters-game-content {
     }
 
     main.letters-game-content {
-        padding-top: 45px; /* Ajuste del padding-top del contenido principal para móvil */
+        padding-top: 80px; /* Ajuste del padding-top del contenido principal para móvil */
     }
 
     .game-selector-dropdown {
@@ -157,6 +157,6 @@ main.letters-game-content {
         text-align: center; /* Centra el texto del botón */
     }
     main.letters-game-content {
-        padding-top: 150px; /* Puede que necesites más padding si se apilan varios botones */
+        padding-top: 80px; /* Puede que necesites más padding si se apilan varios botones */
     }
 }
