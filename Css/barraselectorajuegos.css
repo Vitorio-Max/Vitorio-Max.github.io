@@ -1,16 +1,16 @@
-/* --- Estilos para la nueva franja de selección de juegos --- */
+/* --- Estilos BASE para la nueva franja de selección de juegos (Desktop First) --- */
 
 .game-selector-strip {
     width: 100%;
-    background-color: #333; /* Un color oscuro para contrastar con el navbar */
-    padding: 15px 0; /* Un poco de padding vertical */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Sombra sutil */
-    position: fixed; /* Para que se mantenga debajo del navbar al hacer scroll */
+    background-color: #333;
+    padding: 15px 0;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    position: fixed;
     top: 80px; /* Se posiciona justo debajo del header de 80px de alto */
     left: 0;
-    z-index: 500; /* Un z-index alto, pero menor que el del header (1000) */
+    z-index: 500; /* Debe ser menor que el z-index del header */
     display: flex;
-    justify-content: center; /* Centra los enlaces horizontalmente */
+    justify-content: center;
     align-items: center;
     height: 60px;
 }
@@ -18,82 +18,43 @@
 .game-selector-nav {
     width: 100%;
     max-width: 1200px;
-    list-style: none;
+    list-style: none; /* Por si nav fuera un ul */
     margin: 0;
     padding: 0;
     display: flex;
-    flex-wrap: wrap; /* Permite que los elementos se envuelvan si no hay espacio */
-    justify-content: center; /* Centra los elementos de la lista */
-    gap: 15px; /* Espacio entre los enlaces de los juegos */
+    flex-wrap: wrap;
+    justify-content: center; /* Centra los elementos internos (lista/select + botón) */
+    gap: 15px; /* Espacio entre los elementos (lista de enlaces / select / botón) */
     align-items: center;
 }
 
-/* Estilos para la lista de enlaces (visible en desktop) */
+/* Estilos para la LISTA DE ENLACES (VISIBLE POR DEFECTO EN DESKTOP) */
 .game-links-list {
     list-style: none;
     margin: 0;
     padding: 0;
-    display: flex;
-    /*flex-wrap: wrap;  Permite que los elementos se envuelvan */
+    display: flex; /* <-- CLAVE: Asegura que la lista se muestre en desktop */
+    flex-wrap: wrap;
     justify-content: center;
-    gap: 20px; /* Espacio entre los enlaces */
+    gap: 20px; /* Espacio entre los enlaces individuales */
 }
 
-
-.game-selector-nav ul {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    /*flex-wrap: wrap;  Permite que los elementos se envuelvan */
-    justify-content: center; /* Centra los elementos de la lista */
-    gap: 15px; /* Espacio entre los enlaces de los juegos */
-}
-
-.game-selector-nav li {
-    display: inline-block; /* Asegura que los li se comporten como bloques en línea */
-}
-
-.game-link {
-    display: block; /* Para que el padding se aplique bien al área de clic */
-    color: #fff; /* Color del texto del enlace */
-    text-decoration: none;
-    font-size: 1.1em;
-    font-weight: 600;
-    padding: 10px 20px; /* Padding dentro de cada botón de juego */
-    border-radius: 5px;
-    transition: background-color 0.3s ease, color 0.3s ease;
-    white-space: nowrap; /* Evita que el texto del enlace se rompa en varias líneas */
-}
-
-.game-link:hover {
-    background-color: #555; /* Color al pasar el ratón */
-    color: #fff;
-    transform: translateY(-2px);
-}
-
-.game-link.current-game {
-    background-color: #4f46e5; /* Color para el juego activo (página actual) */
-    color: #fff;
-    font-weight: 700;
-    cursor: default; /* No permitir clic en el juego actual */
-}
-
+/* El SELECTOR DESPLEGABLE (OCULTO POR DEFECTO EN DESKTOP) */
 .game-selector-dropdown {
-    display: none; /* Oculto por defecto en desktop */
-    width: 80%; /* Ancho responsivo */
-    max-width: 300px; /* Ancho máximo para el select */
+    display: none; /* <-- CLAVE: Oculto por defecto en desktop */
+    width: 80%; /* Ancho base */
+    max-width: 300px;
     padding: 10px 15px;
     font-size: 1.1em;
     border-radius: 8px;
-    border: 2px solid #4f46e5; /* Borde con color de tu marca */
+    border: 2px solid #4f46e5;
     background-color: #ffffff;
     color: #1d4ed8;
     cursor: pointer;
-    appearance: none; /* Eliminar estilos nativos del select */
+    appearance: none;
     -webkit-appearance: none;
     -moz-appearance: none;
-    background-image: url('data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2212%22%20height%3D%2212%22%20viewBox%3D%220%200%2012%2012%22%3E%3Cpath%20fill%3D%22%234f46e5%22%20d%3D%22M7%209.5L5%207.5L3%209.5L1%207.5L6%202.5L11%207.5L9%209.5Z%22%20transform%3D%22rotate(180%206%206)%22%2F%3E%3C%2Fsvg%3E'); /* Flecha personalizada */
+    background-image: url('data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3%2F2000%2Fsvg%22%20width%3D%2212%22%20height%3D%2212%22%20viewBox%3D%220%200%2012%2012%22%3E%3Cpath%20fill%3D%22%234f46e5%22%20d%3D%22M7%209.5L5%207.5L3%209.5L1%207.5L6%202.5L11%207.5L9%209.5Z%22%20transform%3D%22rotate(180%206%206)%22%2F%3E%3C%2Fsvg%3E');
     background-repeat: no-repeat;
     background-position: right 10px center;
     background-size: 12px;
@@ -102,61 +63,122 @@
 }
 
 .game-selector-dropdown:focus {
-    border-color: #22c55e; /* Color al enfocar */
+    border-color: #22c55e;
     box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.3);
 }
 
+/* Estilos de los enlaces de juego individuales (game-link) */
+.game-link {
+    display: block;
+    color: #fff;
+    text-decoration: none;
+    font-size: 0.5em; /* Se mantiene este tamaño base para desktop */
+    font-weight: 600;
+    padding: 10px 20px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
+    white-space: nowrap;
+}
+.game-link:hover {
+    background-color: #555;
+    color: #fff;
+    transform: translateY(-2px);
+}
+.game-link.current-game {
+    background-color: #4f46e5;
+    color: #fff;
+    font-weight: 700;
+    cursor: default;
+    transform: none;
+}
+
+/* --- Estilos para el botón de Volver --- */
+.back-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    text-decoration: none;
+    border: none;
+    border-radius: 5px;
+    font-size: 1em;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    margin: 0;
+}
+.back-button:hover {
+    background-color: #45a049;
+    transform: translateY(-2px);
+}
+.back-button:active {
+    background-color: #3e8e41;
+    transform: translateY(0);
+}
+
 /* --- Ajuste para el contenido principal si la franja es fija --- */
-/* Debes ajustar el padding-top del main para que no quede oculto bajo la franja */
 main.letters-game-content {
-    padding-top: 50px; /* Ajusta este valor (altura de la franja + su padding) */
-    /* Este padding se sumará al padding-top del body (80px),
-       así que el contenido total estará debajo del header + la nueva franja */
+    padding-top: 140px; /* Header (80px) + Franja de selección (60px) */
 }
 
 
-/* --- Media Queries para la franja en móvil --- */
+/* --- Media Queries --- */
+
+/* Tabletas y Móviles (Ancho <= 768px) */
 @media screen and (max-width: 768px) {
     .game-selector-strip {
-        padding: 0.5rem; /* Un poco menos de padding en móvil */
-        top: 80px; /* Sigue estando debajo del header */
+        padding: 0.5rem 0;
+        height: auto;
     }
-
     
-    .game-selector-nav .game-links-list {
-        display: none; /* Oculta la lista en móviles */
-        gap: 10px; /* Menos espacio entre enlaces en móvil */
+    .game-selector-nav {
+        flex-direction: row;
+        width: 95%;
+        max-width: 100%;
+        justify-content: center;
     }
 
-    .game-link {
-        font-size: 0.9em; /* Fuente un poco más pequeña en móvil */
+    /* OCULTA la lista de enlaces en tabletas/móviles */
+    .game-links-list {
+        display: none !important; /* <-- ¡AQUÍ ESTÁ LA CLAVE! Forzar ocultación */
+    }
+
+    /* MUESTRA el selector desplegable en tabletas/móviles */
+    .game-selector-dropdown {
+        display: block !important; /* <-- ¡AQUÍ ESTÁ LA CLAVE! Forzar visibilidad */
+    }
+
+    /* Ajuste de fuente para enlaces de juego (si .game-links-list estuviera visible) */
+    /* .game-link {
+        font-size: 0.9em;
         padding: 6px 10px;
+    } */
+
+    /* Estilos para el botón "Atrás" en tabletas/móviles */
+    .back-button {
+        font-size: 0.9em;
+        padding: 8px 15px;
     }
 
     main.letters-game-content {
-        padding-top: 80px; /* Ajuste del padding-top del contenido principal para móvil */
-    }
-
-    .game-selector-dropdown {
-        display: block; /* Muestra el select en móviles */
+        padding-top: 140px; 
     }
 }
 
+/* Móviles muy pequeños (Ancho <= 480px) */
 @media screen and (max-width: 480px) {
-
-    
-
     .game-selector-dropdown {
-        width: 95%; /* Hace el select casi al 100% de ancho en pantallas muy pequeñas */
+        width: 95%;
         font-size: 1em;
         padding: 8px 12px;
     }
 
-    .game-link {
-        width: 90%; /* Ocupa casi todo el ancho disponible si están apilados */
-        text-align: center; /* Centra el texto del botón */
-    }
-    main.letters-game-content {
-        padding-top: 80px; /* Puede que necesites más padding si se apilan varios botones */
+    .back-button {
+        width: 95%;
+        text-align: center;
+        justify-content: center;
+        margin-top: 10px;
     }
 }

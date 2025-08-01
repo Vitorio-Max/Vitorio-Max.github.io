@@ -26,6 +26,8 @@ body {
     justify-content: flex-start; /* Alinea el contenido al inicio verticalmente */
 }
 
+
+
 /* --- Estilos para la barra de navegación (Header) --- */
 header {
     position: fixed; /* Mantiene el header en la parte superior */
@@ -354,21 +356,11 @@ header {
     animation: fadeInScale 0.7s ease-out forwards; /* Animación de entrada */
 }
 
-/* Animación de entrada */
-@keyframes fadeInScale {
-    from {
-        opacity: 0;
-        transform: scale(0.9);
-    }
-    to {
-        opacity: 1;
-        transform: scale(1);
-    }
-}
+
 
 /* Título del juego */
 .game-title {
-    font-size: 2.2rem; /* Tamaño grande */
+    font-size: 2rem; /* Tamaño grande */
     font-weight: 900; /* Extra bold */
     color: #1d4ed8; /* Azul oscuro */
     margin-bottom: 1rem; /* Espacio debajo */
@@ -806,7 +798,7 @@ header {
     }
     .game-title {
         font-size: 2.5rem;
-        margin-bottom: 2rem;
+        margin-bottom: 1.5rem;
     }
     .game-area {
         gap: 20px;
@@ -939,8 +931,8 @@ header {
         margin-top: 0; /* Prueba con 0.5rem o 0.25rem, o incluso 0 */
     }
     .game-title {
-        font-size: 2rem;
-        margin-bottom: 1.5rem;
+        font-size: 1.1rem;
+        margin-bottom: 1.2rem;
     }
     .numbers-grid-container {
         gap: 8px;
