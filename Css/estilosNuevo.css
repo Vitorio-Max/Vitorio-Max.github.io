@@ -628,7 +628,7 @@ header {
     }
 
     body {
-        padding-top: 80px; /* El padding superior sigue siendo el mismo para el header fijo */
+        padding-top: 150px; /* El padding superior sigue siendo el mismo para el header fijo */
     }
 
     /* Mostrar los botones de abrir/cerrar menú */
@@ -871,6 +871,9 @@ header {
 
 /* Para pantallas aún más pequeñas (ej: móviles muy pequeños) */
 @media screen and (max-width: 480px) {
+    body {
+        padding-top: 150px; /* El padding superior sigue siendo el mismo para el header fijo */
+    }
     header {
         padding: 0 15px;
     }
