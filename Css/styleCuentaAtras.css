@@ -85,7 +85,9 @@
 @media (max-width: 480px) { /* Móviles pequeños */
     .fecha {
         font-size: 1rem;
-        margin-bottom: 1.5rem;
+        /*margin-bottom: 1.5rem;*/
+        margin-top: 0; /* <--- AÑADE ESTO para eliminar el espacio superior si lo tiene */
+        padding-top: 0;
     }
     .cuenta-atras {
         grid-template-columns: 1fr; /* Una sola columna en móviles muy pequeños */
@@ -98,6 +100,7 @@
         font-size: 0.9rem;
     }
     .main-cuenta-atras {
-        padding: 1rem 0.5rem; /* Menos padding en móviles muy pequeños */
+        margin-top: 0;
+        padding-top: 0;
     }
 }

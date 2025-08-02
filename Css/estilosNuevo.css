@@ -18,7 +18,7 @@ body {
     background-size: cover;
     background-position: center;
     overflow-x: hidden; /* Evita la barra de desplazamiento horizontal */
-    padding-top: 80px; /* Espacio para el header fijo */
+    padding-top: 90px; /* Espacio para el header fijo */
     font-family: 'Poppins', Arial, Helvetica, sans-serif; /* Fuente específica para el contenido del body si se prefiere */
     display: flex;
     flex-direction: column; /* Para alinear el contenido principal debajo del header */
@@ -794,7 +794,7 @@ header {
     .main-content-container {
         padding: 2rem 1rem;
         width: 95%;
-        margin-top: 0rem;
+        margin-top: 0.5rem;
     }
     .game-title {
         font-size: 2.5rem;
@@ -927,11 +927,21 @@ header {
     .character-name-back {
         font-size: 1.3rem;
     }
+
+    .main-cuenta-atras {
+        margin-top: 0;
+        padding-top: 0;
+    }
+    .fecha {
+        margin-top: 0;
+        padding-top: 0;
+    }
+
     /*-----JUEGO NUMEROS-----*/
     .main-content-container {
         padding: 2rem 1rem;
         width: 95%;
-        margin-top: 0; /* Prueba con 0.5rem o 0.25rem, o incluso 0 */
+        margin-top: 0.5; /* Prueba con 0.5rem o 0.25rem, o incluso 0 */
     }
     .game-title {
         font-size: 1.1rem;

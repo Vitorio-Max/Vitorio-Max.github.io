@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // 1. Definición de palabras y sílabas
     const words = [
         { word: 'CASA', syllables: ['CA', 'SA'] },
         { word: 'PERRO', syllables: ['PE', 'RRO'] },
@@ -12,17 +13,25 @@ document.addEventListener('DOMContentLoaded', () => {
         { word: 'MANZANA', syllables: ['MAN', 'ZA', 'NA'] }
     ];
 
+    // 2. Variables de estado del juego
     let currentWordIndex = 0;
-    let shuffledSyllables = [];
-    let droppedSyllables = [];
+    let clickedSyllables = []; // Almacena las sílabas clicadas en orden
 
+    // 3. Obtención de elementos del DOM
     const wordDisplayText = document.getElementById('current-word-text');
     const syllablesContainer = document.getElementById('syllables-container');
-    const dropArea = document.getElementById('drop-area');
+    const dropArea = document.getElementById('drop-area'); // Usamos el ID existente
     const checkWordBtn = document.getElementById('check-word-btn');
     const nextWordBtn = document.getElementById('next-word-btn');
     const feedbackMessage = document.getElementById('feedback-message');
 
+    // 4. Funciones auxiliares
+
+    /**
+     * Mezcla aleatoriamente los elementos de un array.
+     * @param {Array} array - El array a mezclar.
+     * @returns {Array} El array mezclado.
+     */
     function shuffleArray(array) {
         for (let i = array.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
@@ -31,11 +40,14 @@ document.addEventListener('DOMContentLoaded', () => {
         return array;
     }
 
+    /**
+     * Carga la palabra actual en la interfaz de usuario.
+     */
     function loadWord() {
         if (currentWordIndex >= words.length) {
             wordDisplayText.textContent = '¡Felicidades, has completado todas las palabras! 🎉';
             syllablesContainer.innerHTML = '';
-            dropArea.innerHTML = '<p>¡Juego terminado!</p>';
+            dropArea.innerHTML = '<p>¡Juego terminado!</p>'; // Mensaje final en dropArea
             checkWordBtn.style.display = 'none';
             nextWordBtn.style.display = 'none';
             feedbackMessage.textContent = '';
@@ -43,106 +55,107 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         const currentWord = words[currentWordIndex];
-        wordDisplayText.textContent = `Forma la palabra: ${currentWord.word.split('').join(' ')}`; // Muestra la palabra con espacios entre letras para facilitar la lectura inicial
-        syllablesContainer.innerHTML = '';
-        dropArea.innerHTML = '<p>Arrastra las sílabas aquí para formar la palabra</p>';
+        // Muestra la palabra con espacios entre letras para facilitar la lectura inicial
+        wordDisplayText.textContent = `Forma la palabra: ${currentWord.word.split('').join(' ')}`;
+        
+        syllablesContainer.innerHTML = ''; // Limpiar sílabas anteriores
+        dropArea.innerHTML = '<p>Arrastra las sílabas aquí para formar la palabra</p>'; // Mensaje inicial de dropArea
         feedbackMessage.textContent = '';
-        droppedSyllables = [];
+        clickedSyllables = []; // Resetear sílabas clicadas
 
-        shuffledSyllables = shuffleArray([...currentWord.syllables]);
-
+        // Mezclar las sílabas y crearlas en el DOM
+        const shuffledSyllables = shuffleArray([...currentWord.syllables]);
         shuffledSyllables.forEach(syllable => {
             const syllableDiv = document.createElement('div');
             syllableDiv.classList.add('syllable-block');
             syllableDiv.textContent = syllable;
-            syllableDiv.setAttribute('draggable', true);
             syllableDiv.dataset.syllable = syllable; // Guarda la sílaba en un dataset
+            syllableDiv.addEventListener('click', handleSyllableClick); // Añadir listener de clic
             syllablesContainer.appendChild(syllableDiv);
         });
 
-        addDragAndDropListeners();
         checkWordBtn.style.display = 'block';
-        nextWordBtn.style.display = 'none'; // Ocultar el botón "Siguiente" hasta que se acierte
+        nextWordBtn.style.display = 'none'; // Ocultar el botón "Siguiente"
     }
 
-    function addDragAndDropListeners() {
-        const syllableBlocks = document.querySelectorAll('.syllable-block');
+    /**
+     * Maneja el clic en una sílaba.
+     * @param {Event} e - El evento de clic.
+     */
+    function handleSyllableClick(e) {
+        const clickedSyllable = e.target.dataset.syllable;
+        clickedSyllables.push(clickedSyllable);
 
-        syllableBlocks.forEach(block => {
-            block.addEventListener('dragstart', (e) => {
-                e.dataTransfer.setData('text/plain', e.target.dataset.syllable);
-                e.dataTransfer.effectAllowed = 'move';
-                // Añade una clase para indicar que se está arrastrando
-                e.target.classList.add('dragging');
-            });
+        // Remover el mensaje inicial si existe
+        if (dropArea.querySelector('p')) {
+            dropArea.querySelector('p').remove();
+        }
 
-            block.addEventListener('dragend', (e) => {
-                e.target.classList.remove('dragging');
-            });
-        });
+        // Crear y añadir la sílaba al área de palabra formada (dropArea)
+        const formedSyllableDiv = document.createElement('span');
+        formedSyllableDiv.classList.add('formed-syllable'); // Usamos una nueva clase para styling
+        formedSyllableDiv.textContent = clickedSyllable;
+        dropArea.appendChild(formedSyllableDiv);
 
-        dropArea.addEventListener('dragover', (e) => {
-            e.preventDefault(); // Permite el drop
-            e.dataTransfer.dropEffect = 'move';
-            dropArea.classList.add('drag-over'); // Añade un estilo al área de drop
-        });
+        // Deshabilitar la sílaba clicada en el contenedor original
+        e.target.classList.add('clicked');
+        e.target.removeEventListener('click', handleSyllableClick);
+        
+        feedbackMessage.textContent = ''; // Limpiar feedback al seguir clicando
+    }
 
-        dropArea.addEventListener('dragleave', () => {
-            dropArea.classList.remove('drag-over');
-        });
+    /**
+     * Resetea las sílabas clicadas y las devuelve al contenedor original,
+     * y vuelve a habilitar sus listeners.
+     */
+    function resetClickedSyllables() {
+        // Mover los elementos de vuelta al contenedor de sílabas
+        // Conservamos el orden original de las sílabas para recrearlas si es necesario
+        const currentWordSyllables = words[currentWordIndex].syllables;
+        const currentSyllableBlocks = Array.from(syllablesContainer.querySelectorAll('.syllable-block.clicked'));
+        
+        // Limpiamos ambos contenedores
+        syllablesContainer.innerHTML = '';
+        dropArea.innerHTML = '<p>Arrastra las sílabas aquí para formar la palabra</p>';
+        clickedSyllables = [];
 
-        dropArea.addEventListener('drop', (e) => {
-            e.preventDefault();
-            dropArea.classList.remove('drag-over');
-
-            const data = e.dataTransfer.getData('text/plain');
-            const draggedSyllableDiv = document.querySelector(`.syllable-block[data-syllable="${data}"].dragging`);
-
-            if (draggedSyllableDiv && !droppedSyllables.includes(data)) {
-                // Elimina el mensaje inicial si existe
-                if (dropArea.querySelector('p')) {
-                    dropArea.querySelector('p').remove();
-                }
-
-                const droppedSyllableBlock = draggedSyllableDiv.cloneNode(true);
-                droppedSyllableBlock.classList.remove('dragging'); // Elimina la clase de arrastre
-                droppedSyllableBlock.classList.add('dropped'); // Añade una clase para estilos de soltado
-                droppedSyllableBlock.removeAttribute('draggable'); // Una vez soltada, no es arrastrable
-                droppedSyllableBlock.style.marginRight = '10px'; // Espacio entre sílabas
-
-                dropArea.appendChild(droppedSyllableBlock);
-                droppedSyllables.push(data); // Agrega la sílaba al array de soltadas
-
-                // Elimina la sílaba original del contenedor de sílabas
-                draggedSyllableDiv.remove();
-            }
+        // Volvemos a crear y añadir todas las sílabas (las que estaban y las que se habían 'clicado')
+        // de la palabra actual, y las mezclamos para el nuevo intento.
+        const shuffledSyllables = shuffleArray([...currentWordSyllables]);
+        shuffledSyllables.forEach(syllable => {
+            const syllableDiv = document.createElement('div');
+            syllableDiv.classList.add('syllable-block');
+            syllableDiv.textContent = syllable;
+            syllableDiv.dataset.syllable = syllable;
+            syllableDiv.addEventListener('click', handleSyllableClick);
+            syllablesContainer.appendChild(syllableDiv);
         });
     }
+
+    // 5. Asignación de Event Listeners a los botones
 
     checkWordBtn.addEventListener('click', () => {
-        const formedWord = droppedSyllables.join('');
+        // Obtener la palabra formada del contenido de dropArea (sílabas clicadas)
+        const formedWordElements = Array.from(dropArea.querySelectorAll('.formed-syllable'));
+        const formedWord = formedWordElements.map(el => el.textContent).join('');
+        
         const correctWord = words[currentWordIndex].word;
 
         if (formedWord === correctWord) {
             feedbackMessage.textContent = '¡Correcto! 🎉';
-            feedbackMessage.style.color = '#28a745';
+            feedbackMessage.style.color = '#28a745'; // Verde
             nextWordBtn.style.display = 'block'; // Mostrar botón "Siguiente"
             checkWordBtn.style.display = 'none'; // Ocultar botón "Comprobar"
-            // Deshabilitar arrastre y drop para la palabra actual si se quiere
-            const syllableBlocks = document.querySelectorAll('.syllable-block');
-            syllableBlocks.forEach(block => block.setAttribute('draggable', false));
-            dropArea.removeEventListener('dragover', () => {});
-            dropArea.removeEventListener('drop', () => {});
-
-            // Reproducir sonido de éxito (opcional)
-            // const successSound = new Audio('path/to/success.mp3');
-            // successSound.play();
+            
+            // Deshabilitar clics en sílabas una vez acertado
+            const allSyllableBlocks = syllablesContainer.querySelectorAll('.syllable-block');
+            allSyllableBlocks.forEach(block => block.removeEventListener('click', handleSyllableClick));
 
         } else {
             feedbackMessage.textContent = '¡Incorrecto! Intenta de nuevo. 🤔';
-            feedbackMessage.style.color = '#dc3545';
-            // Volver a las sílabas al contenedor original si se quiere un reset automático
-            // resetSyllables();
+            feedbackMessage.style.color = '#dc3545'; // Rojo
+            // Resetear las sílabas si es incorrecto para un nuevo intento
+            resetClickedSyllables(); 
         }
     });
 
@@ -151,6 +164,6 @@ document.addEventListener('DOMContentLoaded', () => {
         loadWord();
     });
 
-    // Cargar la primera palabra al inicio
+    // 6. Inicio del juego
     loadWord();
 });

@@ -1,0 +1,247 @@
+/* Puedes guardar esto como 'aprendeAleer.css' y enlazarlo en tu HTML
+   O puedes añadir estas reglas al final de 'estilosNuevo.css'
+   Asegúrate de que este archivo CSS se carga DESPUÉS de 'estilosNuevo.css'
+   y 'barraselectorajuegos.css' en tu HTML.
+*/
+
+/* --- Ajustes generales para el layout con header y selector fijo --- */
+
+/* Asegura que el contenido principal empiece por debajo del header (80px)
+   y de la barra selectora (60px). Total: 140px.
+   Esto debería estar en estilosNuevo.css, pero lo repito aquí para claridad. */
+@media screen and (max-width: 768px) {
+    body {
+        padding-top: 140px; /* Header (80px) + Barra selectora (60px) */
+    }
+}
+
+@media screen and (max-width: 480px) {
+    body {
+        padding-top: 140px; /* Asegúrate de que también aplique aquí */
+    }
+}
+
+/* --- Estilos para los elementos específicos del juego --- */
+
+.main-content-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    box-sizing: border-box;
+    /* Ajustar el min-height si es necesario para el scroll */
+    min-height: calc(100vh - 140px); /* Ejemplo: 100vh - altura fija superior */
+}
+
+.game-title {
+    text-align: center;
+    margin-bottom: 25px;
+    color: #333;
+    font-size: 2.2rem;
+}
+
+/* Usamos .reading-game-container que ya está en tu HTML */
+.reading-game-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    background-color: #f0f8ff; /* Azul claro */
+    border-radius: 15px;
+    padding: 30px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+    width: 90%;
+    max-width: 650px;
+    margin-top: 20px; /* Espacio debajo del título */
+}
+
+.word-display-area {
+    background-color: #ffffff;
+    border: 2px solid #a0c4ff;
+    border-radius: 10px;
+    padding: 20px 25px;
+    font-size: 2rem;
+    font-weight: bold;
+    color: #444;
+    text-align: center;
+    min-height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    box-shadow: inset 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.current-word-text {
+    letter-spacing: 3px;
+    text-transform: uppercase;
+}
+
+.syllables-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+    padding: 15px;
+    border: 1px dashed #b3e0ff;
+    border-radius: 10px;
+    background-color: #e6f7ff;
+    min-height: 100px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* .syllable-block se crea con JS */
+.syllable-block {
+    background-color: #007bff; /* Azul vibrante */
+    color: white;
+    padding: 12px 20px;
+    border-radius: 8px;
+    cursor: pointer; /* Indica que es clicable */
+    font-weight: bold;
+    font-size: 1.5rem;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    transition: background-color 0.2s ease, transform 0.1s ease;
+    user-select: none; /* Evita que el texto se seleccione */
+}
+
+.syllable-block:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px);
+}
+
+.syllable-block.clicked {
+    background-color: #28a745; /* Verde cuando ha sido clicada */
+    cursor: default;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.3);
+    pointer-events: none; /* Deshabilita clics adicionales */
+    opacity: 0.7; /* Ligeramente transparente */
+}
+
+/* Usamos #drop-area para mostrar las sílabas clicadas */
+#drop-area {
+    background-color: #ffffff;
+    border: 2px solid #a0c4ff;
+    border-radius: 10px;
+    padding: 20px;
+    min-height: 80px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    text-align: center;
+    color: #666;
+    font-style: italic;
+    width: 100%;
+    box-sizing: border-box;
+    font-size: 1.8rem;
+    font-weight: bold;
+}
+
+#drop-area p { /* Estilo para el mensaje inicial "Arrastra las sílabas..." */
+    margin: 0;
+    color: #888;
+    font-size: 1rem;
+}
+
+/* Nueva clase para las sílabas que aparecen en #drop-area después de ser clicadas */
+.formed-syllable {
+    background-color: #6c757d; /* Gris */
+    color: white;
+    padding: 8px 15px;
+    border-radius: 5px;
+    font-size: 1.3rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    margin-right: 5px;
+    display: inline-block; /* Asegura que el span se comporte como un bloque para padding/margin */
+}
+
+
+/* Estilos para los botones que ya tienes */
+.next-animal-btn { /* Clase compartida por check-word-btn y next-word-btn */
+    padding: 12px 25px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1.1rem;
+    font-weight: bold;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    margin-top: 10px; /* Espacio entre el área de sílabas y los botones */
+}
+
+.check-btn { /* Para check-word-btn */
+    background-color: #007bff; /* Azul para Comprobar */
+    color: white;
+}
+.check-btn:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px);
+}
+
+.next-btn { /* Para next-word-btn */
+    background-color: #28a745; /* Verde para Siguiente */
+    color: white;
+    display: none; /* Oculto por defecto, JS lo muestra */
+}
+.next-btn:hover {
+    background-color: #218838;
+    transform: translateY(-2px);
+}
+
+.feedback-message {
+    margin-top: 20px;
+    font-size: 1.4rem;
+    font-weight: bold;
+    text-align: center;
+    min-height: 30px;
+}
+
+/* Media Queries para responsividad (ajústalas a tus puntos de corte) */
+@media (max-width: 768px) {
+    .game-title {
+        font-size: 1.8rem;
+    }
+    .syllable-block {
+        font-size: 1.3rem;
+        padding: 10px 18px;
+    }
+    #drop-area {
+        font-size: 1.5rem;
+    }
+    .next-animal-btn {
+        padding: 10px 20px;
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .game-title {
+        font-size: 1.5rem;
+        margin-bottom: 15px;
+    }
+    .reading-game-container {
+        padding: 20px;
+        gap: 15px;
+    }
+    .syllables-container, #drop-area {
+        padding: 10px;
+    }
+    .syllable-block {
+        font-size: 1.1rem;
+        padding: 8px 15px;
+    }
+    #drop-area {
+        font-size: 1.2rem;
+    }
+    .next-animal-btn {
+        padding: 8px 15px;
+        font-size: 0.9rem;
+    }
+    /* Si tienes más de un botón, podrías apilarlos así: */
+    /* .buttons-container { flex-direction: column; gap: 10px; } */
+    .feedback-message {
+        font-size: 1.1rem;
+    }
+}
