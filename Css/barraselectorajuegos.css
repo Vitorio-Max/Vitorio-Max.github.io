@@ -150,11 +150,6 @@ main.letters-game-content {
         display: block !important; /* <-- ¡AQUÍ ESTÁ LA CLAVE! Forzar visibilidad */
     }
 
-    /* Ajuste de fuente para enlaces de juego (si .game-links-list estuviera visible) */
-    /* .game-link {
-        font-size: 0.9em;
-        padding: 6px 10px;
-    } */
 
     /* Estilos para el botón "Atrás" en tabletas/móviles */
     .back-button {
@@ -170,17 +165,15 @@ main.letters-game-content {
 /* Móviles muy pequeños (Ancho <= 480px) */
 @media screen and (max-width: 480px) {
     .game-selector-strip {
-        padding: 0.5rem 15px; /* Ajusta el padding horizontal si no lo hiciste antes */
-        
+        padding: 0.5rem 15px;        
     }
     .game-selector-nav {
-        flex-direction: row; /* Esto ya lo tienes, asegura que estén en fila */
-        width: 100%; /* Podríamos ajustarlo un poco si es necesario */
+        flex-direction: row;
+        width: 100%;
         max-width: 100%;
-        justify-content: space-between; /* ESTO DEBE CAMBIARSE A space-between si no lo hiciste ya globalmente */
+        justify-content: space-between;
         gap: 10;
         flex-wrap: nowrap;
-        /* ... otras propiedades ... */
     }
     .game-links-list {
         display: none !important;
@@ -191,7 +184,6 @@ main.letters-game-content {
         font-size: 1.1em;
         padding: 10px 15px;
     }
-
     .back-button {
         font-size: 0.9;
         width: auto;
