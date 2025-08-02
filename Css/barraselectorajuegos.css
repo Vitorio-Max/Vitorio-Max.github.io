@@ -3,7 +3,7 @@
 .game-selector-strip {
     width: 100%;
     background-color: #333;
-    padding: 15px 0;
+    padding: 15px 20px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
     position: fixed;
     top: 80px; /* Se posiciona justo debajo del header de 80px de alto */
@@ -17,13 +17,13 @@
 
 .game-selector-nav {
     width: 100%;
-    max-width: 1200px;
+    /*max-width: 1200px;*/
     list-style: none; /* Por si nav fuera un ul */
     margin: 0;
     padding: 0;
     display: flex;
     flex-wrap: wrap;
-    justify-content: center; /* Centra los elementos internos (lista/select + botón) */
+    justify-content: space-between;
     gap: 15px; /* Espacio entre los elementos (lista de enlaces / select / botón) */
     align-items: center;
 }
@@ -72,7 +72,7 @@
     display: block;
     color: #fff;
     text-decoration: none;
-    font-size: 0.5em; /* Se mantiene este tamaño base para desktop */
+    font-size: 0.8em; /* Se mantiene este tamaño base para desktop */
     font-weight: 600;
     padding: 10px 20px;
     border-radius: 5px;
@@ -169,16 +169,33 @@ main.letters-game-content {
 
 /* Móviles muy pequeños (Ancho <= 480px) */
 @media screen and (max-width: 480px) {
+    .game-selector-strip {
+        padding: 0.5rem 15px; /* Ajusta el padding horizontal si no lo hiciste antes */
+        
+    }
+    .game-selector-nav {
+        flex-direction: row; /* Esto ya lo tienes, asegura que estén en fila */
+        width: 100%; /* Podríamos ajustarlo un poco si es necesario */
+        max-width: 100%;
+        justify-content: space-between; /* ESTO DEBE CAMBIARSE A space-between si no lo hiciste ya globalmente */
+        gap: 10;
+        flex-wrap: nowrap;
+        /* ... otras propiedades ... */
+    }
+    .game-links-list {
+        display: none !important;
+    }
     .game-selector-dropdown {
-        width: 95%;
-        font-size: 1em;
-        padding: 8px 12px;
+        display: block;
+        width: 65%;
+        font-size: 1.1em;
+        padding: 10px 15px;
     }
 
     .back-button {
-        width: 95%;
+        font-size: 0.9;
+        width: auto;
         text-align: center;
         justify-content: center;
-        margin-top: 10px;
     }
 }
