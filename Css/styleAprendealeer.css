@@ -23,11 +23,11 @@
 
 /* --- Estilos para los elementos específicos del juego --- */
 
-.main-content-container {
+.main-content-containerAprendeLeer {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 20px;
+    padding: 10px 15px;
     box-sizing: border-box;
     /* Ajustar el min-height si es necesario para el scroll */
     min-height: calc(100vh - 140px); /* Ejemplo: 100vh - altura fija superior */
@@ -35,9 +35,9 @@
 
 .game-title {
     text-align: center;
-    margin-bottom: 25px;
+    margin-bottom: 5px;
     color: #333;
-    font-size: 2.2rem;
+    font-size: 1.7rem;
 }
 
 /* Usamos .reading-game-container que ya está en tu HTML */
@@ -45,61 +45,66 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 20px;
+    gap: 15px;
     background-color: #f0f8ff; /* Azul claro */
     border-radius: 15px;
-    padding: 30px;
+    padding: 20px;
     box-shadow: 0 8px 16px rgba(0,0,0,0.2);
     width: 90%;
     max-width: 650px;
-    margin-top: 20px; /* Espacio debajo del título */
+    margin-top: 20px;
+    margin-bottom: 50px;
 }
 
 .word-display-area {
     background-color: #ffffff;
     border: 2px solid #a0c4ff;
     border-radius: 10px;
-    padding: 20px 25px;
-    font-size: 2rem;
+    padding: 15px 20px;
+    font-size: 1.5rem;
     font-weight: bold;
     color: #444;
     text-align: center;
-    min-height: 60px;
+    min-height: 50px;
     display: flex;
     align-items: center;
     justify-content: center;
     width: 100%;
     box-shadow: inset 0 2px 5px rgba(0,0,0,0.05);
+    letter-spacing: 2px;
 }
 
 .current-word-text {
     letter-spacing: 3px;
     text-transform: uppercase;
+    font-size: 0.8  em;
 }
 
 .syllables-container {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 15px;
-    padding: 15px;
+    gap: 4px;
+    padding: 5px;
     border: 1px dashed #b3e0ff;
     border-radius: 10px;
     background-color: #e6f7ff;
-    min-height: 100px;
+    min-height: 60px;
     width: 100%;
     box-sizing: border-box;
+    margin-top: 8px; 
+    margin-bottom: 8px;
 }
 
 /* .syllable-block se crea con JS */
 .syllable-block {
     background-color: #007bff; /* Azul vibrante */
     color: white;
-    padding: 12px 20px;
+    padding: 8px;
     border-radius: 8px;
     cursor: pointer; /* Indica que es clicable */
     font-weight: bold;
-    font-size: 1.5rem;
+    font-size: 1.2rem;
     box-shadow: 0 4px 8px rgba(0,0,0,0.2);
     transition: background-color 0.2s ease, transform 0.1s ease;
     user-select: none; /* Evita que el texto se seleccione */
@@ -123,26 +128,28 @@
     background-color: #ffffff;
     border: 2px solid #a0c4ff;
     border-radius: 10px;
-    padding: 20px;
+    padding: 9px;
     min-height: 80px;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
-    gap: 10px;
+    gap: 5px;
     text-align: center;
     color: #666;
     font-style: italic;
     width: 100%;
     box-sizing: border-box;
-    font-size: 1.8rem;
+    font-size: 1.4rem;
     font-weight: bold;
+    margin-top: 8px; 
+    margin-bottom: 8px;
 }
 
 #drop-area p { /* Estilo para el mensaje inicial "Arrastra las sílabas..." */
     margin: 0;
     color: #888;
-    font-size: 1rem;
+    font-size: 0.9rem;
 }
 
 /* Nueva clase para las sílabas que aparecen en #drop-area después de ser clicadas */
@@ -160,11 +167,11 @@
 
 /* Estilos para los botones que ya tienes */
 .next-animal-btn { /* Clase compartida por check-word-btn y next-word-btn */
-    padding: 12px 25px;
+    padding: 8px 15px;
     border: none;
     border-radius: 8px;
     cursor: pointer;
-    font-size: 1.1rem;
+    font-size: 0.9rem;
     font-weight: bold;
     transition: background-color 0.2s ease, transform 0.1s ease;
     box-shadow: 0 4px 8px rgba(0,0,0,0.2);
@@ -191,11 +198,11 @@
 }
 
 .feedback-message {
-    margin-top: 20px;
-    font-size: 1.4rem;
+    margin-top: 10px;
+    font-size: 1.1rem;
     font-weight: bold;
     text-align: center;
-    min-height: 30px;
+    min-height: 20px;
 }
 
 /* Media Queries para responsividad (ajústalas a tus puntos de corte) */
@@ -213,6 +220,9 @@
     .next-animal-btn {
         padding: 10px 20px;
         font-size: 1rem;
+    }
+    .main-content-container {
+    padding: 10px;
     }
 }
 
@@ -243,5 +253,8 @@
     /* .buttons-container { flex-direction: column; gap: 10px; } */
     .feedback-message {
         font-size: 1.1rem;
+    }
+    .main-content-container {
+    padding: 10px;
     }
 }
