@@ -10,16 +10,16 @@ document.addEventListener("DOMContentLoaded", () => {
     // Asegúrate de que las rutas de las imágenes y los archivos de audio sean correctas.
     // Por ejemplo: si tienes una carpeta 'Imagenes/english_game/' y 'Sonidos/english_game/'
     const words = [
-        { word: "apple", image: "../Imagenes/manzana.png", sound: "../Sonidos/english_game/apple.mp3" },
-        { word: "cat", image: "../Imagenes/gato.jpeg", sound: "../Sonidos/english_game/cat.mp3" },
-        { word: "dog", image: "../Imagenes/perro.jpeg", sound: "../Sonidos/english_game/dog.mp3" },
-        { word: "ball", image: "../Imagenes/balon.png", sound: "../Sonidos/english_game/ball.mp3" },
-        { word: "car", image: "../Imagenes/coche.jpeg", sound: "../Sonidos/english_game/car.mp3" },
-        { word: "bird", image: "../Imagenes/pajaro.jpeg", sound: "../Sonidos/english_game/bird.mp3" },
-        { word: "house", image: "../Imagenes/casa.jpeg", sound: "../Sonidos/english_game/house.mp3" },
-        { word: "tree", image: "../Imagenes/arbol.jpeg", sound: "../Sonidos/english_game/tree.mp3" },
-        { word: "sun", image: "../Imagenes/sol.jpeg", sound: "../Sonidos/english_game/sun.mp3" },
-        { word: "flower", image: "../Imagenes/flor.png", sound: "../Sonidos/english_game/flower.mp3" },
+        { word: "apple", image: "../../Imagenes/manzana.png", sound: "../Sonidos/english_game/apple.mp3" },
+        { word: "cat", image: "../../Imagenes/gato.jpeg", sound: "../Sonidos/english_game/cat.mp3" },
+        { word: "dog", image: "../../Imagenes/perro.jpeg", sound: "../Sonidos/english_game/dog.mp3" },
+        { word: "ball", image: "../../Imagenes/balon.png", sound: "../Sonidos/english_game/ball.mp3" },
+        { word: "car", image: "../../Imagenes/coche.jpeg", sound: "../Sonidos/english_game/car.mp3" },
+        { word: "bird", image: "../../Imagenes/pajaro.jpeg", sound: "../Sonidos/english_game/bird.mp3" },
+        { word: "house", image: "../../Imagenes/casa.jpeg", sound: "../Sonidos/english_game/house.mp3" },
+        { word: "tree", image: "../../Imagenes/arbol.jpeg", sound: "../Sonidos/english_game/tree.mp3" },
+        { word: "sun", image: "../../Imagenes/sol.jpeg", sound: "../Sonidos/english_game/sun.mp3" },
+        { word: "flower", image: "../../Imagenes/flor.png", sound: "../Sonidos/english_game/flower.mp3" },
     ];
 
     let currentWordIndex = 0;

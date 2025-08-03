@@ -7,11 +7,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- Configuración de las Imágenes del Rompecabezas ---
     const puzzleImages = [
-        { id: 'cars', name: 'Rayo McQueen', path: 'imagenjuegos/rayo.webp' }, // ¡IMPORTANTE! Cambia esto a tus rutas
-        { id: 'carss', name: 'Mate', path: 'imagenjuegos/mate.jpg' }, // ¡IMPORTANTE! Cambia esto a tus rutas
-        { id: 'mickey', name: 'Mickey Mouse', path: 'imagenjuegos/Mickey.webp' }, // Asegúrate de tener estas imágenes
-        { id: 'elsa', name: 'Elsa (Frozen)', path: 'imagenjuegos/frozen.jpeg' }, // Y renombrarlas o ajustarlas
-        { id: 'dinosaur', name: 'Dinosaurio', path: 'imagenjuegos/trex.jpeg' }, // Ejemplo de imagen nueva
+        { id: 'cars', name: 'Rayo McQueen', path: '../../Imagenes/imagenjuegos/rayo.webp' }, // ¡IMPORTANTE! Cambia esto a tus rutas
+        { id: 'carss', name: 'Mate', path: '../../Imagenes/imagenjuegos/mate.jpg' }, // ¡IMPORTANTE! Cambia esto a tus rutas
+        { id: 'mickey', name: 'Mickey Mouse', path: '../../Imagenes/imagenjuegos/Mickey.webp' }, // Asegúrate de tener estas imágenes
+        { id: 'elsa', name: 'Elsa (Frozen)', path: '../../Imagenes/imagenjuegos/frozen.jpeg' }, // Y renombrarlas o ajustarlas
+        { id: 'dinosaur', name: 'Dinosaurio', path: '../../Imagenes/imagenjuegos/trex.jpeg' }, // Ejemplo de imagen nueva
         // ¡Añade más objetos aquí para cada imagen de rompecabezas que quieras!
         // Asegúrate de que las imágenes sean cuadradas o las piezas se distorsionarán.
     ];
