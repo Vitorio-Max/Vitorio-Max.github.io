@@ -231,7 +231,7 @@ header {
     display: flex;
     flex-wrap: wrap; /* Permite que las tarjetas se envuelvan a la siguiente línea */
     justify-content: center; /* Centra las tarjetas horizontalmente */
-    gap: 1rem; /* Aumentamos el espacio para un aspecto más abierto y menos saturado */
+    gap: 2rem; /* Aumentamos el espacio para un aspecto más abierto y menos saturado */
     padding: 1rem; /* Más espaciado general para "respirar" */
     width: 100%;
     max-width: 3000px; /* Un poco más de ancho máximo para el contenedor */
@@ -244,6 +244,7 @@ header {
     border-radius: 2rem; /* Bordes aún más redondeados para un aspecto más amigable y de juego */
     box-shadow: 0 18px 30px -8px rgba(0, 0, 0, 0.25), 0 6px 10px -3px rgba(0, 0, 0, 0.1); /* Sombra más pronunciada y juguetona */
     width: 200px; /* Mantener un ancho manejable para móviles y tabletas */
+    height: 200px;
     overflow: hidden; /* Asegura que la imagen no se desborde */
     transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), background-color 0.3s ease; /* Transición más suave y añadir background */
     cursor: pointer;
@@ -294,7 +295,8 @@ header {
     flex-direction: column;
     gap: 0.2rem; /* Más espacio entre los elementos del contenido */
     flex-grow: 1; /* Permite que el contenido ocupe el espacio disponible */
-    justify-content: space-between; /* Empuja el botón hacia abajo si el contenido varía en altura */
+    justify-content: flex-start; /* Empuja el botón hacia abajo si el contenido varía en altura */
+    
 }
 
 .card .contenido h3 {
@@ -333,6 +335,22 @@ header {
     background-color: #E63946; /* Rojo más oscuro al pasar el ratón */
     transform: translateY(-3px) scale(1.02); /* Ligerísimo salto y escala al pasar el ratón */
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25); /* Sombra más fuerte al pasar el ratón */
+}
+
+.card-link {
+    text-decoration: none; /* Elimina el subrayado por defecto de los enlaces */
+    color: inherit; /* Hereda el color de texto de sus hijos (para evitar que todo el texto se ponga azul) */
+    display: block; /* Asegura que el enlace ocupe todo el espacio de la tarjeta */
+    /* No es necesario aplicar aquí el width, margin, padding, etc., ya que la clase .card los gestiona */
+}
+
+/* Opcional: Si necesitas que los efectos de hover se apliquen directamente al .card-link, puedes copiarlos o moverlos */
+.card-link:hover .card {
+    /* Aquí podrías replicar o ajustar los efectos de hover que ya tienes en .card:hover */
+    transform: translateY(-6px) scale(1.03);
+    box-shadow: 0 25px 45px -10px rgba(0, 0, 0, 0.4), 0 8px 12px -4px rgba(0, 0, 0, 0.2);
+    background-color: #FFFCE0;
+    border-color: #FFD700;
 }
 
 
@@ -628,7 +646,7 @@ header {
     }
 
     body {
-        padding-top: 150px; /* El padding superior sigue siendo el mismo para el header fijo */
+        padding-top: 120px; /* El padding superior sigue siendo el mismo para el header fijo */
     }
 
     /* Mostrar los botones de abrir/cerrar menú */
@@ -858,7 +876,10 @@ header {
     /* --- Contenedor principal para las TARJETAS de juego (Cuentos, Juegos, etc.) --- */
     
     .container { gap: 0.6rem; padding: 0.6rem 0.2rem; }
-    .card { width: 140px; border-radius: 0.8rem; }
+    .card { 
+        width: 140px;
+        height: 180px;
+        border-radius: 0.8rem; }
     .card figure { height: 80px; }
     .card .contenido { padding: 0.5rem; gap: 0.3rem; }
     .card .contenido h3 { font-size: 1rem; }
@@ -872,7 +893,7 @@ header {
 /* Para pantallas aún más pequeñas (ej: móviles muy pequeños) */
 @media screen and (max-width: 480px) {
     body {
-        padding-top: 150px; /* El padding superior sigue siendo el mismo para el header fijo */
+        padding-top: 100px; /* El padding superior sigue siendo el mismo para el header fijo */
     }
     header {
         padding: 0 15px;
@@ -966,12 +987,15 @@ header {
     /* --- Contenedor principal para las TARJETAS de juego (Cuentos, Juegos, etc.) --- */
 
     .container { gap: 0.5rem; padding: 0.5rem 0.1rem; }
-    .card { width: 100px; border-radius: 0.6rem; }
+    .card {
+        width: 100px;
+        height: 130px;
+        border-radius: 0.6rem; }
     .card figure { height: 60px; }
     .card .contenido { padding: 0.4rem; gap: 0.2rem; }
-    .card .contenido h3 { font-size: 0.8rem; }
-    .card .contenido p { font-size: 0.55rem; line-height: 1.1; }
-    .card .contenido a { padding: 0.2rem 0.5rem; font-size: 0.6rem; margin-top: 0.5rem; }
+    .card .contenido h3 { font-size: 0.7rem; }
+    .card .contenido p { font-size: 0.5rem; line-height: 1.1; }
+    .card .contenido a { padding: 0.2rem 0.9rem; font-size: 0.5rem; margin-top: 0.9rem; }
     
     /*----FIN---TARJETAS-----*/
 

@@ -3,7 +3,22 @@
    Asegúrate de que este archivo CSS se carga DESPUÉS de 'estilosNuevo.css'
    y 'barraselectorajuegos.css' en tu HTML.
 */
-
+.main-content-containerAprendeLeer {
+    background-color: rgba(255, 255, 255, 0.95); /* Fondo blanco semitransparente */
+    border-radius: 25px; /* Bordes redondeados */
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2); /* Sombra para profundidad */
+    padding: 0.5rem; /* Espaciado interno generoso */
+    width: 90%; /* Ancho responsivo */
+    max-width: 800px; /* Ancho máximo en pantallas grandes */
+    margin-top: 5rem; /* Espacio superior para separar de la barra de juegos */
+    margin-bottom: 0.5rem; /* Espacio inferior */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    animation: fadeInScale 0.7s ease-out forwards; /* Animación de entrada */
+}
 /* --- Ajustes generales para el layout con header y selector fijo --- */
 
 /* Asegura que el contenido principal empiece por debajo del header (80px)
@@ -23,15 +38,7 @@
 
 /* --- Estilos para los elementos específicos del juego --- */
 
-.main-content-containerAprendeLeer {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 10px 15px;
-    box-sizing: border-box;
-    /* Ajustar el min-height si es necesario para el scroll */
-    min-height: calc(100vh - 140px); /* Ejemplo: 100vh - altura fija superior */
-}
+
 
 .game-title {
     text-align: center;
@@ -45,7 +52,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 15px;
+    gap: 10px;
     background-color: #f0f8ff; /* Azul claro */
     border-radius: 15px;
     padding: 20px;
@@ -61,7 +68,7 @@
     border: 2px solid #a0c4ff;
     border-radius: 10px;
     padding: 15px 20px;
-    font-size: 1.5rem;
+    font-size: 1.0rem;
     font-weight: bold;
     color: #444;
     text-align: center;
