@@ -1,4 +1,4 @@
-// --- englishGame.js ---
+// --- ingles.js ---
 
 document.addEventListener("DOMContentLoaded", () => {
     const englishImage = document.getElementById('english-image');
@@ -7,23 +7,22 @@ document.addEventListener("DOMContentLoaded", () => {
     const nextWordBtn = document.getElementById('next-word-btn');
 
     // Array de palabras para el juego.
-    // Asegúrate de que las rutas de las imágenes y los archivos de audio sean correctas.
-    // Por ejemplo: si tienes una carpeta 'Imagenes/english_game/' y 'Sonidos/english_game/'
     const words = [
-        { word: "apple", image: "../../Imagenes/manzana.png", sound: "../Sonidos/english_game/apple.mp3" },
-        { word: "cat", image: "../../Imagenes/gato.jpeg", sound: "../Sonidos/english_game/cat.mp3" },
-        { word: "dog", image: "../../Imagenes/perro.jpeg", sound: "../Sonidos/english_game/dog.mp3" },
-        { word: "ball", image: "../../Imagenes/balon.png", sound: "../Sonidos/english_game/ball.mp3" },
-        { word: "car", image: "../../Imagenes/coche.jpeg", sound: "../Sonidos/english_game/car.mp3" },
-        { word: "bird", image: "../../Imagenes/pajaro.jpeg", sound: "../Sonidos/english_game/bird.mp3" },
-        { word: "house", image: "../../Imagenes/casa.jpeg", sound: "../Sonidos/english_game/house.mp3" },
-        { word: "tree", image: "../../Imagenes/arbol.jpeg", sound: "../Sonidos/english_game/tree.mp3" },
-        { word: "sun", image: "../../Imagenes/sol.jpeg", sound: "../Sonidos/english_game/sun.mp3" },
-        { word: "flower", image: "../../Imagenes/flor.png", sound: "../Sonidos/english_game/flower.mp3" },
+        { word: "apple", image: "../../Imagenes/manzana.png" },
+        { word: "cat", image: "../../Imagenes/gato.jpeg" },
+        { word: "dog", image: "../../Imagenes/perro.jpeg" },
+        { word: "ball", image: "../../Imagenes/balon.png" },
+        { word: "car", image: "../../Imagenes/coche.jpeg" },
+        { word: "bird", image: "../../Imagenes/pajaro.jpeg" },
+        { word: "house", image: "../../Imagenes/casa.jpeg" },
+        { word: "tree", image: "../../Imagenes/arbol.jpeg" },
+        { word: "sun", image: "../../Imagenes/sol.jpeg" },
+        { word: "flower", image: "../../Imagenes/flor.png" },
     ];
 
     let currentWordIndex = 0;
-    let audio = new Audio(); // Crea un objeto de audio global
+
+    // NO NECESITAS LA LÍNEA: let audio = new Audio(); // ¡Elimina esta línea!
 
     // Función para mezclar el array de palabras
     function shuffleArray(array) {
@@ -48,13 +47,55 @@ document.addEventListener("DOMContentLoaded", () => {
         englishImage.alt = currentItem.word;
         englishWord.textContent = currentItem.word;
 
-        // Carga el sonido para la palabra actual
-        audio.src = currentItem.sound;
+        // **NUEVO**: Reproducir la palabra automáticamente al mostrarla (opcional)
+        // speakWord(currentItem.word);
+    }
+
+    // Función para reproducir la palabra usando Web Speech API
+    function speakWord(text) {
+        if ('speechSynthesis' in window) { // Verifica si la API es soportada por el navegador
+            const utterance = new SpeechSynthesisUtterance(text);
+
+            // Opcional: Configurar la voz. Necesitarás cargar las voces disponibles primero.
+            // Es preferible esperar al evento 'voiceschanged' para obtener las voces.
+            const voices = window.speechSynthesis.getVoices();
+            const englishVoice = voices.find(voice => 
+                voice.lang === 'en-US' || voice.lang === 'en-GB' || voice.lang.startsWith('en-')
+            );
+            if (englishVoice) {
+                utterance.voice = englishVoice;
+            } else {
+                // Si no se encuentra una voz en inglés específica, el navegador usará la voz por defecto.
+                // Podrías establecer una voz por defecto genérica si sabes su nombre, ej:
+                // utterance.voice = voices.find(voice => voice.name === 'Google US English');
+            }
+            
+            utterance.lang = 'en-US'; // Asegura que se intente usar una voz en inglés
+            utterance.pitch = 1;     // Tono de voz (0 a 2)
+            utterance.rate = 1;      // Velocidad de habla (0.1 a 10)
+            utterance.volume = 1;    // Volumen (0 a 1)
+
+            // Deshabilitar el botón mientras se habla para evitar superposiciones
+            playSoundBtn.disabled = true;
+            utterance.onend = () => {
+                playSoundBtn.disabled = false; // Habilitar el botón cuando termine de hablar
+            };
+            utterance.onerror = (event) => {
+                console.error('Error en la síntesis de voz:', event);
+                playSoundBtn.disabled = false; // Habilitar el botón en caso de error
+            };
+
+            window.speechSynthesis.speak(utterance);
+        } else {
+            console.warn("Tu navegador no soporta la API de Síntesis de Voz.");
+            playSoundBtn.disabled = false; // Asegurarse de habilitar el botón si la API no está disponible
+        }
     }
 
     // Event listener para el botón "Escuchar"
     playSoundBtn.addEventListener('click', () => {
-        audio.play().catch(error => console.error("Error al reproducir el audio:", error));
+        const currentItem = words[currentWordIndex];
+        speakWord(currentItem.word); // Llama a la nueva función para hablar
     });
 
     // Event listener para el botón "Siguiente"
@@ -65,5 +106,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Inicializar el juego
     shuffleArray(words); // Mezcla las palabras al inicio
-    displayWord(); // Muestra la primera palabra
+
+    // **IMPORTANTE**: La lista de voces puede tardar un poco en cargarse.
+    // Es buena práctica esperar al evento 'voiceschanged'
+    window.speechSynthesis.onvoiceschanged = () => {
+        displayWord(); // Muestra la primera palabra después de que las voces estén cargadas
+    };
+
+    // Si las voces ya están cargadas (ej. recarga rápida), o si el evento no se dispara
+    if (window.speechSynthesis.getVoices().length > 0) {
+        displayWord();
+    }
 });

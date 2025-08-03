@@ -1,35 +1,60 @@
+body{
+    padding-top: 140px;
+}
+
+.main-content-containerPuzzle{
+    padding: 15px; /* Reducido para menos espacio interno */
+    max-width: 600px; /* <--- Más reducido aún el ancho máximo de la "tarjeta" */
+    margin: 15px auto; /* Reducido el margen vertical */
+    gap: 10px; /* <--- Más reducido el espacio general entre elementos hijos */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.game-titlePuzzle{
+    font-size: 1.8em; /* <--- Reducido el tamaño del título */
+    margin-bottom: 8px; /* Reducido el margen inferior del título */
+}
+.next-puzzle-btn{
+    padding: 0.8rem 1.8rem; /* <--- Reducido el padding interno del botón */
+    font-size: 1em; /* <--- Reducido el tamaño de la fuente del botón */
+}
+.puzzle-select{
+
+}
 /* --- Estilos para el nuevo juego "Rompecabezas" --- */
 .puzzle-controls {
     display: flex;
-    gap: 1rem;
-    margin-bottom: 2rem;
-    flex-wrap: wrap; /* Para que los botones se ajusten en pantallas pequeñas */
+    gap: 0.5rem; /* <--- Mucho menos espacio entre los elementos de control */
+    margin-bottom: 1rem; /* <--- Menos espacio entre los controles y el rompecabezas */
+    flex-wrap: wrap;
     justify-content: center;
+    align-items: center;
 }
 
 .puzzle-grid-container {
     display: grid;
-    /* Las columnas se definirán en JavaScript para adaptarse al número de piezas */
-    gap: 5px; /* Pequeño espacio entre las piezas */
-    width: 600px; /* Ancho total del rompecabezas (ajusta según el tamaño de tu imagen original) */
-    height: 600px; /* Alto total (debe coincidir con el ancho para una imagen cuadrada) */
+    gap: 3px; /* <--- Aún menos espacio entre las piezas */
+    width: 400px; /* <--- Aún más reducido el ancho total del rompecabezas */
+    height: 350px; /* <--- Aún más reducido el alto total */
     border: 5px solid #4f46e5;
     border-radius: 1rem;
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-    background-color: #cbd5e1; /* Un fondo gris claro para el contenedor vacío */
-    margin-bottom: 2rem;
-    overflow: hidden; /* Asegura que las piezas no se salgan */
+    background-color: #cbd5e1;
+    margin-bottom: 0.5rem; /* <--- Menos espacio debajo del rompecabezas */
+    overflow: hidden;
 }
 
 .puzzle-piece {
-    width: 100%; /* Las piezas llenarán su espacio en la cuadrícula */
+    width: 100%;
     height: 100%;
-    background-size: 600px 600px; /* Tamaño de la imagen original del rompecabezas */
-    border: 1px solid rgba(0, 0, 0, 0.1); /* Borde sutil para las piezas */
+    /* ¡IMPORTANTE! Ajustar background-size al nuevo tamaño del contenedor padre (puzzle-grid-container) */
+    background-size: 450px 450px; /* <--- AJUSTADO al nuevo width/height del contenedor */
+    border: 1px solid rgba(0, 0, 0, 0.1);
     cursor: pointer;
-    transition: transform 0.1s ease-out; /* Transición para el arrastre/soltar */
-    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.1); /* Sombra interna para dar volumen */
-    outline: none; /* Quita el contorno al enfocar */
+    transition: transform 0.1s ease-out;
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.1);
+    outline: none;
 }
 
 /* Estilo para la pieza arrastrada */
@@ -76,9 +101,9 @@
 /* Media queries para responsividad */
 @media (max-width: 768px) {
     .puzzle-grid-container {
-        width: 300px; /* Más pequeño en móviles */
-        height: 300px;
-        background-size: 300px 300px; /* Ajusta el background-size al nuevo tamaño */
+        width: 280px; /* <--- AJUSTADO: Rompecabezas más pequeño en móviles */
+        height: 280px; /* <--- AJUSTADO: Alto también reducido */
+        background-size: 280px 280px; /* <--- AJUSTADO: background-size al nuevo tamaño */
         gap: 2px;
     }
     .puzzle-piece {
@@ -88,6 +113,14 @@
         font-size: 1.8rem;
     }
 }/* Estilo para el selector de imágenes */
+
+.main-content-containerPuzzle{
+    padding: 15px; /* Menos padding en móvil */
+        max-width: 95%; /* Ocupar más ancho en pantallas pequeñas */
+        margin: 10px auto; /* Reducir márgenes externos */
+        gap: 10px; /* Reducir espacio entre elementos */
+}
+
 .puzzle-select {
     padding: 0.75rem 1.5rem;
     font-size: 1.25rem;
