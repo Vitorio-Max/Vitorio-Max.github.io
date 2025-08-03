@@ -646,7 +646,7 @@ header {
     }
 
     body {
-        padding-top: 120px; /* El padding superior sigue siendo el mismo para el header fijo */
+        padding-top: 150px; /* El padding superior sigue siendo el mismo para el header fijo */
     }
 
     /* Mostrar los botones de abrir/cerrar menú */
@@ -810,7 +810,7 @@ header {
     /*-----JUEGO NUMEROS-----*/
 
     .main-content-container {
-        padding: 2rem 1rem;
+        padding: 5rem 1rem;
         width: 95%;
         margin-top: 0.5rem;
     }
@@ -893,7 +893,7 @@ header {
 /* Para pantallas aún más pequeñas (ej: móviles muy pequeños) */
 @media screen and (max-width: 480px) {
     body {
-        padding-top: 100px; /* El padding superior sigue siendo el mismo para el header fijo */
+        padding-top: 150px; /* El padding superior sigue siendo el mismo para el header fijo */
     }
     header {
         padding: 0 15px;
@@ -903,8 +903,8 @@ header {
         width: 80%;
     }
     .navbar-logo {
-    height: 100%; /* La imagen ocupará el 100% de la altura del enlace (y por ende, del navbar) */
-    max-width: 120px; /* Limita el ancho máximo para que no sea demasiado grande */
+        height: 100%; /* La imagen ocupará el 100% de la altura del enlace (y por ende, del navbar) */
+        max-width: 120px; /* Limita el ancho máximo para que no sea demasiado grande */
     
     }
     .nav-link {
@@ -986,7 +986,9 @@ header {
 
     /* --- Contenedor principal para las TARJETAS de juego (Cuentos, Juegos, etc.) --- */
 
-    .container { gap: 0.5rem; padding: 0.5rem 0.1rem; }
+    .container {
+        gap: 0.5rem;
+        padding: 0rem 0.1rem; }
     .card {
         width: 100px;
         height: 130px;

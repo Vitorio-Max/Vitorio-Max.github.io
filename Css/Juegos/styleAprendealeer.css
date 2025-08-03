@@ -26,13 +26,13 @@
    Esto debería estar en estilosNuevo.css, pero lo repito aquí para claridad. */
 @media screen and (max-width: 768px) {
     body {
-        padding-top: 140px; /* Header (80px) + Barra selectora (60px) */
+        padding-top: 80px; /* Header (80px) + Barra selectora (60px) */
     }
 }
 
 @media screen and (max-width: 480px) {
     body {
-        padding-top: 140px; /* Asegúrate de que también aplique aquí */
+        padding-top: 80px; /* Asegúrate de que también aplique aquí */
     }
 }
 
@@ -229,7 +229,10 @@
         font-size: 1rem;
     }
     .main-content-container {
-    padding: 10px;
+        padding: 10px;
+    }
+    .main-content-containerAprendeLeer{
+        padding-top: 140px;
     }
 }
 
@@ -262,6 +265,7 @@
         font-size: 1.1rem;
     }
     .main-content-container {
-    padding: 10px;
+        padding: 10px;
     }
+    
 }
