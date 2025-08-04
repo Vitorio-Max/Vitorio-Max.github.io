@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     // Array de datos para los personajes, con su nombre y URL de imagen
     const characterData = [
-        { name: 'Mickey Mouse', image: 'https://upload.wikimedia.org/wikipedia/en/d/d4/Mickey_Mouse.png', frontText: '¿Quién es?' },
+        { name: 'Mickey Mouse', image: '../../Imagenes/imagenjuegos/Mickey.webp', frontText: '¿Quién es?' },
         { name: 'Minnie Mouse', image: 'https://upload.wikimedia.org/wikipedia/en/4/4e/Minnie_Mouse.png', frontText: '¿Quién es?' },
         { name: 'Pato Donald', image: 'https://upload.wikimedia.org/wikipedia/en/e/ee/Donald_Duck_-_Disney.png', frontText: '¿Quién es?' },
         { name: 'Goofy', image: 'https://upload.wikimedia.org/wikipedia/en/a/a6/Goofy.png', frontText: '¿Quién es?' },
