@@ -1,56 +1,103 @@
-body{
-    padding-top: 140px;
+/*
+ * Archivo CSS para el juego de Rompecabezas.
+ * Este código unifica y corrige los estilos para
+ * asegurar un diseño compacto, sin scroll y
+ * completamente responsivo.
+ */
+
+body {
+    padding-top: 140px; /* Reducido para evitar el scroll, ajusta este valor si es necesario */
 }
 
-.main-content-containerPuzzle{
-    padding: 15px; /* Reducido para menos espacio interno */
-    max-width: 600px; /* <--- Más reducido aún el ancho máximo de la "tarjeta" */
-    margin: 15px auto; /* Reducido el margen vertical */
-    gap: 10px; /* <--- Más reducido el espacio general entre elementos hijos */
+/* Contenedor principal del juego */
+.main-content-containerPuzzle {
+    padding: 3px; /* Reducido al mínimo */
+    max-width: 600px;
+    margin: 3px auto; /* Reducido el margen vertical */
+    gap: 3px; /* Reducido el espacio entre elementos */
     display: flex;
     flex-direction: column;
     align-items: center;
 }
-.game-titlePuzzle{
-    font-size: 1.8em; /* <--- Reducido el tamaño del título */
-    margin-bottom: 8px; /* Reducido el margen inferior del título */
-}
-.next-puzzle-btn{
-    padding: 0.8rem 1.8rem; /* <--- Reducido el padding interno del botón */
-    font-size: 1em; /* <--- Reducido el tamaño de la fuente del botón */
-}
-.puzzle-select{
 
+/* Título del juego */
+.game-titlePuzzle {
+    font-size: 1.5em;
+    margin-bottom: 2px; /* Reducido el margen inferior */
 }
-/* --- Estilos para el nuevo juego "Rompecabezas" --- */
+
+/* Controles del juego (botones y selector) */
 .puzzle-controls {
     display: flex;
-    gap: 0.5rem; /* <--- Mucho menos espacio entre los elementos de control */
-    margin-bottom: 1rem; /* <--- Menos espacio entre los controles y el rompecabezas */
+    gap: 0.3rem; /* Reducido al mínimo */
+    margin-bottom: 0.3rem; /* Reducido al mínimo */
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
 }
 
+/* Estilos mejorados para los botones y el selector */
+.next-puzzle-btn,
+.puzzle-select {
+    padding: 0.7rem 1.8rem; /* Ligeramente más pequeños */
+    font-size: 0.9em;
+    font-weight: 700;
+    color: #fff;
+    background-color: #4f46e5;
+    background-image: linear-gradient(135deg, #6366f1, #4f46e5);
+    border: none;
+    border-radius: 9999px;
+    cursor: pointer;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    transition: all 0.3s ease;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.next-puzzle-btn:hover,
+.puzzle-select:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.next-puzzle-btn:active,
+.puzzle-select:active {
+    transform: translateY(0);
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Estilo específico para el selector de imágenes */
+.puzzle-select {
+    appearance: none; /* Elimina estilos por defecto del navegador */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23ffffff%22%20d%3D%22M287%2069.9H5.4c-6.1%200-9.2%207.3-5.1%2011.1L141.2%20227.4c3.9%203.9%2010.2%203.9%2014.1%200L292.1%2081.1c4.1-3.8%201.1-11.2-5.1-11.2z%22%2F%3E%3C%2Fsvg%3E');
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    background-size: 1.25rem;
+    padding-right: 3rem; /* Espacio extra para la flecha */
+}
+
+/* Contenedor de la cuadrícula del rompecabezas */
 .puzzle-grid-container {
     display: grid;
-    gap: 3px; /* <--- Aún menos espacio entre las piezas */
-    width: 400px; /* <--- Aún más reducido el ancho total del rompecabezas */
-    height: 350px; /* <--- Aún más reducido el alto total */
+    gap: 2px;
+    width: 550px; /* Reducido a un tamaño más seguro */
+    height: 450px; /* Reducido a un tamaño más seguro */
     border: 5px solid #4f46e5;
     border-radius: 1rem;
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
     background-color: #cbd5e1;
-    margin-bottom: 0.5rem; /* <--- Menos espacio debajo del rompecabezas */
+    margin-bottom: 0.3rem;
     overflow: hidden;
 }
 
+/* Pieza individual del rompecabezas */
 .puzzle-piece {
     width: 100%;
     height: 100%;
-    /* ¡IMPORTANTE! Ajustar background-size al nuevo tamaño del contenedor padre (puzzle-grid-container) */
-    background-size: 450px 450px; /* <--- AJUSTADO al nuevo width/height del contenedor */
-    border: 1px solid rgba(0, 0, 0, 0.1);
+    /* El background-size debe coincidir con el tamaño del contenedor */
+    background-size: 550px 450px;
+    border: 0.5px solid rgba(0, 0, 0, 0.1);
     cursor: pointer;
     transition: transform 0.1s ease-out;
     box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.1);
@@ -62,18 +109,19 @@ body{
     opacity: 0.7;
     border: 2px solid #22c55e;
     box-shadow: 0 0 15px rgba(34, 197, 94, 0.7);
-    transform: scale(1.02); /* Ligeramente más grande al arrastrar */
-    z-index: 500; /* Asegura que esté por encima de otras piezas */
+    transform: scale(1.02);
+    z-index: 500;
 }
 
 /* Estilo para el área donde se puede soltar una pieza */
 .drop-target {
-    border: 2px dashed #4f46e5; /* Borde punteado para indicar zona de soltar */
+    border: 2px dashed #4f46e5;
     background-color: rgba(79, 70, 229, 0.1);
 }
 
+/* Mensaje de victoria */
 .puzzle-message {
-    font-size: 2.5rem;
+    font-size: 2rem;
     font-weight: 800;
     color: #22c55e;
     text-align: center;
@@ -82,89 +130,72 @@ body{
 }
 
 @keyframes bounceIn {
-    0% {
-        transform: scale(0.3);
-        opacity: 0;
-    }
-    50% {
-        transform: scale(1.05);
-        opacity: 1;
-    }
-    70% {
-        transform: scale(0.9);
-    }
-    100% {
-        transform: scale(1);
-    }
+    0% { transform: scale(0.3); opacity: 0; }
+    50% { transform: scale(1.05); opacity: 1; }
+    70% { transform: scale(0.9); }
+    100% { transform: scale(1); }
 }
 
 /* Media queries para responsividad */
 @media (max-width: 768px) {
+    .main-content-containerPuzzle {
+        padding: 5px;
+        max-width: 95%;
+        margin: 5px auto;
+        gap: 5px;
+    }
     .puzzle-grid-container {
-        width: 280px; /* <--- AJUSTADO: Rompecabezas más pequeño en móviles */
-        height: 280px; /* <--- AJUSTADO: Alto también reducido */
-        background-size: 280px 280px; /* <--- AJUSTADO: background-size al nuevo tamaño */
+        width: 320px;
+        height: 320px;
+        background-size: 320px 320px;
         gap: 2px;
     }
     .puzzle-piece {
         border: 0.5px solid rgba(0, 0, 0, 0.1);
+        background-size: 320px 320px;
     }
-    .puzzle-message {
-        font-size: 1.8rem;
-    }
-}/* Estilo para el selector de imágenes */
-
-.main-content-containerPuzzle{
-    padding: 15px; /* Menos padding en móvil */
-        max-width: 95%; /* Ocupar más ancho en pantallas pequeñas */
-        margin: 10px auto; /* Reducir márgenes externos */
-        gap: 10px; /* Reducir espacio entre elementos */
-}
-
-.puzzle-select {
-    padding: 0.75rem 1.5rem;
-    font-size: 1.25rem;
-    border-radius: 9999px; /* Bordes muy redondeados */
-    border: 2px solid #4f46e5; /* Borde del color de tu navbar */
-    background-color: #ffffff;
-    color: #1d4ed8;
-    font-weight: 700;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-    cursor: pointer;
-    transition: all 0.3s ease-in-out;
-    appearance: none; /* Elimina estilos por defecto del navegador */
-    background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%234f46e5%22%20d%3D%22M287%2069.9H5.4c-6.1%200-9.2%207.3-5.1%2011.1L141.2%20227.4c3.9%203.9%2010.2%203.9%2014.1%200L292.1%2081.1c4.1-3.8%201.1-11.2-5.1-11.2z%22%2F%3E%3C%2Fsvg%3E'); /* Flecha hacia abajo personalizada */
-    background-repeat: no-repeat;
-    background-position: right 1rem center;
-    background-size: 1.25rem;
-}
-
-.puzzle-select:hover {
-    border-color: #1d4ed8;
-    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
-}
-
-.puzzle-select:focus {
-    outline: none;
-    box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.4);
-}
-
-/* Ajuste para el flexbox de los controles */
-.puzzle-controls {
-    display: flex;
-    gap: 1.5rem; /* Aumenta el espacio entre elementos */
-    margin-bottom: 2rem;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center; /* Alinea los elementos verticalmente */
-}
-
-/* Media query para el selector en móviles */
-@media (max-width: 768px) {
     .puzzle-select {
         font-size: 1rem;
         padding: 0.5rem 1rem;
         background-position: right 0.75rem center;
         background-size: 1rem;
+    }
+    .puzzle-message {
+        font-size: 1.8rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .main-content-containerPuzzle {
+        padding: 3px;
+        max-width: 100%;
+        margin: 3px auto;
+        gap: 3px;
+    }
+    .puzzle-grid-container {
+        width: 280px;
+        height: 280px;
+        background-size: 280px 280px;
+        gap: 1px;
+    }
+    .puzzle-piece {
+        border: 0.5px solid rgba(0, 0, 0, 0.1);
+        background-size: 280px 280px;
+    }
+    .puzzle-controls {
+        gap: 0.3rem;
+    }
+    .next-puzzle-btn,
+    .puzzle-select {
+        font-size: 0.75em;
+        padding: 0.6rem 1.5rem;
+    }
+    .puzzle-select {
+        background-position: right 0.6rem center;
+        background-size: 1rem;
+        padding-right: 2.5rem;
+    }
+    .puzzle-message {
+        font-size: 1.5rem;
     }
 }

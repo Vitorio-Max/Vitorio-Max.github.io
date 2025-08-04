@@ -10,8 +10,9 @@ document.addEventListener('DOMContentLoaded', () => {
         { id: 'cars', name: 'Rayo McQueen', path: '../../Imagenes/imagenjuegos/rayo.webp' }, // ¡IMPORTANTE! Cambia esto a tus rutas
         { id: 'carss', name: 'Mate', path: '../../Imagenes/imagenjuegos/mate.jpg' }, // ¡IMPORTANTE! Cambia esto a tus rutas
         { id: 'mickey', name: 'Mickey Mouse', path: '../../Imagenes/imagenjuegos/Mickey.webp' }, // Asegúrate de tener estas imágenes
-        { id: 'elsa', name: 'Elsa (Frozen)', path: '../../Imagenes/imagenjuegos/frozen.jpeg' }, // Y renombrarlas o ajustarlas
+        { id: 'elsa', name: 'Olaf', path: '../../Imagenes/imagenjuegos/olaf.jpeg' }, // Y renombrarlas o ajustarlas
         { id: 'dinosaur', name: 'Dinosaurio', path: '../../Imagenes/imagenjuegos/trex.jpeg' }, // Ejemplo de imagen nueva
+        { id: 'poweranger', name: 'Power Rangers', path: '../../Imagenes/imagenjuegos/powerrangers.jpeg' }, // Ejemplo de imagen nueva
         // ¡Añade más objetos aquí para cada imagen de rompecabezas que quieras!
         // Asegúrate de que las imágenes sean cuadradas o las piezas se distorsionarán.
     ];
@@ -19,8 +20,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const NUM_COLS = 3; // Número de columnas (ej. 3 para 3x3)
     const NUM_ROWS = 3; // Número de filas (ej. 3 para 3x3)
     const NUM_PIECES = NUM_COLS * NUM_ROWS;
-    const PUZZLE_WIDTH = 600; // Ancho del rompecabezas en px (debe coincidir con CSS)
-    const PUZZLE_HEIGHT = 600; // Alto del rompecabezas en px (debe coincidir con CSS)
+    const PUZZLE_WIDTH = 550; // Ancho del rompecabezas en px (debe coincidir con CSS)
+    const PUZZLE_HEIGHT = 450; // Alto del rompecabezas en px (debe coincidir con CSS)
 
     let pieces = []; // Array para almacenar las piezas del rompecabezas
     let currentDragPiece = null; // Pieza que se está arrastrando

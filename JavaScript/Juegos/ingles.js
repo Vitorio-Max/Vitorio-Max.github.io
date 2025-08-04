@@ -18,6 +18,10 @@ document.addEventListener("DOMContentLoaded", () => {
         { word: "tree", image: "../../Imagenes/arbol.jpeg" },
         { word: "sun", image: "../../Imagenes/sol.jpeg" },
         { word: "flower", image: "../../Imagenes/flor.png" },
+        { word: "orange", image: "../../Imagenes/naranja.jpeg" },
+        { word: "Elephant", image: "../../Imagenes/elefante.jpeg" },
+        { word: "Ears", image: "../../Imagenes/oreja.jpeg" },
+        { word: "Eyes", image: "../../Imagenes/imagenjuegos/ojo.png" },
     ];
 
     let currentWordIndex = 0;

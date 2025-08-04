@@ -1,14 +1,14 @@
 document.addEventListener('DOMContentLoaded', () => {
     // Array de datos de animales: nombre y URL de la imagen
     const animals = [
-        { name: 'León', image: 'https://placehold.co/300x300/F0B90B/FFFFFF?text=León' }, // Lion
-        { name: 'Elefante', image: 'https://placehold.co/300x300/8B4513/FFFFFF?text=Elefante' }, // Elephant
-        { name: 'Mono', image: 'https://placehold.co/300x300/A0522D/FFFFFF?text=Mono' }, // Monkey
-        { name: 'Cebra', image: 'https://placehold.co/300x300/000000/FFFFFF?text=Cebra' }, // Zebra
-        { name: 'Jirafa', image: 'https://placehold.co/300x300/FFD700/000000?text=Jirafa' }, // Giraffe
-        { name: 'Perro', image: 'https://placehold.co/300x300/6A0DAD/FFFFFF?text=Perro' }, // Dog
-        { name: 'Gato', image: 'https://placehold.co/300x300/FF69B4/FFFFFF?text=Gato' }, // Cat
-        { name: 'Pato', image: 'https://placehold.co/300x300/008000/FFFFFF?text=Pato' }, // Duck
+        { name: 'León', image: '../../Imagenes/imagenjuegos/leon.jpeg' }, // Lion
+        { name: 'Elefante', image: '../../Imagenes/imagenjuegos/elefante.jpeg' }, // Elephant
+        { name: 'Mono', image: '../../Imagenes/imagenjuegos/mono.jpeg' }, // Monkey
+        { name: 'Cebra', image: '../../Imagenes/imagenjuegos/cebra.png' }, // Zebra
+        { name: 'Jirafa', image: '../../Imagenes/imagenjuegos/jirafa.jpeg' }, // Giraffe
+        { name: 'Perro', image: '../../Imagenes/imagenjuegos/perro.jpeg' }, // Dog
+        { name: 'Gato', image: '../../Imagenes/imagenjuegos/gato.jpeg' }, // Cat
+        { name: 'Pato', image: '../../Imagenes/imagenjuegos/pato.jpeg' }, // Duck
     ];
 
     let currentAnimalIndex = 0; // Índice del animal actual
