@@ -95,12 +95,16 @@ document.addEventListener('DOMContentLoaded', () => {
             // Hacer las piezas arrastrables
             pieceElement.setAttribute('draggable', false); // Por defecto no arrastrables hasta "Empezar Juego"
 
-            // Añadir eventos de Drag & Drop
+            // Añadir eventos de Drag & Drop y Touch
             pieceElement.addEventListener('dragstart', handleDragStart);
             pieceElement.addEventListener('dragover', handleDragOver);
             pieceElement.addEventListener('dragleave', handleDragLeave);
             pieceElement.addEventListener('drop', handleDrop);
             pieceElement.addEventListener('dragend', handleDragEnd);
+
+            pieceElement.addEventListener('touchstart', handleTouchStart);
+            pieceElement.addEventListener('touchmove', handleTouchMove);
+            pieceElement.addEventListener('touchend', handleTouchEnd);
 
             puzzleContainer.appendChild(pieceElement);
         });
@@ -170,31 +174,24 @@ document.addEventListener('DOMContentLoaded', () => {
             const dragIndex = parseInt(currentDragPiece.dataset.currentIndex);
             const dropIndex = parseInt(e.target.dataset.currentIndex);
 
-            // Intercambiar los elementos en el DOM directamente para una mejor visualización del arrastre
             const draggedElement = puzzleContainer.querySelector(`[data-current-index="${dragIndex}"]`);
             const droppedOnElement = puzzleContainer.querySelector(`[data-current-index="${dropIndex}"]`);
 
-            // Para intercambiar elementos en el DOM:
-            // Clonamos para evitar problemas con referencias, insertamos, y luego removemos el original.
             const temp = document.createElement('div');
             puzzleContainer.insertBefore(temp, droppedOnElement);
             puzzleContainer.insertBefore(droppedOnElement, draggedElement);
             puzzleContainer.insertBefore(draggedElement, temp);
             puzzleContainer.removeChild(temp);
             
-            // Actualizar los data-currentIndex de los elementos en el DOM
             draggedElement.dataset.currentIndex = dropIndex;
             droppedOnElement.dataset.currentIndex = dragIndex;
-
-            // También necesitamos actualizar el array 'pieces' para el 'checkWin'
-            // Encontrando los originales índices de las piezas que se han movido
+            
             const originalDragPieceValue = pieces[dragIndex];
             const originalDropPieceValue = pieces[dropIndex];
             
             pieces[dragIndex] = originalDropPieceValue;
             pieces[dropIndex] = originalDragPieceValue;
 
-            // Quitar clases de arrastre/soltar
             currentDragPiece.classList.remove('dragging');
             if (currentDropTarget) {
                 currentDropTarget.classList.remove('drop-target');
@@ -202,10 +199,8 @@ document.addEventListener('DOMContentLoaded', () => {
             currentDragPiece = null;
             currentDropTarget = null;
 
-            // Comprobar si se ha ganado
             if (checkWin()) {
                 puzzleMessage.style.display = 'block';
-                // Deshabilitar arrastre y aplicar estilo de victoria
                 puzzleContainer.querySelectorAll('.puzzle-piece').forEach(piece => {
                     piece.setAttribute('draggable', false);
                     piece.style.borderColor = '#22c55e'; // Borde verde de victoria
@@ -224,6 +219,74 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         currentDragPiece = null;
         currentDropTarget = null;
+    };
+    
+    // --- Funciones para eventos táctiles ---
+    const handleTouchStart = (e) => {
+        e.preventDefault();
+        currentDragPiece = e.target;
+        currentDragPiece.classList.add('dragging');
+        // Previene el scroll de la página mientras se arrastra
+        document.body.style.overflow = 'hidden'; 
+    };
+
+    const handleTouchMove = (e) => {
+        e.preventDefault();
+        const touch = e.touches[0];
+        const targetElement = document.elementFromPoint(touch.clientX, touch.clientY);
+        
+        if (targetElement && targetElement.classList.contains('puzzle-piece') && targetElement !== currentDragPiece) {
+            if (currentDropTarget && currentDropTarget !== targetElement) {
+                currentDropTarget.classList.remove('drop-target');
+            }
+            targetElement.classList.add('drop-target');
+            currentDropTarget = targetElement;
+        } else if (currentDropTarget) {
+            currentDropTarget.classList.remove('drop-target');
+            currentDropTarget = null;
+        }
+    };
+    
+    const handleTouchEnd = (e) => {
+        e.preventDefault();
+        if (currentDragPiece && currentDropTarget) {
+            const dragIndex = parseInt(currentDragPiece.dataset.currentIndex);
+            const dropIndex = parseInt(currentDropTarget.dataset.currentIndex);
+
+            const draggedElement = puzzleContainer.querySelector(`[data-current-index="${dragIndex}"]`);
+            const droppedOnElement = puzzleContainer.querySelector(`[data-current-index="${dropIndex}"]`);
+
+            const temp = document.createElement('div');
+            puzzleContainer.insertBefore(temp, droppedOnElement);
+            puzzleContainer.insertBefore(droppedOnElement, draggedElement);
+            puzzleContainer.insertBefore(draggedElement, temp);
+            puzzleContainer.removeChild(temp);
+            
+            draggedElement.dataset.currentIndex = dropIndex;
+            droppedOnElement.dataset.currentIndex = dragIndex;
+            
+            const originalDragPieceValue = pieces[dragIndex];
+            const originalDropPieceValue = pieces[dropIndex];
+            
+            pieces[dragIndex] = originalDropPieceValue;
+            pieces[dropIndex] = originalDragPieceValue;
+
+            currentDragPiece.classList.remove('dragging');
+            currentDropTarget.classList.remove('drop-target');
+
+            if (checkWin()) {
+                puzzleMessage.style.display = 'block';
+                puzzleContainer.querySelectorAll('.puzzle-piece').forEach(piece => {
+                    piece.setAttribute('draggable', false);
+                    piece.style.borderColor = '#22c55e'; // Borde verde de victoria
+                    piece.style.boxShadow = 'inset 0 0 10px rgba(34, 197, 94, 0.5)';
+                });
+            }
+        }
+        currentDragPiece = null;
+        currentDropTarget = null;
+        // Permite el scroll de nuevo
+        document.body.style.overflow = 'auto'; 
     };
 
     // --- Event Listeners ---
