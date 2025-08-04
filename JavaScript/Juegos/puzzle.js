@@ -20,8 +20,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const NUM_COLS = 3; // Número de columnas (ej. 3 para 3x3)
     const NUM_ROWS = 3; // Número de filas (ej. 3 para 3x3)
     const NUM_PIECES = NUM_COLS * NUM_ROWS;
-    const PUZZLE_WIDTH = 550; // Ancho del rompecabezas en px (debe coincidir con CSS)
-    const PUZZLE_HEIGHT = 450; // Alto del rompecabezas en px (debe coincidir con CSS)
+    
+    // Las dimensiones se obtendrán dinámicamente para un diseño responsivo
+    let PUZZLE_WIDTH = 0;
+    let PUZZLE_HEIGHT = 0;
 
     let pieces = []; // Array para almacenar las piezas del rompecabezas
     let currentDragPiece = null; // Pieza que se está arrastrando
@@ -50,6 +52,9 @@ document.addEventListener('DOMContentLoaded', () => {
      */
     const initializePuzzle = () => {
         puzzleContainer.innerHTML = ''; // Limpiar cualquier pieza anterior
+        // Configura las dimensiones del rompecabezas dinámicamente
+        PUZZLE_WIDTH = puzzleContainer.clientWidth;
+        PUZZLE_HEIGHT = puzzleContainer.clientHeight;
         puzzleContainer.style.gridTemplateColumns = `repeat(${NUM_COLS}, 1fr)`; // Configurar CSS Grid
 
         pieces = [];
@@ -83,6 +88,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             pieceElement.style.backgroundImage = `url(${selectedPuzzleImage})`; // Usa la imagen seleccionada
             pieceElement.style.backgroundPosition = `-${col * pieceWidth}px -${row * pieceHeight}px`;
+            // Las dimensiones de las piezas se basarán en el contenedor
             pieceElement.style.width = `${pieceWidth}px`;
             pieceElement.style.height = `${pieceHeight}px`;
 
@@ -239,6 +245,16 @@ document.addEventListener('DOMContentLoaded', () => {
         if (selectedImageObj) {
             selectedPuzzleImage = selectedImageObj.path;
             initializePuzzle(); // Reinicia el rompecabezas con la nueva imagen
+        }
+    });
+    
+    // Escucha el evento de redimensionamiento para ajustar el tamaño del rompecabezas
+    window.addEventListener('resize', () => {
+        if (startButton.style.display === 'none' && resetButton.style.display === 'block') {
+            // Si el juego está en curso, actualiza las dimensiones y vuelve a renderizar
+            PUZZLE_WIDTH = puzzleContainer.clientWidth;
+            PUZZLE_HEIGHT = puzzleContainer.clientHeight;
+            renderPuzzle();
         }
     });
 

@@ -139,7 +139,7 @@ body {
 /* Media queries para responsividad */
 @media (max-width: 768px) {
     .main-content-containerPuzzle {
-        padding: 5px;
+        padding: 15px;
         max-width: 95%;
         margin: 5px auto;
         gap: 5px;
@@ -163,11 +163,12 @@ body {
     .puzzle-message {
         font-size: 1.8rem;
     }
+    
 }
 
 @media (max-width: 480px) {
     .main-content-containerPuzzle {
-        padding: 3px;
+        padding: 10px;
         max-width: 100%;
         margin: 3px auto;
         gap: 3px;
