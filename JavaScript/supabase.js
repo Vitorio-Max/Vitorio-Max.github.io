@@ -2,7 +2,7 @@
 import { createClient } from '@supabase/supabase-js'
 
 // B. PONER tus propias claves aquí
-const supabaseUrl = 'https://Vitorio-Max.supabase.co'; // <--- Reemplaza esto
+const supabaseUrl = 'https://usbrxrzekdmktdiiyqzq.supabase.co'; // <--- Reemplaza esto
 const supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVzYnJ4cnpla2Rta3RkaWl5cXpxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTQ0MDk0MTYsImV4cCI6MjA2OTk4NTQxNn0.LeV5DPtRHMYixltedEJqUY596_2vR0A89LDm2UHflws'; // <--- Reemplaza esto
 
 // C. INICIALIZAR el cliente de Supabase con tus claves
