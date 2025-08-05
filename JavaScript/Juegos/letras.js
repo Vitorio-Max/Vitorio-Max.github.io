@@ -69,19 +69,27 @@ document.addEventListener('DOMContentLoaded', () => {
         flipCardFront.classList.add('flip-card-front');
 
         const letterDisplay = document.createElement('h2');
-        letterDisplay.classList.add('letter-display');
-        letterDisplay.textContent = data.letter;
+    letterDisplay.classList.add('letter-display');
+    letterDisplay.textContent = data.letter;
 
-        const letterImage = document.createElement('img');
-        letterImage.classList.add('letter-image');
-        letterImage.src = data.image;
-        letterImage.alt = `Imagen para la letra ${data.letter}`;
-        letterImage.onerror = () => {
-            letterImage.src = "https://placehold.co/150x150/CCCCCC/000000?text=No+Imagen"; // Fallback
-        };
+    // Paso clave: Creamos un contenedor para la imagen
+    const imageWrapper = document.createElement('div');
+    imageWrapper.classList.add('letter-image-wrapper');
 
-        flipCardFront.appendChild(letterDisplay);
-        flipCardFront.appendChild(letterImage);
+    const letterImage = document.createElement('img');
+    letterImage.classList.add('letter-image');
+    letterImage.src = data.image;
+    letterImage.alt = `Imagen para la letra ${data.letter}`;
+    letterImage.onerror = () => {
+        letterImage.src = "https://placehold.co/150x150/CCCCCC/000000?text=No+Imagen";
+    };
+
+    // Agregamos la imagen al nuevo contenedor
+    imageWrapper.appendChild(letterImage);
+
+    // Añadimos el título y el contenedor al frente de la tarjeta
+    flipCardFront.appendChild(letterDisplay);
+    flipCardFront.appendChild(imageWrapper);
 
         const flipCardBack = document.createElement('div');
         flipCardBack.classList.add('flip-card-back');

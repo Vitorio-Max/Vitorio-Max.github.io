@@ -2,11 +2,11 @@ document.addEventListener('DOMContentLoaded', () => {
     // Array de datos para los personajes, con su nombre y URL de imagen
     const characterData = [
         { name: 'Mickey Mouse', image: '../../Imagenes/imagenjuegos/Mickey.webp', frontText: '¿Quién es?' },
-        { name: 'Minnie Mouse', image: 'https://upload.wikimedia.org/wikipedia/en/4/4e/Minnie_Mouse.png', frontText: '¿Quién es?' },
-        { name: 'Pato Donald', image: 'https://upload.wikimedia.org/wikipedia/en/e/ee/Donald_Duck_-_Disney.png', frontText: '¿Quién es?' },
-        { name: 'Goofy', image: 'https://upload.wikimedia.org/wikipedia/en/a/a6/Goofy.png', frontText: '¿Quién es?' },
-        { name: 'Buzz Lightyear', image: 'https://static.wikia.nocookie.net/toystory/images/d/da/Buzz_Lightyear.png', frontText: '¿Quién es?' },
-        { name: 'Woody', image: 'https://static.wikia.nocookie.net/toystory/images/7/7b/Woody_Toy_Story_4.png', frontText: '¿Quién es?' },
+        { name: 'Minnie Mouse', image: '../../Imagenes/imagenjuegos/minni.jpeg', frontText: '¿Quién es?' },
+        { name: 'Pato Donald', image: '../../Imagenes/imagenjuegos/donald.png', frontText: '¿Quién es?' },
+        { name: 'Goofy', image: '../../Imagenes/imagenjuegos/goofy.png', frontText: '¿Quién es?' },
+        { name: 'Buzz Lightyear', image: '../../Imagenes/imagenjuegos/buzz.jpeg', frontText: '¿Quién es?' },
+        { name: 'Woody', image: '../../Imagenes/imagenjuegos/woody.jpeg', frontText: '¿Quién es?' },
         { name: 'Rayo McQueen', image: 'https://static.wikia.nocookie.net/disney/images/e/e3/Lightning_McQueen_Iconic.png', frontText: '¿Quién es?' },
         { name: 'Mate (Cars)', image: 'https://static.wikia.nocookie.net/disney/images/d/d9/Mater-Cars2.png', frontText: '¿Quién es?' },
         { name: 'Peppa Pig', image: 'https://upload.wikimedia.org/wikipedia/en/7/70/Peppa_Pig_Logo.png', frontText: '¿Quién es?' },

@@ -1,0 +1,46 @@
+tu-proyecto/
+├── index.html
+├── calcuheader.html
+├── contador.html
+├── cuentaAtras.html
+├── listadelacompra.html
+├── targetCuentos.html
+├── mp1-menuHamburguesa.html
+├── mp2-menuAnimadoCSSresponsive.html
+├── mp3-menuHamburguesa.html
+│
+├── Css/
+│   ├── global.css                (RESET universal, estilos de BODY, variables CSS, utilidades generales)
+│   ├── components.css            (Estilos para componentes reutilizables: HEADER, NAVEGACIÓN, LOGIN POPUP, BOTONES, FOOTER, TARJETAS DE CONTENIDO)
+│   ├── pages/                    (Carpeta para estilos muy específicos de páginas si es necesario)
+│   │   ├── cuentos.css           (Estilos específicos para targetCuentos.html)
+│   │   └── juegos.css            (Estilos específicos para targetJuegos1.html - si son muchos)
+│   ├── games/                    (Carpeta para estilos específicos de cada juego)
+│   │   ├── letters.css           (Estilos para el juego de letras: cuadrícula, flip-card)
+│   │   ├── numbers.css
+│   │   └── (otros estilos de juegos)
+│
+├── JavaScript/
+│   ├── main.js                   (TODO el JS GLOBAL: Lógica del menú principal, lógica del popup de login/registro)
+│   ├── utils.js                  (Funciones JavaScript reutilizables si las tienes)
+│   ├── games/                    (Carpeta para JS específico de cada juego)
+│   │   ├── letters.js            (Lógica del juego de letras)
+│   │   ├── numbers.js
+│   │   └── (otros JS de juegos)
+│
+├── Imagenes/
+│   ├── VityUno.png
+│   ├── ordena-los-nuemeros.webp  (Nombres de archivo limpios y sin espacios)
+│   ├── letras-con-palabras.webp
+│   ├── pagina-web-en-construccion.webp
+│   └── (otras imágenes)
+│
+└── proyectoAppNinos/             (Podría renombrarse a 'juegos/' para mayor claridad)
+    ├── targetJuegos1.html
+    ├── numbers.html
+    ├── letters.html
+    ├── appninos.html
+    ├── vocales.html
+    ├── quienesquien.html
+    ├── puzzle.html
+    └── aprendeAleer.html
