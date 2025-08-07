@@ -6,7 +6,7 @@ const supabaseAnonKey = process.env.SUPABASE_ANON_KEY;
 export const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 
-async function getDatos() {
+async function getitems() {
   const { data, error } = await supabase.from('items').select('*');
   if (error) {
     console.error('Error al obtener datos:', error);
@@ -14,7 +14,7 @@ async function getDatos() {
     console.log('Datos obtenidos:', data);
   }
 }
-getDatos();
+getitems();
 
 
 // 1. Espera a que el documento esté cargado para evitar errores
