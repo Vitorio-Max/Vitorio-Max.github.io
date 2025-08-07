@@ -1,46 +1,50 @@
 import { createClient } from '@supabase/supabase-js';
 
+// Lee las claves desde el archivo .env
 const supabaseUrl = process.env.SUPABASE_URL;
 const supabaseAnonKey = process.env.SUPABASE_ANON_KEY;
 
+// Crea el cliente de Supabase
 export const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
+// --- Funciones para la Lista de la Compra ---
 
-async function getitems() {
-  const { data, error } = await supabase.from('items').select('*');
+// Función para obtener todos los items de la tabla 'shopping_list'
+export async function getShoppingList() {
+  const { data, error } = await supabase
+    .from('items')
+    .select('*');
+
   if (error) {
-    console.error('Error al obtener datos:', error);
-  } else {
-    console.log('Datos obtenidos:', data);
+    console.error('Error al obtener la lista de la compra:', error);
+    return null;
   }
+  return data;
 }
-getitems();
 
+// Función para añadir un nuevo item
+export async function addItemToList(item) {
+  const { data, error } = await supabase
+    .from('items')
+    .insert([item]); // item debe ser un objeto: { nombre: 'Leche', cantidad: 1, precio: 1.20 }
 
-// 1. Espera a que el documento esté cargado para evitar errores
-document.addEventListener('DOMContentLoaded', () => {
+  if (error) {
+    console.error('Error al añadir el item:', error);
+    return null;
+  }
+  return data;
+}
 
-    // 2. Busca el botón en el HTML por su ID
-    const loginBtn = document.getElementById('login-github-btn');
+// Función para eliminar un item por su ID
+export async function removeItemFromList(itemId) {
+  const { error } = await supabase
+    .from('items')
+    .delete()
+    .eq('id', itemId);
 
-    // 3. Si el botón existe, añade un "escuchador de eventos"
-    if (loginBtn) {
-        loginBtn.addEventListener('click', async () => {
-
-            // 4. Llama a la función de Supabase para iniciar la sesión con OAuth
-            const { data, error } = await supabase.auth.signInWithOAuth({
-                provider: 'github', // <--- ¡AQUÍ LE DECIMOS QUE USE GITHUB!
-            });
-
-            // 5. Maneja los posibles errores, si los hubiera
-            if (error) {
-                console.error('Error al iniciar sesión con GitHub:', error.message);
-                alert('Hubo un error al iniciar sesión. Inténtalo de nuevo.');
-            }
-            // 6. Si todo va bien, Supabase redirigirá automáticamente
-            //    al usuario a la página de login de GitHub.
-        });
-    } else {
-        console.error("No se encontró el botón con el ID 'login-github-btn'.");
-    }
-});
+  if (error) {
+    console.error('Error al eliminar el item:', error);
+    return false;
+  }
+  return true;
+}
