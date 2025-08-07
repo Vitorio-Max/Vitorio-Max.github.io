@@ -1,12 +1,20 @@
-// A. IMPORTAR la biblioteca de Supabase
-import { createClient } from '@supabase/supabase-js'
+import { createClient } from '@supabase/supabase-js';
 
-// B. PONER tus propias claves aquí
-const supabaseUrl = 'https://usbrxrzekdmktdiiyqzq.supabase.co'; // <--- Reemplaza esto
-const supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVzYnJ4cnpla2Rta3RkaWl5cXpxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTQ0MDk0MTYsImV4cCI6MjA2OTk4NTQxNn0.LeV5DPtRHMYixltedEJqUY596_2vR0A89LDm2UHflws'; // <--- Reemplaza esto
+const supabaseUrl = process.env.SUPABASE_URL;
+const supabaseAnonKey = process.env.SUPABASE_ANON_KEY;
 
-// C. INICIALIZAR el cliente de Supabase con tus claves
-const supabase = createClient(supabaseUrl, supabaseAnonKey);
+export const supabase = createClient(supabaseUrl, supabaseAnonKey);
+
+
+async function getDatos() {
+  const { data, error } = await supabase.from('items').select('*');
+  if (error) {
+    console.error('Error al obtener datos:', error);
+  } else {
+    console.log('Datos obtenidos:', data);
+  }
+}
+getDatos();
 
 
 // 1. Espera a que el documento esté cargado para evitar errores
