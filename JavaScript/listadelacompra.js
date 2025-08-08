@@ -1,12 +1,11 @@
-// listadelacompra.js
 import { getShoppingList, addItemToList, removeItemFromList } from './supabase.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
-  await loadShoppingList();
+    await loadShoppingList();
 
-  // Asigna el event listener aquí
-  document.getElementById('add-item-btn').addEventListener('click', handleAddItem);
-  document.getElementById('calculateTotal').addEventListener('click', calculateTotal);
+    // Asigna el event listener a los botones por su ID
+    document.getElementById('add-item-btn').addEventListener('click', handleAddItem);
+    document.getElementById('calculateTotal').addEventListener('click', calculateTotal);
 });
 
 const shoppingList = document.getElementById('shoppingList');
@@ -44,8 +43,8 @@ function renderItem(item) {
     shoppingList.appendChild(li);
 }
 
-// Expone estas funciones para que puedan ser llamadas desde el HTML
-window.handleAddItem = async function() {
+// Define las funciones como funciones normales
+async function handleAddItem() {
     const newItemInput = document.getElementById('newItem');
     const newQuantityInput = document.getElementById('newQuantity');
     const newPriceInput = document.getElementById('newPrice');
@@ -71,7 +70,7 @@ window.handleAddItem = async function() {
     }
 }
 
-window.calculateTotal = function() {
+function calculateTotal() {
     const items = document.querySelectorAll('#shoppingList li');
     let total = 0;
     items.forEach(item => {
