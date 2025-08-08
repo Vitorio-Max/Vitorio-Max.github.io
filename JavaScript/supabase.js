@@ -1,4 +1,4 @@
-import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js'
+import { createClient } from '@supabase/supabase-js'
 
 // Reemplaza 'TU_SUPABASE_URL' y 'TU_SUPABASE_ANON_KEY' con tus claves reales.
 const supabaseUrl = "https://usbrxrzekdmktdiiyqzq.supabase.co";
