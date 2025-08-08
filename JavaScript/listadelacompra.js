@@ -1,4 +1,4 @@
-import { getShoppingList, addItemToList, removeItemFromList } from './supabase.js';
+import { getShoppingList, addItemToList, removeItemFromList, supabase } from './supabase.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
     await loadShoppingList();
