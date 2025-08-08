@@ -1,7 +1,7 @@
+// listadelacompra.js
 import { getShoppingList, addItemToList, removeItemFromList } from './supabase.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
-    // Carga los datos de la lista de la compra al iniciar
     await loadShoppingList();
 });
 
@@ -18,7 +18,7 @@ async function loadShoppingList() {
 
 function renderItem(item) {
     const li = document.createElement('li');
-    li.dataset.id = item.id; // Guarda el ID de Supabase en el elemento
+    li.dataset.id = item.id;
     li.innerHTML = `
         <div class="item-details">
             <span class="item-name">${item.nombre}</span>
@@ -27,22 +27,21 @@ function renderItem(item) {
         </div>
         <button class="remove-btn">Eliminar</button>
     `;
-    
-    // Añade un event listener al botón de eliminar
+
     li.querySelector('.remove-btn').addEventListener('click', async () => {
         const itemId = li.dataset.id;
         const success = await removeItemFromList(itemId);
         if (success) {
-            li.remove(); // Elimina el elemento de la interfaz
-            calculateTotal(); // Recalcula el total
+            li.remove();
+            calculateTotal();
         }
     });
 
     shoppingList.appendChild(li);
 }
 
-// Esta es la función que se ejecuta cuando el usuario hace clic en "Añadir"
-async function handleAddItem() {
+// Ahora, la función global se encarga de todo el proceso de añadir un ítem.
+window.handleAddItem = async function() {
     const newItemInput = document.getElementById('newItem');
     const newQuantityInput = document.getElementById('newQuantity');
     const newPriceInput = document.getElementById('newPrice');
@@ -57,10 +56,10 @@ async function handleAddItem() {
     }
 
     const item = { nombre, cantidad, precio };
-    const data = await addItemToList(item);
-    
+    const data = await addItemToList(item); // Se llama a la función de Supabase
+
     if (data) {
-        renderItem(data[0]); // Renderiza el nuevo item que Supabase nos devolvió
+        renderItem(data[0]);
         newItemInput.value = '';
         newQuantityInput.value = '1';
         newPriceInput.value = '0.00';
@@ -68,10 +67,7 @@ async function handleAddItem() {
     }
 }
 
-function calculateTotal() {
-    // Lógica para calcular el total. Ahora deberías obtener los datos
-    // directamente de la base de datos o de los elementos en el DOM.
-    // Para simplificar, puedes iterar sobre los elementos <li> existentes.
+window.calculateTotal = function() {
     const items = document.querySelectorAll('#shoppingList li');
     let total = 0;
     items.forEach(item => {
