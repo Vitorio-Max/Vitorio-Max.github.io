@@ -42,7 +42,7 @@ function renderItem(item) {
 }
 
 // Esta es la función que se ejecuta cuando el usuario hace clic en "Añadir"
-async function addItemToList() {
+async function handleAddItem() {
     const newItemInput = document.getElementById('newItem');
     const newQuantityInput = document.getElementById('newQuantity');
     const newPriceInput = document.getElementById('newPrice');
