@@ -2,8 +2,11 @@
 import { getShoppingList, addItemToList, removeItemFromList } from './supabase.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
-    // Carga los datos de la lista de la compra al iniciar
-    await loadShoppingList();
+  await loadShoppingList();
+
+  // Asigna el event listener aquí
+  document.getElementById('add-item-btn').addEventListener('click', handleAddItem);
+  document.getElementById('calculateTotal').addEventListener('click', calculateTotal);
 });
 
 const shoppingList = document.getElementById('shoppingList');
