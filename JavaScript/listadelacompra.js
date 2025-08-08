@@ -2,6 +2,7 @@
 import { getShoppingList, addItemToList, removeItemFromList } from './supabase.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
+    // Carga los datos de la lista de la compra al iniciar
     await loadShoppingList();
 });
 
@@ -40,7 +41,7 @@ function renderItem(item) {
     shoppingList.appendChild(li);
 }
 
-// Ahora, la función global se encarga de todo el proceso de añadir un ítem.
+// Expone estas funciones para que puedan ser llamadas desde el HTML
 window.handleAddItem = async function() {
     const newItemInput = document.getElementById('newItem');
     const newQuantityInput = document.getElementById('newQuantity');
@@ -56,7 +57,7 @@ window.handleAddItem = async function() {
     }
 
     const item = { nombre, cantidad, precio };
-    const data = await addItemToList(item); // Se llama a la función de Supabase
+    const data = await addItemToList(item);
 
     if (data) {
         renderItem(data[0]);
