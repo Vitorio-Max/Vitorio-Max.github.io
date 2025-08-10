@@ -1,5 +1,4 @@
-import { createClient } from 'https://esm.sh/@supabase/supabase-js'
-
+import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2';
 // Reemplaza con tu URL y tu clave anon
 const supabaseUrl = 'https://usbrxrzekdmktdiiyqzq.supabase.co';
 const supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVzYnJ4cnpla2Rta3RkaWl5cXpxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTQ0MDk0MTYsImV4cCI6MjA2OTk4NTQxNn0.LeV5DPtRHMYixltedEJqUY596_2vR0A89LDm2UHflws';
