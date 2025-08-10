@@ -49,7 +49,7 @@ function renderItem(item) {
 }
 
 async function handleAddItem() {
-    event.preventDefault();
+    
     const nombre = newItemInput.value.trim();
     const cantidad = parseInt(newQuantityInput.value);
     const precio = parseFloat(newPriceInput.value);
