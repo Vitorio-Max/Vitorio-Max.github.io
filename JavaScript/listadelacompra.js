@@ -1,29 +1,36 @@
 import { getShoppingList, addItemToList, removeItemFromList } from './supabase.js';
 
+const shoppingList = document.getElementById('shoppingList');
+const newItemInput = document.getElementById('newItem');
+const newQuantityInput = document.getElementById('newQuantity');
+const newPriceInput = document.getElementById('newPrice');
+const addButton = document.getElementById('add-item-btn');
+const calculateButton = document.getElementById('calculateTotal');
+const totalPriceElement = document.getElementById('totalPrice');
+
 document.addEventListener('DOMContentLoaded', async () => {
     // Carga la lista inicial al cargar la página
     await loadShoppingList();
 
     // Asigna event listeners a los botones
-    document.getElementById('add-item-btn').addEventListener('click', handleAddItem);
+    addButton.addEventListener('click', handleAddItem);
+    calculateButton.addEventListener('click', calculateTotal);
 
-    // Usa un event listener para delegar la eliminación
-    document.getElementById('shoppingList').addEventListener('click', async (e) => {
+    // Usa un event listener para delegar la eliminación a la lista
+    shoppingList.addEventListener('click', async (e) => {
         if (e.target.classList.contains('remove-btn')) {
             const li = e.target.closest('li');
-            const itemId = li.dataset.id;
-            const success = await removeItemFromList(itemId);
-            if (success) {
-                li.remove();
-                calculateTotal();
+            if (li) {
+                const itemId = li.dataset.id;
+                const success = await removeItemFromList(itemId);
+                if (success) {
+                    li.remove();
+                    calculateTotal();
+                }
             }
         }
     });
-
-    document.getElementById('calculateTotal').addEventListener('click', calculateTotal);
 });
-
-const shoppingList = document.getElementById('shoppingList');
 
 async function loadShoppingList() {
     const items = await getShoppingList();
@@ -51,11 +58,7 @@ function renderItem(item) {
 }
 
 async function handleAddItem() {
-    const newItemInput = document.getElementById('newItem');
-    const newQuantityInput = document.getElementById('newQuantity');
-    const newPriceInput = document.getElementById('newPrice');
-
-    const nombre = newItemInput.value.trim(); // Trim para eliminar espacios
+    const nombre = newItemInput.value.trim();
     const cantidad = parseInt(newQuantityInput.value);
     const precio = parseFloat(newPriceInput.value);
 
@@ -80,9 +83,13 @@ function calculateTotal() {
     const items = document.querySelectorAll('#shoppingList li');
     let total = 0;
     items.forEach(item => {
-        const quantity = parseInt(item.querySelector('.item-quantity').textContent.substring(1));
-        const price = parseFloat(item.querySelector('.item-price').textContent.replace(' €', ''));
-        total += quantity * price;
+        const quantityText = item.querySelector('.item-quantity').textContent;
+        const priceText = item.querySelector('.item-price').textContent;
+        const quantity = parseInt(quantityText.substring(1));
+        const price = parseFloat(priceText.replace(' €', ''));
+        if (!isNaN(quantity) && !isNaN(price)) {
+            total += quantity * price;
+        }
     });
-    document.getElementById('totalPrice').textContent = `Total: ${total.toFixed(2)} €`;
+    totalPriceElement.textContent = `Total: ${total.toFixed(2)} €`;
 }
