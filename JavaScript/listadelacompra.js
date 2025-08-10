@@ -1,5 +1,14 @@
 import { getShoppingList, addItemToList, removeItemFromList } from './supabase.js';
 
+// Declara todas las variables de los elementos del DOM al inicio
+const shoppingList = document.getElementById('shoppingList');
+const newItemInput = document.getElementById('newItem');
+const newQuantityInput = document.getElementById('newQuantity');
+const newPriceInput = document.getElementById('newPrice');
+const addButton = document.getElementById('add-item-btn');
+const calculateButton = document.getElementById('calculateTotal');
+const totalPriceElement = document.getElementById('totalPrice'); // Agrega esta línea
+
 document.addEventListener('DOMContentLoaded', async () => {
     await loadShoppingList();
 
