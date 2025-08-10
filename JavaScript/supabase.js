@@ -1,4 +1,4 @@
-import { createClient } from '@supabase/supabase-js'
+import { createClient } from 'https://esm.sh/@supabase/supabase-js'
 
 // Reemplaza con tu URL y tu clave anon
 const supabaseUrl = 'https://usbrxrzekdmktdiiyqzq.supabase.co';
