@@ -1,23 +1,14 @@
 import { getShoppingList, addItemToList, removeItemFromList } from './supabase.js';
 
-const shoppingList = document.getElementById('shoppingList');
-const newItemInput = document.getElementById('newItem');
-const newQuantityInput = document.getElementById('newQuantity');
-const newPriceInput = document.getElementById('newPrice');
-const addButton = document.getElementById('add-item-btn');
-const calculateButton = document.getElementById('calculateTotal');
-const totalPriceElement = document.getElementById('totalPrice');
-
 document.addEventListener('DOMContentLoaded', async () => {
-    // Carga la lista inicial al cargar la página
     await loadShoppingList();
 
-    // Asigna event listeners a los botones
-    addButton.addEventListener('click', handleAddItem);
-    calculateButton.addEventListener('click', calculateTotal);
-
-    // Usa un event listener para delegar la eliminación a la lista
-    shoppingList.addEventListener('click', async (e) => {
+    // Asignar eventos de clic directamente a los botones
+    document.getElementById('add-item-btn').addEventListener('click', handleAddItem);
+    document.getElementById('calculateTotal').addEventListener('click', calculateTotal);
+    
+    // Delegar el evento de eliminar
+    document.getElementById('shoppingList').addEventListener('click', async (e) => {
         if (e.target.classList.contains('remove-btn')) {
             const li = e.target.closest('li');
             if (li) {
@@ -58,6 +49,7 @@ function renderItem(item) {
 }
 
 async function handleAddItem() {
+    event.preventDefault();
     const nombre = newItemInput.value.trim();
     const cantidad = parseInt(newQuantityInput.value);
     const precio = parseFloat(newPriceInput.value);
