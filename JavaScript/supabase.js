@@ -1,4 +1,4 @@
-import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js';
+import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2';
 
 // Reemplaza con tu URL y tu clave anon
 const supabaseUrl = 'https://usbrxrzekdmktdiiyqzq.supabase.co';
