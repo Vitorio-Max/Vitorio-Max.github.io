@@ -13,8 +13,8 @@ const shoppingList = document.getElementById('shoppingList');
 async function loadShoppingList() {
     const items = await getShoppingList();
     if (items) {
-        items.forEach(item => {
-            renderItem(item);
+        items.forEach(items => {
+            renderItem(items);
         });
     }
 }
@@ -24,9 +24,9 @@ function renderItem(item) {
     li.dataset.id = item.id;
     li.innerHTML = `
         <div class="item-details">
-            <span class="item-name">${item.nombre}</span>
-            <span class="item-quantity">x${item.cantidad}</span>
-            <span class="item-price">${item.precio.toFixed(2)} €</span>
+            <span class="item-name">${items.nombre}</span>
+            <span class="item-quantity">x${items.cantidad}</span>
+            <span class="item-price">${items.precio.toFixed(2)} €</span>
         </div>
         <button class="remove-btn">Eliminar</button>
     `;
@@ -58,8 +58,8 @@ async function handleAddItem() {
         return;
     }
 
-    const item = { nombre, cantidad, precio };
-    const data = await addItemToList(item);
+    const items = { nombre, cantidad, precio };
+    const data = await addItemToList(items);
 
     if (data) {
         renderItem(data[0]);
@@ -74,8 +74,8 @@ function calculateTotal() {
     const items = document.querySelectorAll('#shoppingList li');
     let total = 0;
     items.forEach(item => {
-        const quantity = parseInt(item.querySelector('.item-quantity').textContent.substring(1));
-        const price = parseFloat(item.querySelector('.item-price').textContent.replace(' €', ''));
+        const quantity = parseInt(item.querySelector('.items-quantity').textContent.substring(1));
+        const price = parseFloat(item.querySelector('.items-price').textContent.replace(' €', ''));
         total += quantity * price;
     });
     document.getElementById('totalPrice').textContent = `Total: ${total.toFixed(2)} €`;
