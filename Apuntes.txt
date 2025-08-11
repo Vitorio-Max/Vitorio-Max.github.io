@@ -9,3 +9,14 @@ Interactividad Adicional: Podrías añadir un botón para escuchar solo el sonid
 Personalización: Permitir a los padres añadir sus propios animales o grabar sus propias voces.
 
 Animaciones: Añadir animaciones sutiles cuando el animal cambia o cuando se hace clic en él.
+
+Ideas Adicionales para el Juego Mapa
+Para hacerlo aún más divertido y educativo, aquí tienes un par de ideas que podrías implementar más adelante:
+
+Arrastrar y Soltar: En lugar de simplemente hacer clic, el juego podría pedir al niño que "arrastre" un pequeño ícono de un sol, por ejemplo, hasta la ubicación de Leganés en el mapa. Esto mejora la motricidad fina y la interacción.
+
+Audio y Sonidos: Puedes añadir efectos de sonido de "éxito" o "fracaso", y grabar una voz que diga "¡Muy bien, has encontrado Madrid!" o "¡Encuentra Leganés!". El refuerzo auditivo es clave para esta edad.
+
+Recompensa Visual: En lugar de solo un mensaje de texto, podrías hacer que aparezca una pequeña animación o una imagen divertida de la mascota de Leganés o de un lugar emblemático cuando el niño gane el juego.
+
+Personalización: Podrías permitir a los padres subir una foto de su propia casa para que el juego termine mostrando dónde está su hogar dentro del municipio.

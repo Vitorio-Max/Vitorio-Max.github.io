@@ -11,8 +11,10 @@ document.addEventListener('DOMContentLoaded', () => {
         { id: 'carss', name: 'Mate', path: '../../Imagenes/imagenjuegos/mate.jpg' }, // ¡IMPORTANTE! Cambia esto a tus rutas
         { id: 'mickey', name: 'Mickey Mouse', path: '../../Imagenes/imagenjuegos/Mickey.webp' }, // Asegúrate de tener estas imágenes
         { id: 'elsa', name: 'Olaf', path: '../../Imagenes/imagenjuegos/olaf.jpeg' }, // Y renombrarlas o ajustarlas
-        { id: 'dinosaur', name: 'Dinosaurio', path: '../../Imagenes/imagenjuegos/trex.jpeg' }, // Ejemplo de imagen nueva
-        { id: 'poweranger', name: 'Power Rangers', path: '../../Imagenes/imagenjuegos/powerrangers.jpeg' }, // Ejemplo de imagen nueva
+        { id: 'dinosaur', name: 'Dinosaurio', path: '../../Imagenes/imagenjuegos/trex.jpeg' },
+        { id: 'poweranger', name: 'Power Rangers', path: '../../Imagenes/imagenjuegos/powerrangers2.jpeg' },
+        { id: 'tortugasNinja', name: 'Tortugas Ninja', path: '../../Imagenes/imagenjuegos/tortugasNinja.jpg' },
+        { id: 'hulk', name: 'Hulk', path: '../../Imagenes/imagenjuegos/hulk1.png' },
         // ¡Añade más objetos aquí para cada imagen de rompecabezas que quieras!
         // Asegúrate de que las imágenes sean cuadradas o las piezas se distorsionarán.
     ];
