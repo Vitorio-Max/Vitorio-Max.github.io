@@ -1,0 +1,43 @@
+body {
+    font-family: 'Arial', sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-color: #f0f8ff; /* Un color de fondo suave */
+    text-align: center;
+}
+
+.map-container {
+    width: 80%;
+    max-width: 600px;
+    border: 3px solid #ccc;
+    border-radius: 15px;
+    padding: 10px;
+    background-color: white;
+}
+
+/* Hacemos que el SVG ocupe todo el contenedor */
+object {
+    width: 100%;
+    height: auto;
+}
+
+#mensaje {
+    margin-top: 20px;
+    font-size: 1.5em;
+    color: #2c3e50;
+    font-weight: bold;
+}
+
+/*
+  IMPORTANTE: No puedes aplicar el hover directamente al SVG desde CSS externo.
+  Esto se gestionará con JavaScript para mayor compatibilidad y control.
+  Pero si pudieras incrustar el SVG directamente en el HTML, podrías hacer esto:
+
+  #comunidad-madrid:hover, #leganes:hover {
+      fill: #f39c12; // Color naranja para resaltar
+      cursor: pointer;
+  }
+*/
