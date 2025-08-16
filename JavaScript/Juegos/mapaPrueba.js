@@ -37,6 +37,8 @@ window.addEventListener('load', () => {
     const svgMadridObject = document.getElementById('svg-madrid');
     const mensajeFinal = document.getElementById('mensaje');
 
+    svgMadridObject.addEventListener('load', () => {
+
     const svgDocMadrid = svgMadridObject.contentDocument;
     if (svgDocMadrid) {
         const leganes = svgDocMadrid.getElementById('leganes');
@@ -64,4 +66,5 @@ window.addEventListener('load', () => {
             });
         }
     }
+});
 });

@@ -1,26 +1,27 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Array de datos para los personajes, con su nombre y URL de imagen
+    // Array de datos para los personajes.
+    // AÑADIDO: 'clueImage' para la imagen de la pista en el anverso de la tarjeta.
     const characterData = [
-        { name: 'Mickey Mouse', image: '../../Imagenes/imagenjuegos/Mickey.webp', frontText: '¿Quién es?' },
-        { name: 'Minnie Mouse', image: '../../Imagenes/imagenjuegos/minni.jpeg', frontText: '¿Quién es?' },
-        { name: 'Pato Donald', image: '../../Imagenes/imagenjuegos/donald.png', frontText: '¿Quién es?' },
-        { name: 'Goofy', image: '../../Imagenes/imagenjuegos/goofy.png', frontText: '¿Quién es?' },
-        { name: 'Buzz Lightyear', image: '../../Imagenes/imagenjuegos/buzz.jpeg', frontText: '¿Quién es?' },
-        { name: 'Woody', image: '../../Imagenes/imagenjuegos/woody.jpeg', frontText: '¿Quién es?' },
-        { name: 'Rayo McQueen', image: 'https://static.wikia.nocookie.net/disney/images/e/e3/Lightning_McQueen_Iconic.png', frontText: '¿Quién es?' },
-        { name: 'Mate (Cars)', image: 'https://static.wikia.nocookie.net/disney/images/d/d9/Mater-Cars2.png', frontText: '¿Quién es?' },
-        { name: 'Peppa Pig', image: 'https://upload.wikimedia.org/wikipedia/en/7/70/Peppa_Pig_Logo.png', frontText: '¿Quién es?' },
-        { name: 'George Pig', image: 'https://upload.wikimedia.org/wikipedia/en/b/b5/George_Pig.png', frontText: '¿Quién es?' },
-        { name: 'Superman', image: 'https://upload.wikimedia.org/wikipedia/en/3/35/Superman_Square_S.png', frontText: '¿Quién es?' },
-        { name: 'Spiderman', image: 'https://upload.wikimedia.org/wikipedia/en/2/21/Spider-Man_No_Way_Home_poster.jpg', frontText: '¿Quién es?' },
-        { name: 'Elsa (Frozen)', image: 'https://upload.wikimedia.org/wikipedia/en/5/5e/Elsa_from_Frozen.png', frontText: '¿Quién es?' },
-        { name: 'Olaf (Frozen)', image: 'https://upload.wikimedia.org/wikipedia/en/f/f6/Olaf_Frozen_II.png', frontText: '¿Quién es?' },
-        { name: 'Chase (Patrulla Canina)', image: 'https://static.wikia.nocookie.net/pawpatrol/images/f/fd/Chase.png', frontText: '¿Quién es?' },
-        { name: 'Marshall (Patrulla Canina)', image: 'https://static.wikia.nocookie.net/pawpatrol/images/f/f0/Marshall.png', frontText: '¿Quién es?' },
-        { name: 'Bob Esponja', image: 'https://upload.wikimedia.org/wikipedia/en/3/3b/SpongeBob_SquarePants_character.png', frontText: '¿Quién es?' },
-        { name: 'Patricio Estrella', image: 'https://upload.wikimedia.org/wikipedia/en/3/33/Patrick_Star.png', frontText: '¿Quién es?' },
-        { name: 'Dora la Exploradora', image: 'https://upload.wikimedia.org/wikipedia/en/6/6f/Dora_the_Explorer.png', frontText: '¿Quién es?' },
-        { name: 'Boots (Dora)', image: 'https://upload.wikimedia.org/wikipedia/en/b/b3/Boots_the_Monkey.png', frontText: '¿Quién es?' },
+        { name: 'Mickey Mouse', image: '../../Imagenes/imagenjuegos/Mickey.webp', clueImage: '../../Imagenes/imagenjuegos/pistaMickey.jpg' },
+        { name: 'Minnie Mouse', image: '../../Imagenes/imagenjuegos/minni.jpeg', clueImage: '../../Imagenes/imagenjuegos/pistaMinni.jpg' },
+        { name: 'Pato Donald', image: '../../Imagenes/imagenjuegos/donald.png', clueImage: '../../Imagenes/imagenjuegos/pistaDonald.png' },
+        { name: 'Goofy', image: '../../Imagenes/imagenjuegos/goofy.png', clueImage: '../../Imagenes/imagenjuegos/pistaGoofy.jpg' },
+        { name: 'Buzz Lightyear', image: '../../Imagenes/imagenjuegos/buzz.jpeg', clueImage: '../../Imagenes/imagenjuegos/pistaBuzz.jpg' },
+        { name: 'Woody', image: '../../Imagenes/imagenjuegos/woody.jpeg', clueImage: '../../Imagenes/imagenjuegos/pistaWoody.jpg' },
+        { name: 'Rayo McQueen', image: '../../Imagenes/imagenjuegos/rayo1.png', clueImage: '../../Imagenes/imagenjuegos/pistaRayo.jpg' }, // Ejemplo de fallback para pista
+        { name: 'Mate', image: '../../Imagenes/imagenjuegos/mate1.jpg', clueImage: '../../Imagenes/imagenjuegos/pistaMate.jpg' },
+        { name: 'Peppa Pig', image: '../../Imagenes/imagenjuegos/pepaPig.jpg', clueImage: '../../Imagenes/imagenjuegos/pistaPepapig.png' },
+        { name: 'George Pig', image: 'https://upload.wikimedia.org/wikipedia/en/b/b5/George_Pig.png', clueImage: 'https://placehold.co/100x100/ADD8E6/000000?text=Pista+George' },
+        { name: 'Superman', image: 'https://upload.wikimedia.org/wikipedia/en/3/35/Superman_Square_S.png', clueImage: 'https://placehold.co/100x100/DC143C/FFFFFF?text=Pista+S' },
+        { name: 'Spiderman', image: 'https://upload.wikimedia.org/wikipedia/en/2/21/Spider-Man_No_Way_Home_poster.jpg', clueImage: 'https://placehold.co/100x100/FF0000/FFFFFF?text=Pista+Araña' },
+        { name: 'Elsa (Frozen)', image: 'https://upload.wikimedia.org/wikipedia/en/5/5e/Elsa_from_Frozen.png', clueImage: 'https://placehold.co/100x100/87CEEB/FFFFFF?text=Pista+Hielo' },
+        { name: 'Olaf (Frozen)', image: 'https://upload.wikimedia.org/wikipedia/en/f/f6/Olaf_Frozen_II.png', clueImage: 'https://placehold.co/100x100/FFFFFF/000000?text=Pista+Nieve' },
+        { name: 'Chase (Patrulla Canina)', image: 'https://static.wikia.nocookie.net/pawpatrol/images/f/fd/Chase.png', clueImage: 'https://placehold.co/100x100/4169E1/FFFFFF?text=Pista+Policia' },
+        { name: 'Marshall (Patrulla Canina)', image: 'https://static.wikia.nocookie.net/pawpatrol/images/f/f0/Marshall.png', clueImage: 'https://placehold.co/100x100/FF4500/FFFFFF?text=Pista+Bombero' },
+        { name: 'Bob Esponja', image: 'https://upload.wikimedia.org/wikipedia/en/3/3b/SpongeBob_SquarePants_character.png', clueImage: 'https://placehold.co/100x100/FFFF00/000000?text=Pista+Esponja' },
+        { name: 'Patricio Estrella', image: 'https://upload.wikimedia.org/wikipedia/en/3/33/Patrick_Star.png', clueImage: 'https://placehold.co/100x100/FFC0CB/000000?text=Pista+Estrella' },
+        { name: 'Dora la Exploradora', image: 'https://upload.wikimedia.org/wikipedia/en/6/6f/Dora_the_Explorer.png', clueImage: 'https://placehold.co/100x100/FFD700/000000?text=Pista+Botas' },
+        { name: 'Boots (Dora)', image: 'https://upload.wikimedia.org/wikipedia/en/b/b3/Boots_the_Monkey.png', clueImage: 'https://placehold.co/100x100/8B4513/FFFFFF?text=Pista+Mono' },
         // ¡Puedes añadir muchos más!
     ];
 
@@ -50,7 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     /**
      * Función para crear y añadir una tarjeta de personaje al contenedor.
-     * @param {object} data - Objeto con el nombre y la imagen del personaje.
+     * @param {object} data - Objeto con el nombre, la imagen del personaje y la imagen de la pista.
      */
     const createCharacterCard = (data) => {
         const flipCard = document.createElement('div');
@@ -62,12 +63,17 @@ document.addEventListener('DOMContentLoaded', () => {
         const flipCardFront = document.createElement('div');
         flipCardFront.classList.add('flip-card-front');
 
-        // En la parte frontal, mostraremos una pregunta o un ícono
-        const frontTextDisplay = document.createElement('h2');
-        frontTextDisplay.classList.add('character-name-front'); // Reutilizamos la clase para estilo
-        frontTextDisplay.textContent = data.frontText || 'Adivina'; // Texto predeterminado si no se especifica
+        // --- CAMBIO CLAVE AQUÍ: Reemplazar texto por imagen de pista ---
+        const clueImage = document.createElement('img');
+        clueImage.classList.add('clue-image'); // Clase para estilos de la imagen de pista
+        clueImage.src = data.clueImage; // Usamos la nueva propiedad 'clueImage'
+        clueImage.alt = `Pista para ${data.name}`; // Texto alternativo para accesibilidad
+        clueImage.onerror = () => {
+            clueImage.src = "https://placehold.co/150x150/CCCCCC/000000?text=Pista+No+Cargada"; // Fallback
+        };
         
-        flipCardFront.appendChild(frontTextDisplay);
+        // Añadimos la imagen de pista a la parte frontal de la tarjeta
+        flipCardFront.appendChild(clueImage);
 
         const flipCardBack = document.createElement('div');
         flipCardBack.classList.add('flip-card-back');
@@ -97,7 +103,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (flipCard.classList.contains('flipped')) {
                 speakText(data.name); // Si está volteada, pronuncia el nombre del personaje
             } else {
-                // Opcional: speakText(data.frontText || 'Adivina quién es'); // Puedes hacer que diga la pregunta al volver
+                // Opcional: No hay texto que pronunciar en la parte frontal si es una imagen
             }
         });
 

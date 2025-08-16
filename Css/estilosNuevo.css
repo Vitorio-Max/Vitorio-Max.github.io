@@ -676,22 +676,13 @@ line-height: 1;
 
 
 .character-image { /* Renombrado para claridad */
-
-width: 100px; /* Tamaño de la imagen dentro de la tarjeta */
-
-height: 100px;
-
-object-fit: cover;
-
-border-radius: 0.75rem;
-
-border: 3px solid #4f46e5;
-
-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-
+    width: 100px; /* Tamaño de la imagen dentro de la tarjeta */
+    height: 100px;
+    object-fit: cover;
+    border-radius: 0.75rem;
+    border: 3px solid #4f46e5;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
-
-
 
 .character-name-back { /* Renombrado para claridad */
     font-size: 2rem; /* Tamaño para el nombre completo del personaje */
@@ -700,6 +691,28 @@ box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     line-height: 1.2;
     padding: 0.5rem; /* Ajuste para nombres más largos */
 }
+
+/*------------JUEGO QUIENESQUIEN----------*/
+
+.clue-image {
+    max-width: 100%; /* Asegura que la imagen no se salga de la tarjeta */
+    max-height: 100%; /* Limita la altura */
+    object-fit: contain; /* Ajusta la imagen sin recortarla, manteniendo el aspecto */
+    border-radius: 8px; /* Si quieres que las pistas también tengan bordes redondeados */
+    display: block; /* Para centrarla o manejar el espacio mejor */
+    margin: auto; /* Para centrar la imagen dentro de su contenedor */
+    padding: 10px; /* Espacio alrededor de la imagen dentro de la tarjeta */
+}
+
+/* Asegúrate de que .flip-card-front tenga un display flex o grid para centrar el contenido si es necesario */
+.flip-card-front {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* Puedes necesitar ajustar el padding de .flip-card-front si lo tienes para texto */
+}
+
+/*-------FIN-----JUEGO QUIENESQUIEN----------*/
 
 /*------------JUEGO MAPAS*/
 

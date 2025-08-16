@@ -4,9 +4,70 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Juego de Mapas 🗺️</title>
-    <link rel="stylesheet" href="../../Css/Juegos/mapaPrueba.css">
+    <!--<link rel="stylesheet" href="../../Css/Juegos/mapaPrueba.css">-->
+    <link rel="stylesheet" href="../../Css/estilosNuevo.css">
+    <link rel="stylesheet" href="../../Css/Juegos/barraselectorajuegos.css">
 </head>
 <body>
+
+    <!-- Barra de navegación superior -->
+    <header> 
+        <a href="../../index.html" class="navbar-brand">
+            <img src="../../Imagenes/viityuno.webp" alt="Logo VityUno" class="navbar-logo">
+        </a>
+               
+        
+        <button id="abrir-juegos" class="abrir-menu"><i class="bi bi-list"></i></button>
+        
+        <nav class="navbar" id="nav-juegos"> <div class="navbar-container">
+                
+            <button id="cerrar-juegos" class="cerrar-menu"><i class="bi bi-x"></i></button>
+                
+            <ul class="nav-links">
+                    <li><a href="../index.html" class="nav-link">Inicio</a></li>
+                    <li><a href="../calcuheader.html" class="nav-link">Calculadora</a></li>
+                    <li><a href="../contador.html" class="nav-link">Contador</a></li>
+                    <li><a href="../cuentaAtras.html" class="nav-link">Cuenta atrás</a></li>
+                    <li><a href="../listadelacompra.html" class="nav-link">Lista de la compra</a></li>
+                    <li><a href="../targetCuentos.html" class="nav-link">Cuentos</a></li>
+                    <li><a href="../../html/juegos.html" class="nav-link">Juegos</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <div class="game-selector-strip">
+        <nav class="game-selector-nav">
+            
+            <select id="game-selector-dropdown" class="game-selector-dropdown">
+                <option value="" disabled selected>Selecciona un Juego</option>
+                <option value="../../html/Juegos/numeros.html">Números</option>
+                <option value="../../html/Juegos/animales.html">Animales</option>
+                <option value="../../html/Juegos/vocales.html">Vocales</option>
+                <option value="../../html/Juegos/letras.html">Letras</option>
+                <option value="../../html/Juegos/quienesquien.html">¿Quién es Quién?</option>
+                <option value="../../html/Juegos/puzzle.html">Puzzle</option>
+                <option value="../../html/Juegos/aprendeAleer.html">Aprende a Leer</option>
+                <option value="../../html/Juegos/palabrasingles.html">Palabras en inglés</option>
+                <option value="../../html/Juegos/mapa.html">Mapa</option>
+            </select>
+
+            <ul class="game-links-list">
+                <li><a href="../../html/Juegos/numeros.html" class="game-link">Números</a></li>
+                <li><a href="../../html/Juegos/animales.html" class="game-link">Animales</a></li>
+                <li><a href="../../html/Juegos/vocales.html" class="game-link">Vocales</a></li>
+                <li><a href="../../html/Juegos/letras.html" class="game-link">Letras</a></li>
+                <li><a href="../../html/Juegos/quienesquien.html" class="game-link">¿Quién es Quién?</a></li>
+                <li><a href="../../html/Juegos/puzzle.html" class="game-link">Puzzle</a></li>
+                <li><a href="../../html/Juegos/aprendeAleer.html" class="game-link">Aprende a Leer</a></li>
+                <li><a href="../../html/Juegos/palabrasingles.html" class="game-link">Palabras en inglés</a></li>
+                <li><a href="../../html/Juegos/mapa.html" class="game-link">Mapa</a></li>
+            </ul>
+            
+            <a href="../juegos.html" class="back-button">Atrás</a>
+        </nav>
+    </div>
+
 
     <h1>¿Dónde está la Comunidad de Madrid?</h1>
 
@@ -19,6 +80,19 @@
     </div>
 
     <div id="mensaje"></div>
+
+    <!-- Enlace a la versión de pruebas -->
+    <div style="text-align: center; margin-top: 20px;">
+        <a href="mapa.html" 
+           style="background-color: #3498db; 
+                  color: white; 
+                  padding: 10px 20px; 
+                  border-radius: 5px; 
+                  text-decoration: none; 
+                  font-weight: bold;">
+            Ir a la Versión Original
+        </a>
+    </div>
 
     <script src="../../JavaScript/Juegos/mapaPrueba.js"></script>
     <script src="../../JavaScript/Juegos/menuJuegos.js"></script>
