@@ -1,0 +1,435 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;0,900&family=Inter:wght@400;700;800&display=swap');
+
+/* --- Box-sizing universal para cálculos de diseño más fáciles y reseteo básico --- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', Arial, Helvetica, sans-serif; /* Usamos Poppins como principal */
+}
+
+/* --- ESTILOS GENERALES DEL BODY --- */
+body {
+    min-height: 100vh; /* Asegura que el fondo ocupe toda la altura de la ventana */
+    background: linear-gradient(0deg, rgb(91, 255, 200) 0%, rgba(0,0,0,1) 100%); /* Fondo por defecto de mHvitorio.css */
+    background-size: cover;
+    background-position: center;
+    overflow-x: hidden; /* Evita la barra de desplazamiento horizontal */
+    padding-top: 90px; /* Espacio para el header fijo */
+    font-family: 'Poppins', Arial, Helvetica, sans-serif; /* Fuente específica para el contenido del body si se prefiere */
+    display: flex;
+    flex-direction: column; /* Para alinear el contenido principal debajo del header */
+    align-items: center; /* Centra el contenido horizontalmente */
+    justify-content: flex-start; /* Alinea el contenido al inicio verticalmente */
+}
+
+/* --- Estilos para la barra de navegación (Header) --- */
+header {
+    position: fixed; /* Mantiene el header en la parte superior */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 80px; /* Altura explícita del header */
+    background-color: #4f46e5; /* Color de fondo para toda la barra superior */
+    padding: 0 100px 0 50px; /* Padding horizontal para el contenido del header */
+    display: flex;
+    justify-content: space-between; /* Para separar el logo/marca y el menú */
+    align-items: center;
+    z-index: 1000; /* Asegura que el header esté por encima de la mayoría de los elementos */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.navbar { /* Contenedor general de la navegación dentro del header */
+    width: 100%; /* Ocupa todo el ancho del header */
+    height: 100%; /* Ocupa toda la altura del header */
+    background-color: transparent; /* El fondo ya lo tiene el header */
+    padding: 0; /* Padding ya lo gestiona el header */
+    box-shadow: none; /* Sombra ya la gestiona el header */
+    display: flex; /* Permite organizar sus elementos hijos */
+    justify-content: flex-end; /* Para alinear el brand a la izquierda y el container a la derecha */
+    align-items: center;
+    
+    position: relative; /* No fixed, ya que el header es fixed */
+    z-index: auto; /* Z-index ya lo gestiona el header */
+}
+
+.navbar-brand { /* Tu logo o nombre de marca en el header */
+    color: #ffffff;
+    font-size: 1.75rem;
+    font-weight: 800;
+    text-decoration: none;
+    border-radius: 0.5rem;
+    padding: 0.25rem 0.5rem;
+    transition: background-color 0.3s ease;
+    display: flex; /* Asegura que la imagen se alinee bien dentro del enlace */
+    align-items: center; /* Centra la imagen verticalmente */
+    height: 100%; /* El enlace ocupa toda la altura del navbar */
+}
+
+.navbar-logo {
+    height: 100%; /* La imagen ocupará el 100% de la altura del enlace (y por ende, del navbar) */
+    width: auto; /* Mantiene la proporción de la imagen */
+    max-width: 100%; /* Limita el ancho máximo para que no sea demasiado grande */
+    object-fit: contain; /* Asegura que la imagen se ajuste sin cortarse */
+    
+}
+
+.navbar-brand:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.navbar-container { /* Este envuelve los enlaces de navegación y el botón de login */
+    max-width: 1200px; /* Ancho máximo para el contenido del menú */
+    width: 100%; /* Ocupa el 100% del espacio disponible en el navbar */
+    display: flex;
+    justify-content: flex-end; /* Alinea los elementos a la derecha por defecto en desktop */
+    gap: 1.5rem; /* Espacio entre los enlaces y el botón */
+    align-items: center;
+    padding: 0 1rem; /* Espaciado horizontal dentro del contenedor */
+}
+
+.nav-links {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex; /* Para que los enlaces estén en fila */
+    gap: 1.5rem; /* Espacio entre los enlaces */
+    align-items: center;
+}
+
+.nav-link {
+    color: #ffffff;
+    font-size: 1.125rem;
+    font-weight: 700;
+    text-decoration: none;
+    padding: 0.5rem 0.2rem;
+    border-radius: 0.5rem;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    position: relative; /* Necesario para la animación ::after */
+}
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -6px;
+    width: 100%;
+    height: 3px;
+    background: #fff;
+    border-radius: 5px;
+    transform-origin: right;
+    transform: scaleX(0);
+    transition: transform .5s;
+}
+
+.nav-link:hover::after {
+    transform-origin: left;
+    transform: scaleX(1);
+}
+
+/* --- ESTILOS DEL BOTÓN DE INICIAR SESIÓN (GLOBAL) --- */
+.btnLogin-popup {
+    width: 130px;
+    height: 50px;
+    background: transparent;
+    border: 2px solid #fff;
+    outline: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1.1em;
+    color: #fff;
+    font-weight: 500;
+    margin-left: 40px;
+    transition: .5s;
+}
+
+.btnLogin-popup:hover {
+    background: #fff;
+    color: #162938;
+}
+
+/* --- BOTONES DE MENÚ DE HAMBURGUESA (OCULTOS POR DEFECTO EN DESKTOP) --- */
+.abrir-menu,
+.cerrar-menu{
+    display: none; /* Ocultar por defecto en desktop */
+}
+
+/* --- ESTILOS DEL WRAPPER (FORMULARIO DE LOGIN/REGISTRO) --- */
+.wrapper {
+    position: fixed; /* Posicionamiento fijo respecto a la ventana del navegador */
+    top: 50%; /* Alinea el borde superior al 50% de la altura de la ventana */
+    left: 50%; /* Alinea el borde izquierdo al 50% de la anchura de la ventana */
+    transform: translate(-50%, -50%) scale(0); /* Centra el elemento sobre sí mismo y lo esconde */
+    width: 400px;
+    height: 440px;
+    background: transparent;
+    border: 2px solid rgba(255,255,255, .5);
+    border-radius: 20px;
+    backdrop-filter: blur(20px);
+    box-shadow: 0 0 30px rgba(0,0,0,.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    transition: transform .5s ease, height .2s ease;
+    z-index: 1001; /* Asegura que esté por encima del header y el menú */
+}
+
+.wrapper.active-popup {
+    transform: translate(-50%, -50%) scale(1); /* Muestra el wrapper centrado */
+}
+
+.wrapper.active {
+    height: 520px; /* Altura para el formulario de registro */
+}
+
+/* --- ESTILOS DE LOS FORMULARIOS DENTRO DEL WRAPPER --- */
+.wrapper .form-box { width: 100%; padding: 40px; }
+.wrapper .form-box.login{ transition: transform .18s ease; transform: translateX(0); }
+.wrapper.active .form-box.login { transition: none; transform: translateX(-400px); }
+.wrapper .form-box.register { position: absolute; transition: none; transform: translateX(400px); }
+.wrapper.active .form-box.register{ transition: transform .18s ease; transform: translateX(0); }
+.wrapper .icon-close {
+    position: absolute; top: 0; right: 0; width: 45px; height: 45px; background: #162938; font-size: 2em; color: #fff;
+    display: flex; justify-content: center; align-items: center; border-bottom-left-radius: 20px; cursor: pointer; z-index: 1;
+}
+.form-box h2{ font-size: 2em; color: #162938; text-align: center; }
+.input-box { position: relative; width: 100%; height: 50px; border-bottom: 2px solid #162938; margin: 30px 0; }
+.input-box label {
+    position: absolute; top: 50%; left: 5px; transform: translateY(-50%); font-size: 1em; color: #162938;
+    font-weight: 500; pointer-events: none; transition: .5s;
+}
+.input-box input:focus~label, .input-box input:valid~label { top: -5px; }
+.input-box input {
+    width: 100%; height: 100%; background: transparent; border: none; outline: none; font-size: 1em;
+    color: #162938; font-weight: 600; padding: 0 35px 0 5px;
+}
+.input-box .icon { position: absolute; right: 8px; font-size: 1.2em; color: #162938; line-height: 57px; }
+.remember-forgot {
+    font-size: .9em; color: #162938; font-weight: 500; margin: -15px 0 15px; display: flex; justify-content: space-between;
+}
+.remember-forgot label input{ accent-color: #162938; margin-right: 3px; }
+.remember-forgot a { color: #162938; text-decoration: none; }
+.remember-forgot a:hover { text-decoration: underline; }
+.btn {
+    width: 100%; height: 45px; background: #162938; border: none; outline: none; border-radius: 6px; cursor: pointer;
+    font-size: 1em; color: #fff; font-weight: 500;
+}
+.login-register { font-size: .9em; color: #162938; text-align: center; font-weight: 500; margin: 25px 0 10px; }
+.login-register p a { color: #162938; text-decoration: none; font-weight: 600; }
+.login-register p a:hover { text-decoration: underline; }
+
+@media screen and (max-width: 768px) {
+    /* Ajustes del Header en móvil */
+    header {
+        padding: 0 20px; /* Reducir padding horizontal para móvil */
+        justify-content: space-between; /* Mantener la separación */
+       
+    }
+
+    body {
+        padding-top: 150px; /* El padding superior sigue siendo el mismo para el header fijo */
+    }
+
+    /* Mostrar los botones de abrir/cerrar menú */
+    .abrir-menu,
+    .cerrar-menu{
+        display: block; /* Ahora se muestran por defecto en móvil */
+        border: 0;
+        font-size: 1.5rem; /* Icono un poco más grande */
+        background-color: transparent;
+        cursor: pointer;
+        z-index: 1010; /* Asegurar que estén por encima de todo cuando el menú se abre */
+    }
+
+    .abrir-menu{
+        color: white; /*Color para los iconos, para que contrasten con el fondo del header Se mantiene blanco */
+        display: block; /* Ahora se muestran por defecto en móvil */
+        border: 0;
+        font-size: 1.8rem; /* Icono un poco más grande */
+        background-color: transparent;
+        cursor: pointer;
+        color: white; /* Color para los iconos, para que contrasten con el fondo del header */
+        z-index: 1010; /* Asegurar que estén por encima de todo cuando el menú se abre */
+        margin-left: auto; /* Empuja el botón de hamburguesa a la derecha del logo */
+    }
+
+    
+    /* Ocultar el botón de cerrar menú por defecto (cuando el menú está cerrado) */
+    .cerrar-menu {
+        display: none; /* Por defecto, se oculta en móvil */
+        position: absolute; /* Para posicionar la X en la esquina superior derecha del menú abierto */
+        top: 20px;
+        right: 20px;
+        font-size: 2rem; /* Haz la "X" un poco más grande para ser más visible y fácil de tocar */
+        color: #1d4ed8; /* Color azul para la X, contrasta bien con el verde claro */
+        z-index: 1011; /* Asegúrate de que esté por encima del menú */
+    }
+
+    /* MOSTRAR el botón de cerrar menú cuando el navbar está visible */
+    .navbar.visible .cerrar-menu {
+        display: block; /* Se muestra solo cuando el .navbar es visible */
+    }
+
+    /* Ocultar el botón de abrir menú cuando el header tiene el menú abierto */
+    header.menu-abierto .abrir-menu {
+        display: none;
+    }
+
+    /* El contenedor principal de la navegación en móvil (el menú desplegable) */
+    .navbar { /* Esta es la misma clase .navbar que está dentro del header en HTML */
+        opacity: 0;
+        visibility: hidden;
+        position: fixed; /* Fijo para que ocupe toda la pantalla */
+        top: 0;
+        right: 0;
+        bottom: 0;
+        width: 60%; /* Ocupa todo el ancho en móvil */
+        background-color: rgb(91, 255, 200); /* Color de fondo del menú desplegado */
+        padding: 2rem;
+        box-shadow: 0 0 0 100vmax rgba(0, 0, 0, .5); /* Overlay semitransparente fuera del menú */
+        display: flex; /* Ahora es flex para organizar su contenido */
+        flex-direction: column; /* Contenido apilado verticalmente */
+        align-items: flex-end; /* Alinea los elementos (enlaces, botón cerrar) a la derecha */
+        transition: opacity 0.3s ease, visibility 0.3s ease;
+        z-index: 999; /* Asegúrate de que esté debajo del wrapper de login si ambos pueden estar activos */
+    }
+
+    .navbar-container {
+        display: flex;
+        flex-direction: column; /* Ya está así, se mantiene */
+        /* CAMBIO CLAVE: Alinea los elementos hijos (nav-links y btnLogin-popup) a la derecha */
+        align-items: flex-end; /* <--- CAMBIO: Alinea los elementos a la derecha */
+        justify-content: center; /* Se mantiene para centrado vertical */
+        width: 100%;
+        height: 100%;
+        padding: 0;
+        gap: 1rem;
+    }    
+
+    .navbar-logo {
+        height: 100%;
+        max-width: 120px; /* Ajusta el tamaño del logo para móviles si es necesario */
+    }
+
+    .navbar.visible {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    /* Ocultar el navbar-brand cuando el menú se abre */
+    .navbar.visible .navbar-brand {
+        display: none;
+    }
+
+    /* Ocultar la lista de enlaces por defecto, se mostrará con .navbar.visible */
+    .nav-links {
+         display: flex;
+        flex-direction: column; /* Ya está así, se mantiene */
+        /* CAMBIO CLAVE: Alinea los <li> (enlaces individuales) a la derecha dentro del <ul> */
+        align-items: flex-end; /* <--- CAMBIO: Alinea los enlaces a la derecha */
+        width: 100%; /* Asegura que la lista ocupe todo el ancho para que la alineación funcione */
+        padding-right: 0;
+        padding-left: 0;
+        margin-top: 2rem;
+        gap: 1.2rem;
+    }
+
+    /* Asegúrate de que los nav-links se muestren cuando el menú es visible */
+    .navbar.visible .nav-links {
+        display: flex; /* Mostrar los enlaces cuando el menú está visible */
+    }
+
+    /* Estilos específicos para los enlaces individuales en el menú móvil */
+    .nav-link {
+        color: rgb(0, 0, 0); /* Color oscuro para los enlaces en el menú móvil */
+        padding: 0.75rem 0;
+        width: 100%; /* <--- CAMBIO: Ocupa todo el ancho disponible para que el text-align funcione */
+        text-align: right; /* <--- CAMBIO: Alinea el texto a la derecha */
+        font-weight: 700;
+    }
+
+    .nav-link::after {
+        background: rgb(0, 0, 0); /* Cambiar color de la línea hover en móvil */
+        transform: scaleX(0); /* Reiniciar transformación por si acaso */
+        
+    }
+    .nav-link:hover::after {
+        transform: scaleX(1); /* Animación de línea hover */
+    }
+
+    /* Ajuste para el botón de login en el menú móvil */
+    .nav-links .btnLogin-popup {
+        color: rgb(0, 0, 0); /* Color de texto para el botón en el menú móvil */
+        border-color: rgb(0, 0, 0); /* Color del borde para el botón en el menú móvil */
+        background: transparent;
+        margin-left: auto; /* Eliminar margen para que se alinee con los demás */
+        margin-top: 1.5rem; /* Espacio superior para separarlo de los enlaces */
+        width: auto; /* Ancho automático para que se ajuste al contenido */
+        padding: 0.5em 1em; /* Padding para que no sea tan grande */
+        align-self: flex-end; /* Alinea el botón a la derecha en el menú móvil */
+        font-size: 0.9em; /* Texto más grande */
+        font-weight: 700;
+        border-radius: 8px; /* Bordes más suaves */
+        transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+    }
+    /* Ocultar el botón .cerrar-menu si está dentro del ul.nav-links en HTML */
+    .nav-links .cerrar-menu {
+        display: none; /* Asegura que no se muestre doble si se gestiona fuera de los enlaces */
+    }
+
+    .nav-links .btnLogin-popup:hover {
+        background: #162938; /* Fondo al pasar el ratón */
+        color: #fff; /* Color del texto al pasar el ratón */
+        transform: scale(1.05);
+    }
+}
+
+
+@media screen and (max-width: 480px) {
+    body {
+        padding-top: 150px; /* El padding superior sigue siendo el mismo para el header fijo */
+    }
+    header {
+        padding: 0 15px;
+    }
+    .navbar {
+        padding: 1.5rem;
+        width: 80%;
+    }
+    .navbar-logo {
+        height: 100%; /* La imagen ocupará el 100% de la altura del enlace (y por ende, del navbar) */
+        max-width: 120px; /* Limita el ancho máximo para que no sea demasiado grande */
+    
+    }
+    .nav-link {
+        font-size: 1rem;
+    }
+    .btnLogin-popup {
+        width: auto;
+        padding: 0.5em 0.7em; /* Posiblemente incluso menos padding para pantallas muy pequeñas */
+        font-size: 0.8em; /* Podría necesitar ser más pequeño aquí */
+    }
+    .wrapper {
+        width: 90%; /* Hace el wrapper de login más responsivo */
+        height: auto; /* Ajusta la altura automáticamente */
+        max-height: 90vh; /* Para evitar que se desborde en pantallas muy pequeñas */
+        overflow-y: auto; /* Permite desplazamiento si el contenido es muy largo */
+    }
+    .form-box {
+        padding: 20px;
+    }
+    .input-box {
+        margin: 20px 0;
+    }
+
+    .main-cuenta-atras {
+        margin-top: 0;
+        padding-top: 0;
+    }
+    .fecha {
+        margin-top: 0;
+        padding-top: 0;
+    }
+
+}

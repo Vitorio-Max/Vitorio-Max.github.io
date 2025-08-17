@@ -1,4 +1,29 @@
 /* --- englishGame.css --- */
+.main-content-container {
+    background-color: rgba(255, 255, 255, 0.95); /* Fondo blanco semitransparente */
+    border-radius: 25px; /* Bordes redondeados */
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2); /* Sombra para profundidad */
+    padding: 1rem; /* Espaciado interno generoso */
+    width: 90%; /* Ancho responsivo */
+    max-width: 800px; /* Ancho máximo en pantallas grandes */
+    margin-top: 5rem; /* Espacio superior para separar de la barra de juegos */
+    margin-bottom: 0.5rem; /* Espacio inferior */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    animation: fadeInScale 0.7s ease-out forwards; /* Animación de entrada */
+}
+
+/* Título del juego */
+.game-title {
+    font-size: 2rem; /* Tamaño grande */
+    font-weight: 900; /* Extra bold */
+    color: #1d4ed8; /* Azul oscuro */
+    margin-bottom: 1rem; /* Espacio debajo */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1); /* Ligera sombra */
+}
 
 .english-game-container {
     display: flex;

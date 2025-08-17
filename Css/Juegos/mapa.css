@@ -1,0 +1,119 @@
+/*------------JUEGO MAPAS*/
+
+.main-content-container {
+    background-color: rgba(255, 255, 255, 0.95); /* Fondo blanco semitransparente */
+    border-radius: 25px; /* Bordes redondeados */
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2); /* Sombra para profundidad */
+    padding: 1rem; /* Espaciado interno generoso */
+    width: 90%; /* Ancho responsivo */
+    max-width: 800px; /* Ancho máximo en pantallas grandes */
+    margin-top: 5rem; /* Espacio superior para separar de la barra de juegos */
+    margin-bottom: 0.5rem; /* Espacio inferior */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    animation: fadeInScale 0.7s ease-out forwards; /* Animación de entrada */
+}
+
+/* Título del juego */
+.juego-mapa {
+    font-size: 2rem; /* Tamaño grande */
+    font-weight: 900; /* Extra bold */
+    color: #1d4ed8; /* Azul oscuro */
+    margin-bottom: 1rem; /* Espacio debajo */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1); /* Ligera sombra */
+}
+
+/*.juego-mapa {
+    text-align: center;
+    margin-top: 2rem;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}*/
+.instruccion {
+    font-size: 1.5rem;
+    color: #333;
+    margin-bottom: 20px;
+}
+.mapa-container {
+    display: none;
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 10px;
+    border: 2px solid #ccc;
+    border-radius: 10px;
+}
+.mapa-container.active {
+    display: block;
+}
+
+/* Reglas CSS para el SVG */
+svg {
+    width: 100%;
+    height: auto;
+}
+svg path {
+    cursor: pointer;
+    transition: fill 0.3s ease;
+    fill: #ADD8E6; /* Color predeterminado de los municipios/comunidades */
+    stroke: #000;
+    stroke-width: 0.5;
+}
+#madrid-region {
+    fill: #27ae60; /* Color distintivo para la Comunidad de Madrid en el mapa de España */
+}
+#leganes-municipio {
+    fill: #2980b9; /* Color distintivo para Leganés en el mapa de Madrid */
+}
+svg path:hover {
+    fill: #4682B4 !important; /* Color de resaltado al pasar el ratón */
+}
+
+.final-message {
+    display: none;
+    padding: 20px;
+    background-color: #e0f7e9;
+    border: 2px solid #66bb6a;
+    border-radius: 10px;
+    max-width: 400px;
+    margin: 20px auto;
+}
+.final-message h2 {
+    color: #2e7d32;
+}
+.reiniciar-btn {
+    padding: 10px 20px;
+    font-size: 1rem;
+    color: white;
+    background-color: #007bff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+.reiniciar-btn:hover {
+    background-color: #0056b3;
+}
+
+.mapa-container {
+    transition: transform 1s ease-in-out, opacity 1s ease-in-out;
+}
+
+/* Define el estado de "zoom" para el mapa de España */
+.mapa-container.zoom-out {
+    /* Ajusta estos valores para centrar y escalar el mapa en Madrid */
+    transform: scale(3.5) translate(-200px, -200px); 
+    opacity: 0;
+}
+#mapa-interactivo {
+    transition: transform 1s ease-in-out;
+}
+
+/*------FIN------JUEGO MAPAS*/

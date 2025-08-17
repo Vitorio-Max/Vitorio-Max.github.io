@@ -1,0 +1,184 @@
+/* --- Estilos para los juegos (CONTENEDOR PRINCIPAL) --- */
+.main-content-container {
+    background-color: rgba(255, 255, 255, 0.95); /* Fondo blanco semitransparente */
+    border-radius: 25px; /* Bordes redondeados */
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2); /* Sombra para profundidad */
+    padding: 1rem; /* Espaciado interno generoso */
+    width: 90%; /* Ancho responsivo */
+    max-width: 800px; /* Ancho máximo en pantallas grandes */
+    margin-top: 5rem; /* Espacio superior para separar de la barra de juegos */
+    margin-bottom: 0.5rem; /* Espacio inferior */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    animation: fadeInScale 0.7s ease-out forwards; /* Animación de entrada */
+}
+
+/* Título del juego */
+.game-title {
+    font-size: 2rem; /* Tamaño grande */
+    font-weight: 900; /* Extra bold */
+    color: #1d4ed8; /* Azul oscuro */
+    margin-bottom: 1rem; /* Espacio debajo */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1); /* Ligera sombra */
+}
+
+/*------------JUEGO LETRAS CON PALABRAS*/
+
+.letters-grid-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8rem;
+    justify-items: center;
+    align-items: center;
+}
+
+.characters-grid-container { /* Ahora apunta a la clase correcta en HTML */
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); /* Columnas responsivas */
+    gap: 1.5rem; /* Espacio entre las tarjetas */
+    justify-content: center;
+    width: 100%;
+    max-width: 900px; /* Ancho máximo para la cuadrícula */
+    margin: 0 auto;
+    padding: 1rem;
+}
+
+
+
+.flip-card {
+    background-color: transparent;
+    width: 150px; /* Ancho fijo para la tarjeta */
+    height: 200px; /* Alto fijo para la tarjeta */
+    perspective: 1000px; /* Necesario para el efecto 3D */
+    border-radius: 1.5rem; /* Bordes redondeados */
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    cursor: pointer;
+}
+
+.flip-card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transition: transform 0.6s; /* Transición para el volteo */
+    transform-style: preserve-3d; /* Mantiene el 3D en los hijos */
+    border-radius: 1.5rem;
+}
+
+/* Cuando la tarjeta tiene la clase 'flipped', la giramos */
+
+.flip-card.flipped .flip-card-inner {
+    transform: rotateY(180deg);
+}
+
+.flip-card-front, .flip-card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    -webkit-backface-visibility: hidden; /* Oculta la parte trasera al voltear */
+    backface-visibility: hidden;
+    border-radius: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+    box-sizing: border-box; /* Incluye padding en el tamaño total */
+}
+
+.flip-card-front {
+    background-color: #ffffff;
+    color: #1d4ed8;
+}
+
+.flip-card-back {
+    background-color: #60a5fa; /* Un azul más claro para el reverso */
+    color: white;
+    transform: rotateY(180deg); /* La parte trasera empieza volteada */
+}
+
+.character-name-front { /* Renombrado para claridad */
+    font-size: 2.5rem; /* Ajustado para caber mejor, si se usa nombre corto */
+    font-weight: 800;
+    margin-bottom: 0.5rem;
+    line-height: 1;
+}
+
+.character-image { /* Renombrado para claridad */
+    width: 100px; /* Tamaño de la imagen dentro de la tarjeta */
+    height: 100px;
+    object-fit: cover;
+    border-radius: 0.75rem;
+    border: 3px solid #4f46e5;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.character-name-back { /* Renombrado para claridad */
+    font-size: 2rem; /* Tamaño para el nombre completo del personaje */
+    font-weight: 700;
+    text-align: center;
+    line-height: 1.2;
+    padding: 0.5rem; /* Ajuste para nombres más largos */
+}
+
+@media screen and (max-width: 768px) {
+
+/*------JUEGO LETRAS CON PALABRAS-----*/
+
+    .letters-grid-container {
+        /* Cambia a 2 columnas para que quepan mejor */
+        grid-template-columns: repeat(2, 1fr);
+        /* Reduce el espacio entre las tarjetas */
+        gap: 2rem;
+    }
+
+    /* También ajustamos el gap si la clase characters-grid-container se usa */
+    .characters-grid-container {
+        gap: 1rem;
+    }
+
+    /* Reducimos el tamaño de la tarjeta para que quepan mejor */
+    .flip-card {
+        width: 130px;
+        height: 170px;
+    }
+
+    /*---FIN---JUEGO LETRAS CON PALABRAS-----*/
+
+}
+
+@media screen and (max-width: 480px) {
+
+    /*------JUEGO LETRAS CON PALABRAS-----*/
+
+    .letters-grid-container {
+        /* Una sola columna para que las tarjetas se apilen */
+        grid-template-columns: 1fr;
+        /* Reduce aún más el espacio */
+        gap: 1rem;
+    }
+
+    .characters-grid-container {
+        gap: 0.5rem;
+    }
+
+    /* La tarjeta puede volver a su tamaño original si se desea, o mantenerse pequeña */
+    .flip-card {
+        width: 150px;
+        height: 200px;
+    }
+
+    .flip-card-front, .flip-card-back {
+        padding: 0.5rem; /* Ajusta el padding para pantallas muy pequeñas */
+    }
+    
+    .letter-display, .word-display {
+        font-size: 2rem; /* Tamaño de fuente más pequeño para que quepa */
+    }
+    
+    /*---FIN---JUEGO LETRAS CON PALABRAS-----*/
+
+}

@@ -1,0 +1,100 @@
+/* --- Estilos para los juegos (CONTENEDOR PRINCIPAL) --- */
+.main-content-container {
+    background-color: rgba(255, 255, 255, 0.95); /* Fondo blanco semitransparente */
+    border-radius: 25px; /* Bordes redondeados */
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2); /* Sombra para profundidad */
+    padding: 1rem; /* Espaciado interno generoso */
+    width: 90%; /* Ancho responsivo */
+    max-width: 800px; /* Ancho máximo en pantallas grandes */
+    margin-top: 5rem; /* Espacio superior para separar de la barra de juegos */
+    margin-bottom: 0.5rem; /* Espacio inferior */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    animation: fadeInScale 0.7s ease-out forwards; /* Animación de entrada */
+}
+
+/* Título del juego */
+.game-title {
+    font-size: 2rem; /* Tamaño grande */
+    font-weight: 900; /* Extra bold */
+    color: #1d4ed8; /* Azul oscuro */
+    margin-bottom: 1rem; /* Espacio debajo */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1); /* Ligera sombra */
+}
+
+.animal-card {
+    background-color: #ffffff;
+    border-radius: 1.5rem;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s ease-in-out;
+    cursor: pointer;
+    width: 100%;
+    max-width: 24rem; /* Restringe el ancho para las páginas de animales/vocales */
+}
+
+.animal-card:hover {
+    transform: scale(1.05);
+}
+
+.animal-image {
+    width: 12rem;
+    height: 12rem;
+    object-fit: cover;
+    border-radius: 1rem;
+    border: 4px solid #60a5fa;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.animal-name, .vowel-display { /* Aplica a ambos nombres de animal y display de vocal */
+    font-size: 2.25rem;
+    font-weight: 800;
+    color: #1d4ed8;
+    text-align: center;
+    margin-top: 1.5rem;
+}
+
+.vowel-name { /* Para el texto "A de avión" */
+    font-size: 1.5rem;
+    color: #4f46e5;
+    text-align: center;
+    margin-top: 0.5rem;
+}
+
+.next-animal-btn { /* Esta clase es la que tiene tu botón "Reiniciar Juego" */
+    margin-top: 1.5rem;
+    padding: 1.2rem 3rem;
+    background-color: #22c55e; /* Verde brillante */
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 1.8rem; /* Tamaño de fuente grande */
+    border-radius: 9999px; /* Forma de píldora */
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+
+.next-animal-btn:hover {
+    background-color: #16a34a; /* Verde más oscuro al pasar ratón */
+    transform: translateY(-3px) scale(1.02);
+}
+
+.next-animal-btn:focus {
+    outline: none;
+    box-shadow: 0 0 0 4px rgba(52, 211, 153, 0.5);
+}
+
+.next-animal-btn:active {
+    transform: translateY(0) scale(0.98);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+}

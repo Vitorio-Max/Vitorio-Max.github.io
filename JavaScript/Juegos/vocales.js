@@ -71,4 +71,3 @@ document.addEventListener('DOMContentLoaded', () => {
     updateVowelDisplay();
     speakText(vowels[currentVowelIndex].letter); // Pronunciar la primera vocal al inicio
 });
-s
