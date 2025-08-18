@@ -3,12 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>¿Quién es Quién? - Personajes Animados</title>
+    <title>Aprendiendo Animales</title>
+    
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="../../Css/navbar.css">
     <link rel="stylesheet" href="../../Css/Juegos/barraselectorajuegos.css">
-    <link rel="stylesheet" href="../../Css/Juegos/quienesquien.css">
+    <link rel="stylesheet" href="../../Css/Juegos/puzletras.css">
+    
 </head>
 <body>
     <!-- Barra de navegación superior -->
@@ -22,6 +24,7 @@
         
         <nav class="navbar" id="nav-juegos"> <div class="navbar-container">
                 
+            
             <button id="cerrar-juegos" class="cerrar-menu"><i class="bi bi-x"></i></button>
                 
             <ul class="nav-links">
@@ -31,7 +34,7 @@
                     <li><a href="../cuentaAtras.html" class="nav-link">Cuenta atrás</a></li>
                     <li><a href="../listadelacompra.html" class="nav-link">Lista de la compra</a></li>
                     <li><a href="../targetCuentos.html" class="nav-link">Cuentos</a></li>
-                    <li><a href="../../html/juegos.html" class="nav-link">Juegos</a></li>
+                    <li><a href="../juegos.html" class="nav-link">Juegos</a></li>
                 </ul>
             </div>
         </nav>
@@ -72,11 +75,27 @@
     </div>
 
     <div class="main-content-container">
-        <h1 class="game-title">¿Quién es Quién? ¡Personajes Animados!</h1>
-        <div id="characters-grid-container" class="letters-grid-container"></div>
-    </div>
+    <h1 class="game-title">Forma la palabra: CASA</h1>
+    
+    <div class="game-puzzle-container">
+        <div id="letters-to-drag" class="letters-to-drag">
+            <div class="draggable-letter" data-letter="C">C</div>
+            <div class="draggable-letter" data-letter="A">A</div>
+            <div class="draggable-letter" data-letter="S">S</div>
+            <div class="draggable-letter" data-letter="A">A</div>
+            <div class="draggable-letter" data-letter="T">T</div> <div class="draggable-letter" data-letter="O">O</div> </div>
 
-    <script src="../../JavaScript/Juegos/quienesquien.js"></script>
+        <div id="word-target" class="word-target">
+            <div class="droppable-space" data-correct-letter="C"></div>
+            <div class="droppable-space" data-correct-letter="A"></div>
+            <div class="droppable-space" data-correct-letter="S"></div>
+            <div class="droppable-space" data-correct-letter="A"></div>
+        </div>
+    </div>
+</div>
+
+    <!-- Enlaza el archivo JavaScript al final del body para asegurar que el DOM esté cargado -->
+    <script src="../../JavaScript/Juegos/puzletras.js"></script>
     <script src="../../JavaScript/Juegos/menuJuegos.js"></script>
 </body>
 </html>

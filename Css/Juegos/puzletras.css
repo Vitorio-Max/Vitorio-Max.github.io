@@ -1,0 +1,97 @@
+body {
+    margin: 0;
+    padding: 0;
+    padding-top: 150px;
+}
+/* Estilos del contenedor principal */
+.main-content-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 2rem;
+    background-color: #f0f8ff; /* Azul claro muy suave */
+    border-radius: 25px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    min-height: 50vh; /* Altura mínima para que se vea bien */
+}
+
+/* Título del juego */
+.game-title {
+    font-size: 2.5rem;
+    color: #4b0082;
+    margin-bottom: 2rem;
+}
+
+/* Contenedor del puzle */
+.game-puzzle-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3rem;
+}
+
+/* Estilos de las letras arrastrables */
+.letters-to-drag {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1.5rem;
+}
+
+.draggable-letter {
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #ffffff;
+    background-color: #ff6347; /* Rojo anaranjado */
+    border-radius: 15px;
+    cursor: grab;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s ease-in-out;
+}
+
+.draggable-letter:hover {
+    transform: translateY(-5px);
+}
+
+.draggable-letter:active {
+    cursor: grabbing;
+}
+
+/* Estilos de los espacios para soltar las letras */
+.word-target {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.droppable-space {
+    width: 70px;
+    height: 70px;
+    border: 3px dashed #6a5acd; /* Línea discontinua */
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(255, 255, 255, 0.5);
+    transition: background-color 0.3s;
+}
+
+.droppable-space.hovered {
+    background-color: #98fb98; /* Verde claro al pasar el ratón */
+    border-style: solid;
+}
+
+.droppable-space.correct {
+    background-color: #4caf50; /* Verde brillante cuando la letra es correcta */
+    border-style: solid;
+    color: #ffffff;
+    font-size: 2.5rem;
+    font-weight: bold;
+}

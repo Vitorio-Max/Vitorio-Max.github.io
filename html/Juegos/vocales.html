@@ -51,6 +51,7 @@
                 <option value="../../html/Juegos/aprendeAleer.html">Aprende a Leer</option>
                 <option value="../../html/Juegos/palabrasingles.html">Palabras en inglés</option>
                 <option value="../../html/Juegos/mapa.html">Mapa</option>
+                <option value="../../html/Juegos/puzletras.html">Puzletras</option>
             </select>
 
             <ul class="game-links-list">
@@ -63,6 +64,7 @@
                 <li><a href="../../html/Juegos/aprendeAleer.html" class="game-link">Aprende a Leer</a></li>
                 <li><a href="../../html/Juegos/palabrasingles.html" class="game-link">Palabras en inglés</a></li>
                 <li><a href="../../html/Juegos/mapa.html" class="game-link">Mapa</a></li>
+                <li><a href="../../html/Juegos/puzletras.html" class="game-link">Puzletras</a></li>
             </ul>
             
             <a href="../juegos.html" class="back-button">Atrás</a>
@@ -71,17 +73,18 @@
 
     <div class="main-content-container">
         <!-- Tarjeta principal para mostrar la vocal -->
-        <div id="vowel-card" class="animal-card"> <!-- Reutilizamos 'animal-card' para el estilo -->
-            <!-- La vocal se mostrará aquí como texto grande -->
-            <h1 id="vowel-display" class="vowel-display"></h1>
-            <!-- Nombre de la vocal (opcional, si quieres que diga "A de avión") -->
-            <p id="vowel-name" class="vowel-name"></p>
+        <div class="game-area-container">
+            <div id="vowel-card" class="animal-card"> <!-- Reutilizamos 'animal-card' para el estilo -->
+                <!-- La vocal se mostrará aquí como texto grande -->
+                <h1 id="vowel-display" class="vowel-display"></h1>
+                <!-- Nombre de la vocal (opcional, si quieres que diga "A de avión") -->
+                <p id="vowel-name" class="vowel-name"></p>
+            </div>
+            <!-- Botón para ir a la siguiente vocal -->
+            <button id="next-vowel-btn" class="next-animal-btn"> <!-- Reutilizamos 'next-animal-btn' -->
+                Siguiente Vocal
+            </button>
         </div>
-
-        <!-- Botón para ir a la siguiente vocal -->
-        <button id="next-vowel-btn" class="next-animal-btn"> <!-- Reutilizamos 'next-animal-btn' -->
-            Siguiente Vocal
-        </button>
     </div>
 
     <!-- Enlaza el archivo JavaScript específico para las vocales -->

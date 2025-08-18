@@ -1,73 +1,62 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Array de vocales
+    // Array de vocales, ahora con rutas a imágenes y sonidos
     const vowels = [
-        { letter: 'A', name: 'A de avión' },
-        { letter: 'E', name: 'E de elefante' },
-        { letter: 'I', name: 'I de iguana' },
-        { letter: 'O', name: 'O de oso' },
-        { letter: 'U', name: 'U de uvas' }
+        { letter: 'A', name: 'A de avión', sound: 'ruta/a_avion.mp3', image: '../../Imagenes/imagenjuegos/avion.jpg' },
+        { letter: 'E', name: 'E de elefante', sound: 'ruta/e_elefante.mp3', image: '../../Imagenes/imagenjuegos/elefante.png' },
+        { letter: 'I', name: 'I de iguana', sound: 'ruta/i_iguana.mp3', image: '../../Imagenes/imagenjuegos/iguana.png' },
+        { letter: 'O', name: 'O de oso', sound: 'ruta/o_oso.mp3', image: '../../Imagenes/imagenjuegos/oso.jpg' },
+        { letter: 'U', name: 'U de uvas', sound: 'ruta/u_uvas.mp3', image: '../../Imagenes/imagenjuegos/uvas.png' }
     ];
 
-    let currentVowelIndex = 0; // Índice de la vocal actual
-    let speechSynthesisSupported = false; // Bandera para la compatibilidad con síntesis de voz
-
-    // Obtener referencias a los elementos del DOM
+    let currentVowelIndex = 0;
     const vowelCard = document.getElementById('vowel-card');
     const vowelDisplay = document.getElementById('vowel-display');
     const vowelName = document.getElementById('vowel-name');
     const nextVowelBtn = document.getElementById('next-vowel-btn');
 
-    // Verificar la compatibilidad con la síntesis de voz al cargar la página
-    if ('speechSynthesis' in window) {
-        speechSynthesisSupported = true;
-    } else {
-        console.warn("La síntesis de voz no es compatible con este navegador.");
-    }
+    // Añadir un elemento para la imagen y el audio al HTML (debes agregarlos)
+    const vowelImage = document.createElement('img');
+    vowelImage.className = 'vowel-image';
+    vowelCard.prepend(vowelImage); // Inserta la imagen al principio de la tarjeta
+    
+    // Función para reproducir sonidos con una animación
+    const playSoundAndAnimate = (soundPath) => {
+        const audio = new Audio(soundPath);
+        audio.play();
 
-    /**
-     * Función para hablar la vocal o su nombre.
-     * @param {string} text - El texto a pronunciar (vocal o su nombre).
-     */
-    const speakText = (text) => {
-        if (speechSynthesisSupported) {
-            const utterance = new SpeechSynthesisUtterance(text);
-            utterance.lang = 'es-ES'; // Establecer el idioma a español
-            window.speechSynthesis.speak(utterance);
-        } else {
-            console.log(`Simulando voz para: ${text}`);
-        }
+        // Pequeña animación de "rebote"
+        vowelDisplay.style.animation = 'none';
+        vowelDisplay.offsetHeight; // Forzar reflow
+        vowelDisplay.style.animation = 'popIn 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55)';
     };
 
-    /**
-     * Función para actualizar la interfaz de usuario con la vocal actual.
-     */
     const updateVowelDisplay = () => {
         const currentVowel = vowels[currentVowelIndex];
-        vowelDisplay.textContent = currentVowel.letter;
-        vowelName.textContent = currentVowel.name;
+        
+        // Animación de salida antes de cambiar
+        vowelCard.style.animation = 'scaleOut 0.3s ease-in';
+        setTimeout(() => {
+            vowelDisplay.textContent = currentVowel.letter;
+            vowelName.textContent = currentVowel.name;
+            vowelImage.src = currentVowel.image;
+            vowelImage.alt = `Imagen de ${currentVowel.name}`;
+            vowelCard.style.animation = 'fadeInScale 0.7s ease-out forwards'; // Animación de entrada
+            playSoundAndAnimate(currentVowel.sound);
+        }, 300); // Esperar a que termine la animación de salida
     };
 
-    /**
-     * Función para pasar a la siguiente vocal.
-     */
     const goToNextVowel = () => {
         currentVowelIndex = (currentVowelIndex + 1) % vowels.length;
-        // Detener cualquier voz en curso al pasar a la siguiente vocal
-        if (speechSynthesisSupported) {
-            window.speechSynthesis.cancel();
-        }
-        updateVowelDisplay(); // Actualizar la pantalla con la nueva vocal
-        speakText(vowels[currentVowelIndex].letter); // Pronunciar la nueva vocal al cargarla
+        updateVowelDisplay();
     };
 
-    // Añadir event listeners
+    // Event listeners
     vowelCard.addEventListener('click', () => {
-        speakText(vowels[currentVowelIndex].letter); // Pronuncia solo la letra
+        playSoundAndAnimate(vowels[currentVowelIndex].sound);
     });
 
     nextVowelBtn.addEventListener('click', goToNextVowel);
 
     // Inicializar la visualización de la vocal al cargar la página
     updateVowelDisplay();
-    speakText(vowels[currentVowelIndex].letter); // Pronunciar la primera vocal al inicio
 });
