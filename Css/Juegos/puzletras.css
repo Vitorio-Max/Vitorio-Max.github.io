@@ -161,31 +161,49 @@ body {
 
 /* Media query específica para pantallas de hasta 480px (móviles) */
 @media (max-width: 480px) {
+    body {
+        /* Reduce el espacio superior para dar más espacio al contenido */
+        padding-top: 80px;
+    }
+
     .main-content-container {
         padding: 1rem;
+        border-radius: 15px; /* Bordes menos redondeados */
     }
 
     .game-title {
-        font-size: 1.5rem;
-        margin-bottom: 1.5rem;
+        font-size: 1.25rem; /* Título más pequeño para que quepa */
+        margin-bottom: 1rem;
+    }
+    
+    .letters-to-drag,
+    .word-target {
+        gap: 0.75rem; /* Espacio más ajustado entre letras y espacios */
     }
 
     .draggable-letter {
-        width: 45px;
-        height: 45px;
-        font-size: 1.8rem;
+        width: 40px;
+        height: 40px;
+        font-size: 1.5rem;
+        border-radius: 10px;
     }
 
     .droppable-space {
-        width: 50px;
-        height: 50px;
+        width: 45px;
+        height: 45px;
+        border-width: 2px; /* Borde más fino */
     }
-    
-    .letters-to-drag, .word-target {
-        gap: 1rem;
+
+    #success-message {
+        padding: 1rem;
     }
 
     #success-message p {
-        font-size: 1.2rem;
+        font-size: 1rem; /* Texto de felicitación más pequeño */
+    }
+
+    #restart-button {
+        padding: 0.6rem 1rem;
+        font-size: 0.9rem;
     }
 }
