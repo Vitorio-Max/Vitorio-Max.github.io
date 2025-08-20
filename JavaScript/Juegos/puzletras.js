@@ -1,33 +1,49 @@
+let originalDraggableLetters = null;
+
 document.addEventListener('DOMContentLoaded', () => {
-    // Seleccionamos todos los elementos con la clase para arrastrar y soltar
-    const draggables = document.querySelectorAll('.draggable-letter');
+    const lettersToDragContainer = document.getElementById('letters-to-drag');
     const droppables = document.querySelectorAll('.droppable-space');
+    const successMessage = document.getElementById('success-message');
+    const restartButton = document.getElementById('restart-button');
+    
+    // Almacenamos las letras originales al cargar la página
+    originalDraggableLetters = Array.from(lettersToDragContainer.children);
 
-    console.log('Juego cargado. Elementos arrastrables:', draggables.length, 'Elementos para soltar:', droppables.length);
+    initializeGame();
 
-    // Bucle para añadir eventos de arrastre a cada letra
-    draggables.forEach(draggable => {
-        // Habilitamos el arrastre en el elemento
-        draggable.setAttribute('draggable', true);
+    function initializeGame() {
+        // Ocultamos el mensaje de éxito
+        successMessage.classList.remove('visible-message');
+        successMessage.classList.add('hidden-message');
 
-        draggable.addEventListener('dragstart', (e) => {
-            console.log('Arrastrando:', e.target.textContent);
-            // Guardamos la letra que se está arrastrando
-            e.dataTransfer.setData('text/plain', e.target.dataset.letter);
-            // Opcional: añadimos una clase para dar estilo mientras se arrastra
-            e.target.classList.add('dragging');
+        // Reiniciamos el contenedor de letras arrastrables
+        lettersToDragContainer.innerHTML = '';
+        originalDraggableLetters.forEach(letter => {
+            // Clonamos la letra y la reinsertamos en el contenedor
+            const clonedLetter = letter.cloneNode(true);
+            clonedLetter.setAttribute('draggable', true);
+            clonedLetter.style.display = 'flex';
+            lettersToDragContainer.appendChild(clonedLetter);
+
+            // Re-agregamos los listeners a las letras clonadas
+            clonedLetter.addEventListener('dragstart', (e) => {
+                e.dataTransfer.setData('text/plain', e.target.dataset.letter);
+                e.target.classList.add('dragging');
+            });
+            clonedLetter.addEventListener('dragend', (e) => {
+                e.target.classList.remove('dragging');
+            });
         });
 
-        draggable.addEventListener('dragend', (e) => {
-            // Opcional: removemos la clase al soltar
-            e.target.classList.remove('dragging');
+        // Limpiamos los espacios para soltar
+        droppables.forEach(droppable => {
+            droppable.innerHTML = '';
+            droppable.classList.remove('correct');
         });
-    });
+    }
 
-    // Bucle para añadir eventos de soltar a cada espacio
     droppables.forEach(droppable => {
         droppable.addEventListener('dragover', (e) => {
-            // Evita el comportamiento por defecto para permitir soltar
             e.preventDefault();
             droppable.classList.add('hovered');
         });
@@ -40,24 +56,15 @@ document.addEventListener('DOMContentLoaded', () => {
             e.preventDefault();
             droppable.classList.remove('hovered');
             
-            // Obtenemos la letra arrastrada
             const draggedLetter = e.dataTransfer.getData('text/plain');
             const correctLetter = droppable.dataset.correctLetter;
 
-            console.log('Soltado en:', droppable.dataset.correctLetter, 'Letra arrastrada:', draggedLetter);
+            const draggedElement = document.querySelector('.draggable-letter.dragging');
             
-            // Verificamos si la letra es correcta y si el espacio está vacío
             if (draggedLetter === correctLetter && droppable.children.length === 0) {
-                // Creamos un nuevo elemento con la letra correcta para colocarlo en el espacio
-                const newLetterDiv = document.createElement('div');
-                newLetterDiv.textContent = draggedLetter;
-                newLetterDiv.classList.add('placed-letter');
-
-                // Opcional: añadimos una animación al colocar la letra
-                newLetterDiv.style.animation = 'popIn 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55)';
-                
-                droppable.appendChild(newLetterDiv);
-                
+                droppable.appendChild(draggedElement);
+                draggedElement.style.cssText = '';
+                droppable.classList.add('correct');
                 checkIfPuzzleComplete();
             } else {
                 console.log('Letra incorrecta o espacio ocupado.');
@@ -66,11 +73,14 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     const checkIfPuzzleComplete = () => {
-        const correctLettersCount = document.querySelectorAll('.droppable-space .placed-letter').length;
-        console.log('Letras correctas colocadas:', correctLettersCount);
+        const correctLettersCount = document.querySelectorAll('.droppable-space.correct').length;
         if (correctLettersCount === droppables.length) {
-            alert('¡Felicidades! Has formado la palabra "CASA"');
-            // Aquí podrías añadir más lógica para reiniciar el juego
+            successMessage.classList.remove('hidden-message');
+            successMessage.classList.add('visible-message');
         }
     };
+    
+    restartButton.addEventListener('click', () => {
+        initializeGame();
+    });
 });

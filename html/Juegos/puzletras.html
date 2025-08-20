@@ -83,7 +83,9 @@
             <div class="draggable-letter" data-letter="A">A</div>
             <div class="draggable-letter" data-letter="S">S</div>
             <div class="draggable-letter" data-letter="A">A</div>
-            <div class="draggable-letter" data-letter="T">T</div> <div class="draggable-letter" data-letter="O">O</div> </div>
+            <div class="draggable-letter" data-letter="T">T</div> 
+            <div class="draggable-letter" data-letter="O">O</div> 
+        </div>
 
         <div id="word-target" class="word-target">
             <div class="droppable-space" data-correct-letter="C"></div>
@@ -91,8 +93,14 @@
             <div class="droppable-space" data-correct-letter="S"></div>
             <div class="droppable-space" data-correct-letter="A"></div>
         </div>
+
+        <div id="success-message" class="hidden-message">
+        <p>¡Felicidades! Has formado la palabra.</p>
+        <button id="restart-button">Jugar de nuevo</button>
     </div>
-</div>
+
+    </div>
+
 
     <!-- Enlaza el archivo JavaScript al final del body para asegurar que el DOM esté cargado -->
     <script src="../../JavaScript/Juegos/puzletras.js"></script>

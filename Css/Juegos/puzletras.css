@@ -1,8 +1,10 @@
+/* Estilos generales */
 body {
     margin: 0;
     padding: 0;
     padding-top: 150px;
 }
+
 /* Estilos del contenedor principal */
 .main-content-container {
     display: flex;
@@ -11,10 +13,10 @@ body {
     justify-content: center;
     text-align: center;
     padding: 2rem;
-    background-color: #f0f8ff; /* Azul claro muy suave */
+    background-color: #f0f8ff;
     border-radius: 25px;
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-    min-height: 50vh; /* Altura mínima para que se vea bien */
+    min-height: 50vh;
 }
 
 /* Título del juego */
@@ -49,19 +51,20 @@ body {
     font-size: 2.5rem;
     font-weight: bold;
     color: #ffffff;
-    background-color: #ff6347; /* Rojo anaranjado */
+    background-color: #ff6347;
     border-radius: 15px;
     cursor: grab;
     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
-    transition: transform 0.2s ease-in-out;
+    transition: transform 0.2s ease-in-out, background-color 0.3s;
 }
 
 .draggable-letter:hover {
-    transform: translateY(-5px);
+    transform: translateY(-5px) scale(1.05);
 }
 
 .draggable-letter:active {
     cursor: grabbing;
+    background-color: #e65239;
 }
 
 /* Estilos de los espacios para soltar las letras */
@@ -74,24 +77,115 @@ body {
 .droppable-space {
     width: 70px;
     height: 70px;
-    border: 3px dashed #6a5acd; /* Línea discontinua */
+    border: 3px dashed #6a5acd;
     border-radius: 15px;
     display: flex;
     align-items: center;
     justify-content: center;
     background-color: rgba(255, 255, 255, 0.5);
-    transition: background-color 0.3s;
+    transition: background-color 0.3s, border-style 0.3s;
 }
 
 .droppable-space.hovered {
-    background-color: #98fb98; /* Verde claro al pasar el ratón */
+    background-color: #98fb98;
     border-style: solid;
 }
 
 .droppable-space.correct {
-    background-color: #4caf50; /* Verde brillante cuando la letra es correcta */
+    background-color: #4caf50;
     border-style: solid;
     color: #ffffff;
     font-size: 2.5rem;
     font-weight: bold;
+}
+
+/* Estilos para el mensaje de éxito */
+.hidden-message {
+    display: none;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+    text-align: center;
+    margin-top: 2rem;
+    padding: 1.5rem;
+    background-color: #98fb98;
+    border: 3px solid #4caf50;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.visible-message {
+    display: block;
+    opacity: 1;
+}
+
+#success-message p {
+    font-size: 1.5rem;
+    color: #4b0082;
+    font-weight: bold;
+}
+
+#restart-button {
+    margin-top: 1rem;
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    cursor: pointer;
+    background-color: #ff6347;
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    transition: background-color 0.2s;
+}
+
+#restart-button:hover {
+    background-color: #e65239;
+}
+
+
+
+/* Media query para pantallas de hasta 768px (tabletas) */
+@media (max-width: 768px) {
+    body {
+        padding-top: 100px;
+    }
+
+    .game-title {
+        font-size: 2rem;
+    }
+
+    .draggable-letter, .droppable-space {
+        width: 50px;
+        height: 50px;
+        font-size: 2rem;
+    }
+}
+
+/* Media query específica para pantallas de hasta 480px (móviles) */
+@media (max-width: 480px) {
+    .main-content-container {
+        padding: 1rem;
+    }
+
+    .game-title {
+        font-size: 1.5rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .draggable-letter {
+        width: 45px;
+        height: 45px;
+        font-size: 1.8rem;
+    }
+
+    .droppable-space {
+        width: 50px;
+        height: 50px;
+    }
+    
+    .letters-to-drag, .word-target {
+        gap: 1rem;
+    }
+
+    #success-message p {
+        font-size: 1.2rem;
+    }
 }
