@@ -6,11 +6,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const successMessage = document.getElementById('success-message');
     const restartButton = document.getElementById('restart-button');
     
-    // Detectamos si es un dispositivo táctil
-    const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
-    
     // Almacenamos los elementos originales al cargar la página.
     originalDraggableLetters = Array.from(lettersToDragContainer.children).map(node => node.cloneNode(true));
+    
+    // Detectamos si es un dispositivo táctil
+    const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
 
     initializeGame();
 
@@ -21,14 +21,12 @@ document.addEventListener('DOMContentLoaded', () => {
         lettersToDragContainer.innerHTML = '';
         originalDraggableLetters.forEach(letter => {
             const clonedLetter = letter.cloneNode(true);
-            clonedLetter.style.display = 'flex';
+            lettersToDragContainer.appendChild(clonedLetter);
             
-            // Habilitamos el atributo 'draggable' solo para dispositivos de escritorio
+            // Habilitamos el arrastre del ratón solo si no es un dispositivo táctil
             if (!isTouchDevice) {
                 clonedLetter.setAttribute('draggable', true);
             }
-
-            lettersToDragContainer.appendChild(clonedLetter);
         });
 
         droppables.forEach(droppable => {
@@ -36,7 +34,6 @@ document.addEventListener('DOMContentLoaded', () => {
             droppable.classList.remove('correct');
         });
 
-        // Llamamos a la función para agregar los listeners una vez que los elementos están en el DOM
         if (isTouchDevice) {
             addTouchListeners();
         } else {
@@ -44,6 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    // Funciones para añadir listeners
     function addMouseListeners() {
         const draggables = document.querySelectorAll('.draggable-letter');
         
@@ -127,12 +125,14 @@ document.addEventListener('DOMContentLoaded', () => {
                         targetElement.classList.add('correct');
                         checkIfPuzzleComplete();
                     } else {
+                        // Vuelve a su lugar
                         lettersToDragContainer.appendChild(activeLetter);
                         activeLetter.style.position = '';
                         activeLetter.style.left = '';
                         activeLetter.style.top = '';
                     }
                 } else {
+                    // Si se suelta fuera, vuelve a su lugar
                     lettersToDragContainer.appendChild(activeLetter);
                     activeLetter.style.position = '';
                     activeLetter.style.left = '';
@@ -142,7 +142,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
     }
-
+    
     const checkIfPuzzleComplete = () => {
         const correctLettersCount = document.querySelectorAll('.droppable-space.correct').length;
         if (correctLettersCount === droppables.length) {
