@@ -109,10 +109,17 @@ document.addEventListener('DOMContentLoaded', () => {
             element.addEventListener('touchend', (e) => {
                 if (!activeLetter) return;
                 const endTouch = e.changedTouches[0];
-                activeLetter.classList.remove('dragging');
-
+                
+                // Ocultamos temporalmente el elemento que se está arrastrando
+                activeLetter.style.display = 'none';
+                
+                // Encontramos el elemento en las coordenadas de soltado
                 const targetElement = document.elementFromPoint(endTouch.clientX, endTouch.clientY);
                 
+                // Volvemos a mostrar el elemento arrastrado
+                activeLetter.style.display = 'flex';
+                activeLetter.classList.remove('dragging');
+
                 if (targetElement && targetElement.classList.contains('droppable-space')) {
                     const draggedLetter = activeLetter.dataset.letter;
                     const correctLetter = targetElement.dataset.correctLetter;
@@ -125,7 +132,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         targetElement.classList.add('correct');
                         checkIfPuzzleComplete();
                     } else {
-                        // Vuelve a su lugar
+                        // Vuelve a su lugar si es incorrecta o el espacio está ocupado
                         lettersToDragContainer.appendChild(activeLetter);
                         activeLetter.style.position = '';
                         activeLetter.style.left = '';
