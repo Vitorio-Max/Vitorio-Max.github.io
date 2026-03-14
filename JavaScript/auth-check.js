@@ -1,13 +1,17 @@
 import { supabase, logoutUser } from './supabase.js';
 
+console.log("auth-check.js cargado correctamente");
+
 const authButton = document.getElementById('authButton');
 const welcomeMessage = document.getElementById('welcomeMessage');
 
 async function checkUserStatus() {
     // 1. Obtenemos el usuario actual
     const { data: { user } } = await supabase.auth.getUser();
+    console.log("Usuario detectado:", user);
 
     if (user) {
+        console.log("Cambiando botón a Cerrar Sesión");
         // --- EL USUARIO ESTÁ LOGUEADO ---
         authButton.textContent = "Cerrar sesión";
         authButton.classList.remove('btnLogin-popup');
