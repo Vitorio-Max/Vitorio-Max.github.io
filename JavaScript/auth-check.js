@@ -6,36 +6,36 @@ const authButton = document.getElementById('authButton');
 const welcomeMessage = document.getElementById('welcomeMessage');
 
 async function checkUserStatus() {
-    // 1. Obtenemos el usuario actual
     const { data: { user } } = await supabase.auth.getUser();
     console.log("Usuario detectado:", user);
 
     if (user) {
         console.log("Cambiando botón a Cerrar Sesión");
-        // --- EL USUARIO ESTÁ LOGUEADO ---
+        
+        // 1. Cambiamos el texto
         authButton.textContent = "Cerrar sesión";
+        
+        // 2. IMPORTANTE: Eliminamos la clase que abre el modal 
+        // para que no se abra el login al intentar cerrar sesión
         authButton.classList.remove('btnLogin-popup');
         
-        // Mostramos el mensaje de bienvenida
+        // 3. Mostramos bienvenida
         welcomeMessage.style.display = "block";
         welcomeMessage.textContent = `Hola, ${user.email}`;
 
-        // Cambiamos la acción del botón para que haga logout
-        authButton.onclick = async () => {
+        // 4. Forzamos el evento click para cerrar sesión
+        authButton.onclick = async (e) => {
+            e.preventDefault(); // Evitamos cualquier comportamiento extra
             await logoutUser();
         };
     } else {
-        // --- NO HAY USUARIO ---
+        console.log("Usuario no detectado, mostrando botón de login");
         authButton.textContent = "Inicia sesión";
         welcomeMessage.style.display = "none";
-        // Aquí mantienes tu lógica original de abrir el modal de login
+        // Asegúrate de que tu login.js gestione el comportamiento del modal 
+        // para la clase 'btnLogin-popup'
     }
 }
 
-// Ejecutamos al cargar la página
+// Ejecutamos al cargar
 document.addEventListener('DOMContentLoaded', checkUserStatus);
-
-export async function logoutUser() {
-    await supabase.auth.signOut();
-    window.location.reload(); // Esto limpia todo y vuelve al estado de "no logueado"
-}
