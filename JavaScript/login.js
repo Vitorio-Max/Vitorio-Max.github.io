@@ -1,5 +1,19 @@
 import { loginUser, signUpUser } from './supabase.js';
 
+function showNotification(message, type = "success") {
+    Toastify({
+        text: message,
+        duration: 3000,
+        gravity: "top", 
+        position: "right",
+        style: {
+            background: type === "success" ? "#28a745" : "#dc3545",
+            borderRadius: "5px",
+            color: "white"
+        }
+    }).showToast();
+}
+
 const wrapper =document.querySelector('.wrapper');
 const loginLink =document.querySelector('.login-link');
 const registerLink =document.querySelector('.register-link');
@@ -36,9 +50,9 @@ loginForm.addEventListener('submit', async (e) => {
     const { data, error } = await loginUser(email, password);
     
     if (error) {
-        alert("Error al iniciar sesión: " + error.message);
+        showNotification("Error: " + error.message, "error");
     } else {
-        alert("¡Bienvenido de nuevo!");
+        showNotification("¡Bienvenido de nuevo!");
         wrapper.classList.remove('active-popup'); // Cierra el modal
         window.location.reload(); // Recarga para actualizar el estado
     }
@@ -56,9 +70,9 @@ registerForm.addEventListener('submit', async (e) => {
     const { data, error } = await signUpUser(email, password);
     
     if (error) {
-        alert("Error al registrarse: " + error.message);
+        showNotification("Error al registrarse: " + error.message, "error");
     } else {
-        alert("Registro exitoso. Por favor, revisa tu correo si necesitas confirmar la cuenta.");
+        showNotification("Registro exitoso. Por favor, revisa tu correo si necesitas confirmar la cuenta.");
         wrapper.classList.remove('active'); // Vuelve al login
     }
 });
