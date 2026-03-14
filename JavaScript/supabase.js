@@ -5,6 +5,20 @@ const supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYm
 
 export const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
+// ... tu inicialización de supabase (const supabase = ...)
+
+async function verificarSeguridad() {
+  const { data, error } = await supabase
+    .from('shopping_items')
+    .select('*');
+
+  if (error) {
+    console.error("Acceso denegado o error:", error.message);
+  } else {
+    console.log("Datos recibidos:", data);
+  }
+}
+
 // --- Funciones para la Lista de la Compra ---
 
 // Función para obtener todos los artículos
