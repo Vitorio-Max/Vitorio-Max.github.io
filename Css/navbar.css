@@ -148,6 +148,24 @@ header {
     color: #162938;
 }
 
+/* Estilo específico para el botón de sesión activa */
+.btn-logout {
+    background-color: #e63946; /* Un rojo elegante para la acción de salir */
+    color: #ffffff;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    margin-left: 10px;
+    transition: background-color 0.3s ease;
+}
+
+.btn-logout:hover {
+    background-color: #d62828; /* Oscurece al pasar el ratón */
+}
+
 /* --- BOTONES DE MENÚ DE HAMBURGUESA (OCULTOS POR DEFECTO EN DESKTOP) --- */
 .abrir-menu,
 .cerrar-menu{

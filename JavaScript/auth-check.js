@@ -14,6 +14,7 @@ async function checkUserStatus() {
         // --- Usuario logueado ---
         authButton.textContent = "Cerrar sesión";
         authButton.classList.remove('btnLogin-popup');
+        authButton.classList.add('btn-logout');
         
         welcomeMessage.style.display = "block";
         welcomeMessage.textContent = `Hola, ${user.email}`;
