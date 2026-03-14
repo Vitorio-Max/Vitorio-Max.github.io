@@ -5,7 +5,42 @@ const supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYm
 
 export const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
-// ... tu inicialización de supabase (const supabase = ...)
+// --- Funciones de Autenticación ---
+
+// Registro de nuevo usuario
+export async function signUpUser(email, password) {
+  const { data, error } = await supabase.auth.signUp({
+    email: email,
+    password: password,
+  });
+  if (error) {
+    console.error('Error al registrar:', error.message);
+    return { data: null, error };
+  }
+  return { data, error: null };
+}
+
+// Inicio de sesión
+export async function loginUser(email, password) {
+  const { data, error } = await supabase.auth.signInWithPassword({
+    email: email,
+    password: password,
+  });
+  if (error) {
+    console.error('Error al iniciar sesión:', error.message);
+    return { data: null, error };
+  }
+  return { data, error: null };
+}
+
+// Cerrar sesión
+export async function logoutUser() {
+  const { error } = await supabase.auth.signOut();
+  if (error) console.error('Error al cerrar sesión:', error.message);
+  window.location.reload(); // Recarga para limpiar la interfaz
+}
+
+// verificacion de seguridad
 
 async function verificarSeguridad() {
   const { data, error } = await supabase
