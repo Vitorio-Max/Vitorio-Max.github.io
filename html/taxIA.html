@@ -1,26 +1,28 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mi Lista de la Compra</title>
+    <title>VityUno</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="../Css/navbar.css">
-    <link rel="stylesheet" href="../Css/stylecompra.css">
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
-</head>
-<body>
 
+
+</head>
+
+<body>
     <header>
-        
         <a href="../index.html" class="navbar-brand">
             <img src="../Imagenes/viityuno.webp" alt="Logo VityUno" class="navbar-logo">
         </a>
-        
         <button id="abrir" class="abrir-menu"><i class="bi bi-list"></i></button>
+
         <nav class="navbar" id="nav">
+
+
             <div class="navbar-container">
-                <button class="cerrar-menu" id="cerrar" ><i class="bi bi-x"></i></button>
+                <button id="cerrar" class="cerrar-menu"><i class="bi bi-x"></i></button>
                 <ul class="nav-links">
                     <li><a href="../index.html" class="nav-link">Inicio</a></li>
                     <li><a href="calcuheader.html" class="nav-link">Calculadora</a></li>
@@ -30,13 +32,11 @@
                     <li><a href="cuentos.html" class="nav-link">Cuentos</a></li>
                     <li><a href="juegos.html" class="nav-link">Juegos</a></li>
                     <button id="authButton" class="btnLogin-popup">Inicia sesión</button>
-
                     <div id="welcomeMessage" style="display: none; color: white; margin-right: 15px;"></div>
                 </ul>
             </div>
         </nav>
-        
-    </header> 
+    </header>
 
     <div class="wrapper">
         <span class="icon-close"><ion-icon name="close-outline"></ion-icon></span>
@@ -96,39 +96,45 @@
         </div>
     </div>
 
+
+    <main class="container-servicio" style="padding: 20px; text-align: center; margin-top: 100px;">
     
-
-     <main class="main-lista-compra">
-
-    <h1>Mi Lista de la Compra</h1>
-    
-
-    <div class="input-container">
-        <input type="text" id="newItem" placeholder="Artículo">
-        <input type="number" id="newQuantity" placeholder="Cantidad" min="1">
-        <input type="number" id="newPrice" placeholder="Precio (€)" min="0" step="0.01">
-        <button id="add-item-btn">Añadir</button>    </div>
-
-    <ul id="shoppingList">
-    </ul>
-
-    <div class="total-container">
-        <button id="calculateTotal">Calcular Total</button>
-        <p id="totalPrice">Total: 0.00 €</p>
+    <div id="controles-servicio">
+        <button id="btn-iniciar" class="btn" style="background-color: #28a745; margin-bottom: 10px;">
+            <i class="bi bi-play-fill"></i> Iniciar Servicio
+        </button>
+        
+        <button id="btn-finalizar" class="btn" style="background-color: #dc3545; display: none;">
+            <i class="bi bi-stop-fill"></i> Finalizar Servicio
+        </button>
     </div>
 
-    </main>
+    <div id="form-finalizar" style="display: none; background: #fff; padding: 20px; border-radius: 10px; margin-top: 20px; color: #000; max-width: 300px; margin-left: auto; margin-right: auto;">
+        <h3>Detalles del Pago</h3>
+        <input type="number" id="importe" placeholder="Importe €" style="width: 100%; margin-bottom: 10px; padding: 8px;">
+        
+        <select id="metodo-pago" style="width: 100%; margin-bottom: 15px; padding: 8px;">
+            <option value="efectivo">Efectivo</option>
+            <option value="tarjeta">Tarjeta</option>
+            <option value="aplicacion">Aplicación</option>
+        </select>
+        
+        <button id="btn-confirmar-guardar" class="btn" style="width: 100%;">Guardar en Supabase</button>
+    </div>
+</main>
+
+
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
-    <!--  <script src="../JavaScript/script.js"></script>  -->
     <script src="../JavaScript/menuH.js"></script>
     <script type="module" src="../JavaScript/supabase.js"></script>
-    <script type="module" src="../JavaScript/listadelacompra.js"></script>
+    <script type="module" src="../JavaScript/taxIA.js"></script>
+
     <script type="module" src="../JavaScript/login.js"></script>
     <script type="module" src="../JavaScript/auth-check.js"></script>
 
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
-    
 
 </body>
+
 </html>

@@ -240,6 +240,21 @@ header {
 .login-register p a { color: #162938; text-decoration: none; font-weight: 600; }
 .login-register p a:hover { text-decoration: underline; }
 
+/* BOTONES TAXIA */
+        .botonTaxIA {
+            padding: 15px 30px;
+            font-size: 18px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: background-color 0.3s;
+        }
+
+        .botonTaxIA:hover {
+            background-color: #0056b3;
+        }
+
 @media screen and (max-width: 768px) {
     /* Ajustes del Header en móvil */
     header {
