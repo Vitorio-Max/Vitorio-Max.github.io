@@ -255,6 +255,58 @@ header {
             background-color: #0056b3;
         }
 
+        /* CONTENEDOR DE LA BOTONERA */
+.metodo-pago-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Dos columnas */
+    gap: 12px;
+    margin: 20px 0;
+}
+
+/* ESTILO DE LOS BOTONES DE PAGO (Basado en tu botonTaxIA) */
+.btn-metodo {
+    padding: 15px 10px;
+    font-size: 16px;
+    font-weight: bold;
+    background-color: #f8f9fa; /* Color neutro de fondo */
+    color: #333;
+    border: 2px solid #dee2e6;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+/* EFECTO AL PASAR EL RATÓN (O TOQUE LEVE) */
+.btn-metodo:hover {
+    background-color: #e2e6ea;
+}
+
+/* ESTADO ACTIVO: Cuando el botón está seleccionado */
+.btn-metodo.active {
+    background-color: #28a745 !important; /* Verde para confirmar selección */
+    color: white !important;
+    border-color: #1e7e34;
+    transform: scale(1.02); /* Un pequeño realce */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+/* Ajuste para el input de importe para que no desentone */
+#importe {
+    border: 2px solid #dee2e6;
+    border-radius: 8px;
+    font-size: 20px;
+    text-align: center;
+    outline: none;
+}
+
+#importe:focus {
+    border-color: #007bff;
+}
+
 @media screen and (max-width: 768px) {
     /* Ajustes del Header en móvil */
     header {

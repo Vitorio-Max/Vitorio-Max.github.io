@@ -6,8 +6,27 @@ const formFinalizar = document.getElementById('form-finalizar');
 const btnConfirmar = document.getElementById('btn-confirmar-guardar');
 
 let registroActualId = null;
+let metodoSeleccionado = 'efectivo';
 
-// --- NUEVA FUNCIÓN: Convierte lat/lng en Calle ---
+/**
+ * FUNCIÓN AUXILIAR: Lanza la notificación amigable
+ */
+const lanzarNotificacion = (mensaje, esError = false) => {
+    Toastify({
+        text: mensaje,
+        duration: 3000, // 3 segundos
+        gravity: "top", // top o bottom
+        position: "right", // left, center o right
+        stopOnFocus: true, // Evita que desaparezca si el usuario pasa el ratón
+        style: {
+            background: esError ? "#dc3545" : "#28a745",
+            borderRadius: "10px",
+            fontWeight: "bold"
+        }
+    }).showToast();
+};
+
+// --- FUNCIÓN: Geocodificación ---
 const obtenerDireccionCalle = async (lat, lng) => {
     if (!lat || !lng) return "Ubicación desconocida";
     try {
@@ -20,7 +39,7 @@ const obtenerDireccionCalle = async (lat, lng) => {
     }
 };
 
-// Función para obtener coordenadas
+// --- FUNCIÓN: Geolocalización ---
 const obtenerUbicacion = () => {
     return new Promise((resolve) => {
         navigator.geolocation.getCurrentPosition(pos => {
@@ -29,12 +48,26 @@ const obtenerUbicacion = () => {
     });
 };
 
+// Lógica para gestionar la selección de botones de pago
+document.querySelectorAll('.btn-metodo').forEach(boton => {
+    boton.addEventListener('click', (e) => {
+        // 1. Quitar clase 'active' de todos los botones para "desmarcarlos"
+        document.querySelectorAll('.btn-metodo').forEach(b => b.classList.remove('active'));
+        
+        // 2. Añadir clase 'active' al botón pulsado
+        e.currentTarget.classList.add('active');
+        
+        // 3. Guardar el valor en nuestra variable
+        metodoSeleccionado = e.currentTarget.getAttribute('data-valor');
+        
+        console.log("Método seleccionado:", metodoSeleccionado);
+    });
+});
+
 // 1. INICIAR SERVICIO
 btnIniciar.addEventListener('click', async () => {
-    btnIniciar.innerText = "Localizando..."; // Feedback visual
+    btnIniciar.innerText = "Localizando...";
     const coords = await obtenerUbicacion();
-    
-    // Obtenemos la calle real
     const direccion = await obtenerDireccionCalle(coords.lat, coords.lng);
     
     const { data, error } = await supabase
@@ -42,7 +75,7 @@ btnIniciar.addEventListener('click', async () => {
         .insert([{ 
             lat_inicio: coords.lat ? coords.lat.toString() : null, 
             lng_inicio: coords.lng ? coords.lng.toString() : null,
-            direccion_inicio: direccion // GUARDAMOS LA CALLE
+            direccion_inicio: direccion 
         }])
         .select();
 
@@ -50,10 +83,10 @@ btnIniciar.addEventListener('click', async () => {
         registroActualId = data[0].id;
         btnIniciar.style.display = 'none';
         btnFinalizar.style.display = 'inline-block';
-        alert(`Servicio iniciado en: ${direccion}`);
+        lanzarNotificacion(`Servicio iniciado en: ${direccion}`);
     } else {
-        console.error(error);
-        alert("Error al iniciar servicio");
+        btnIniciar.innerText = "Iniciar Servicio";
+        lanzarNotificacion("Error al iniciar servicio", true);
     }
 });
 
@@ -61,6 +94,7 @@ btnIniciar.addEventListener('click', async () => {
 btnFinalizar.addEventListener('click', () => {
     formFinalizar.style.display = 'block';
     btnFinalizar.style.display = 'none';
+    document.getElementById('importe').focus();
 });
 
 // 3. FINALIZAR Y GUARDAR TODO
@@ -68,9 +102,8 @@ btnConfirmar.addEventListener('click', async () => {
     btnConfirmar.innerText = "Guardando...";
     const coords = await obtenerUbicacion();
     const importe = document.getElementById('importe').value;
-    const metodo = document.getElementById('metodo-pago').value;
+const metodo = metodoSeleccionado; // <-- AHORA USA LA VARIABLE DE LOS BOTONES
 
-    // Obtenemos la calle de destino
     const direccionDestino = await obtenerDireccionCalle(coords.lat, coords.lng);
 
     const { error } = await supabase
@@ -79,16 +112,18 @@ btnConfirmar.addEventListener('click', async () => {
             fecha_fin: new Date().toISOString(),
             lat_fin: coords.lat ? coords.lat.toString() : null,
             lng_fin: coords.lng ? coords.lng.toString() : null,
-            direccion_fin: direccionDestino, // GUARDAMOS LA CALLE DE LLEGADA
+            direccion_fin: direccionDestino,
             importe: importe,
             metodo_pago: metodo
         })
         .eq('id', registroActualId);
 
     if (!error) {
-        alert("Servicio finalizado con éxito.");
-        location.reload(); 
+        lanzarNotificacion("Servicio finalizado con éxito.");
+        // Esperamos 2 segundos para que de tiempo a leer antes de recargar
+        setTimeout(() => location.reload(), 2000); 
     } else {
-        alert("Error al finalizar: " + error.message);
+        btnConfirmar.innerText = "Guardar en Supabase";
+        lanzarNotificacion("Error al finalizar: " + error.message, true);
     }
 });
