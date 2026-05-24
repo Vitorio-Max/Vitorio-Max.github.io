@@ -97,3 +97,5 @@ export async function removeItemFromList(itemId) {
     }
     return true;
 }
+
+window.supabase = supabase;

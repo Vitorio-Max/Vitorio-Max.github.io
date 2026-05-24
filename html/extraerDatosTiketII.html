@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analizador de Tiques con Gemini</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <script type="module" src="../JavaScript/supabase.js"></script>
+    <script type="module" src="../JavaScript/auth-check.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <link rel="stylesheet" href="../Css/navbar.css">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #1a1a2e;
+            --secondary: #16213e;
+            --accent: #0f3460;
+            --highlight: #e94560;
+            --success: #2ecc71;
+            --warning: #f39c12;
+            --text-light: #ecf0f1;
+            --text-muted: #bdc3c7;
+            --border: #34495e;
+        }
+
+        body {
+            font-family: 'Sora', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: var(--text-light);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+            animation: slideDown 0.8s ease-out;
+        }
+
+        header h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--highlight) 0%, #ff6b9d 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+            letter-spacing: -1px;
+        }
+
+        header p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            font-weight: 300;
+        }
+
+        .main-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: start;
+        }
+
+        .upload-section {
+            background: linear-gradient(135deg, rgba(15, 52, 96, 0.5) 0%, rgba(22, 33, 62, 0.5) 100%);
+            border: 2px solid var(--border);
+            border-radius: 20px;
+            padding: 40px;
+            backdrop-filter: blur(10px);
+            animation: slideUp 0.8s ease-out;
+            transition: all 0.3s ease;
+        }
+
+        .upload-section:hover {
+            border-color: var(--highlight);
+            background: linear-gradient(135deg, rgba(15, 52, 96, 0.7) 0%, rgba(22, 33, 62, 0.7) 100%);
+        }
+
+        .upload-area {
+            border: 2px dashed var(--highlight);
+            border-radius: 15px;
+            padding: 50px 30px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: rgba(233, 69, 96, 0.05);
+        }
+
+        .upload-area:hover,
+        .upload-area.drag-over {
+            background: rgba(233, 69, 96, 0.15);
+            border-color: var(--highlight);
+            transform: translateY(-2px);
+        }
+
+        .upload-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .upload-text {
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .upload-subtext {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        input[type="file"] {
+            display: none;
+        }
+
+        .preview-container {
+            margin-top: 30px;
+        }
+
+        .preview-image {
+            max-width: 100%;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            display: block;
+            margin-bottom: 20px;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        button {
+            flex: 1;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-family: 'Sora', sans-serif;
+        }
+
+        .btn-analyze {
+            background: linear-gradient(135deg, var(--highlight) 0%, #ff6b9d 100%);
+            color: white;
+            box-shadow: 0 8px 20px rgba(233, 69, 96, 0.3);
+        }
+
+        .btn-analyze:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 30px rgba(233, 69, 96, 0.5);
+        }
+
+        .btn-analyze:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .btn-clear {
+            background: var(--accent);
+            color: white;
+        }
+
+        .btn-clear:hover {
+            background: var(--secondary);
+        }
+
+        .results-section {
+            background: linear-gradient(135deg, rgba(15, 52, 96, 0.5) 0%, rgba(22, 33, 62, 0.5) 100%);
+            border: 2px solid var(--border);
+            border-radius: 20px;
+            padding: 40px;
+            backdrop-filter: blur(10px);
+            animation: slideUp 0.8s ease-out 0.2s both;
+            min-height: 600px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .results-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .loading {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            min-height: 400px;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 3px solid var(--border);
+            border-top-color: var(--highlight);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        .data-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .data-item {
+            background: rgba(233, 69, 96, 0.1);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+            border-left: 4px solid var(--highlight);
+            animation: slideUp 0.5s ease-out both;
+        }
+
+        .data-item:nth-child(2) {
+            animation-delay: 0.1s;
+        }
+
+        .data-item:nth-child(3) {
+            animation-delay: 0.2s;
+        }
+
+        .data-item:nth-child(4) {
+            animation-delay: 0.3s;
+        }
+
+        .data-item:nth-child(5) {
+            animation-delay: 0.4s;
+        }
+
+        .data-item:nth-child(6) {
+            animation-delay: 0.5s;
+        }
+
+        .data-label {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .data-value {
+            font-size: 1.3rem;
+            font-weight: 700;
+            word-break: break-word;
+        }
+
+        .data-value.price {
+            color: var(--success);
+            font-size: 1.8rem;
+        }
+
+        .raw-json {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 30px;
+            max-height: 300px;
+            overflow-y: auto;
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 0.85rem;
+            color: var(--success);
+        }
+
+        .error-message {
+            background: rgba(244, 67, 54, 0.2);
+            border: 1px solid #f44336;
+            border-radius: 10px;
+            padding: 20px;
+            color: #ff9999;
+            margin-top: 20px;
+        }
+
+        .empty-state {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            color: var(--text-muted);
+            min-height: 300px;
+        }
+
+        .empty-icon {
+            font-size: 3rem;
+            opacity: 0.5;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .mobile-note {
+            display: none;
+            background: rgba(243, 156, 18, 0.2);
+            border: 1px solid var(--warning);
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+            color: var(--warning);
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2rem;
+            }
+
+            .main-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .data-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .mobile-note {
+                display: block;
+            }
+
+            .upload-section,
+            .results-section {
+                padding: 25px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        
+        <a href="../index.html" class="navbar-brand">
+            <img src="../Imagenes/viityuno.webp" alt="Logo VityUno" class="navbar-logo">
+        </a>
+        
+        <button id="abrir" class="abrir-menu"><i class="bi bi-list"></i></button>
+        <nav class="navbar" id="nav">
+            <div class="navbar-container">
+                <button class="cerrar-menu" id="cerrar" ><i class="bi bi-x"></i></button>
+                <ul class="nav-links">
+                    <li><a href="../index.html" class="nav-link">Inicio</a></li>
+                    <li><a href="calcuheader.html" class="nav-link">Calculadora</a></li>
+                    <li><a href="contador.html" class="nav-link">Contador</a></li>
+                    <li><a href="cuentaAtras.html" class="nav-link">Cuenta atrás</a></li>
+                    <li><a href="listadelacompra.html" class="nav-link">Lista de la compra</a></li>
+                    <li><a href="cuentos.html" class="nav-link">Cuentos</a></li>
+                    <li><a href="juegos.html" class="nav-link">Juegos</a></li>
+                    <button id="authButton" class="btnLogin-popup">Inicia sesión</button>
+
+                    <div id="welcomeMessage" style="display: none; color: white; margin-right: 15px;"></div>
+                </ul>
+            </div>
+        </nav>
+        
+    </header> 
+
+    <div class="wrapper">
+        <span class="icon-close"><ion-icon name="close-outline"></ion-icon></span>
+        <div class="form-box login">
+            <h2>Login</h2>
+            <form id="loginForm">
+                <div class="input-box">
+                    <span class="icon"><ion-icon name="mail"></ion-icon></span>
+                    <input type="email" required>
+                    <label>Email</label>
+                </div>
+                <div class="input-box">
+                    <span class="icon"><ion-icon name="lock-closed"></ion-icon></span>
+                    <input type="password" required>
+                    <label>Password</label>
+                </div>
+                <div class="remember-forgot">
+                    <label><input type="checkbox">Remember me</input>
+                    </label>
+                    <a href="#">Forgot Password</a>
+                </div>
+                <button type="submit" class="btn">Login</button>
+                <div class="login-register">
+                    <p>Don't have an account?<a href="#" class="register-link">Register</a></p>
+                </div>
+            </form>
+        </div>
+
+        <div class="form-box register">
+            <h2>Registration</h2>
+            <form id="registerForm">
+                <div class="input-box">
+                    <span class="icon"><ion-icon name="person-outline"></ion-icon></span>
+                    <input type="text" required>
+                    <label>Username</label>
+                </div>
+                <div class="input-box">
+                    <span class="icon"><ion-icon name="mail"></ion-icon></span>
+                    <input type="email" required>
+                    <label>Email</label>
+                </div>
+                <div class="input-box">
+                    <span class="icon"><ion-icon name="lock-closed"></ion-icon></span>
+                    <input type="password" required>
+                    <label>Password</label>
+                </div>
+                <div class="remember-forgot">
+                    <label>
+                        <input type="checkbox">I agree to the terms & conditions</input>
+                    </label>
+                </div>
+                <button type="submit" class="btn">Register</button>
+                <div class="login-register">
+                    <p>Already have an account?<a href="#" class="login-link">Login</a></p>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div id="root"></div>
+    
+
+    <script type="text/babel">
+
+
+
+        const { useState } = React;
+
+        function TicketAnalyzer() {
+            const [image, setImage] = useState(null);
+            const [imageBase64, setImageBase64] = useState(null);
+            const [results, setResults] = useState(null);
+            const [loading, setLoading] = useState(false);
+            const [error, setError] = useState(null);
+            const [dragOver, setDragOver] = useState(false);
+
+            const handleImageUpload = (file) => {
+                if (!file) return;
+                if (!file.type.startsWith('image/')) {
+                    setError('Por favor, carga una imagen válida');
+                    return;
+                }
+                setError(null);
+                setImage(URL.createObjectURL(file));
+
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    setImageBase64(e.target.result);
+                };
+                reader.readAsDataURL(file);
+            };
+
+            const handleDragOver = (e) => {
+                e.preventDefault();
+                setDragOver(true);
+            };
+
+            const handleDragLeave = () => {
+                setDragOver(false);
+            };
+
+            const handleDrop = (e) => {
+                e.preventDefault();
+                setDragOver(false);
+                const file = e.dataTransfer.files[0];
+                handleImageUpload(file);
+            };
+
+            const analyzeTicket = async () => {
+                if (!imageBase64) {
+                    setError('Por favor, carga una imagen primero');
+                    return;
+                }
+
+                setLoading(true);
+                setError(null);
+                setResults(null);
+
+                try {
+                    const partes = imageBase64.split(',');
+                    const mimeType = partes[0].match(/:(.*?);/)[1];
+                    const base64Data = partes[1];
+
+                    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${"AIzaSyCLdJaTL1B5wQENxiDKqr-EFthrIq6rYCQ"}`;
+
+                    const promptText = `Analiza esta imagen de un tique/recibo de taxi (taxímetro) y extrae la información con precisión en formato JSON.
+Es OBLIGATORIO que respondas ÚNICAMENTE con el objeto JSON y nada más. No utilices bloques de código de markdown (\`\`\`json ). 
+
+Establece los siguientes campos en el JSON:
+{
+    "fecha": "Fecha del tique",
+    "hora": "Hora del tique",
+    "p_num_servicios": "Número de servicios (P Nº de servus / servicios)",
+    "p_carreras": "Importe de las carreras (P Carreras, ej: 178,35)",
+    "p_dist_total": "Distancia total recorrida (P Dist. Total)",
+    "p_dist_ocupado": "Distancia recorrida con pasajero (P Dist. Ocupado)",
+    "p_dist_libre": "Distancia recorrida sin pasajero (P Dist. Libre)",
+    "numero_licencia": "Número de licencia si aparece",
+    "otros_detalles": "Cualquier otro dato como totales generales, suplementos, etc."
+}
+Si algún campo específico no se visualiza en la imagen, asígnale el valor null.`;
+
+                    const response = await fetch(url, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            contents: [{
+                                parts: [
+                                    { text: promptText },
+                                    { inlineData: { mimeType: mimeType, data: base64Data } }
+                                ]
+                            }],
+                            generationConfig: { responseMimeType: "application/json" }
+                        })
+                    });
+
+                    const data = await response.json();
+
+                    if (!response.ok) {
+                        throw new Error(data.error?.message || 'Error en la API de Gemini');
+                    }
+
+                    const jsonText = data.candidates[0].content.parts[0].text.trim();
+                    const parsedResults = JSON.parse(jsonText);
+
+                    setResults(parsedResults);
+
+                } catch (err) {
+                    console.error('Error:', err);
+                    setError(err.message || 'Error al procesar el tique.');
+                } finally {
+                    setLoading(false);
+                }
+            };
+
+            const insertToSupabase = async () => {
+                if (!results) return;
+                setLoading(true);
+                setError(null);
+
+                try {
+                    // Insertamos mapeando los datos del taxímetro a las nuevas columnas de la tabla
+                    const { data, error: sbError } = await supabase
+                        .from('tiques')
+                        .insert([
+                            {
+                                fecha: results.fecha,
+                                hora: results.hora,
+                                numero_licencia: results.numero_licencia,
+                                p_num_servicios: results.p_num_servicios,
+                                // Guardamos el importe de carreras en "p_carreras" y también en "importe_total" por comodidad
+                                p_carreras: results.p_carreras,
+                                importe_total: results.p_carreras,
+                                p_dist_total: results.p_dist_total,
+                                p_dist_ocupado: results.p_dist_ocupado,
+                                p_dist_libre: results.p_dist_libre,
+                                otros_detalles: results.otros_detalles,
+                                // Guardamos el JSON estructurado completo en tu columna raw_json
+                                raw_json: results
+                            }
+                        ]);
+
+                    if (sbError) throw sbError;
+                    alert('¡Datos del taxímetro guardados con éxito en Supabase! 🚕🎉');
+                } catch (err) {
+                    console.error('Error Supabase:', err);
+                    setError('Error de Base de Datos: ' + err.message);
+                } finally {
+                    setLoading(false);
+                }
+            };
+
+            const clearAll = () => {
+                setImage(null);
+                setImageBase64(null);
+                setResults(null);
+                setError(null);
+            };
+
+            return (
+                <div className="container">
+                   
+
+                    <div className="main-grid">
+                        <div className="upload-section">
+                            <div className={`upload-area ${dragOver ? 'drag-over' : ''}`}
+                                onClick={() => document.getElementById('fileInput').click()}
+                                onDragOver={handleDragOver}
+                                onDragLeave={handleDragLeave}
+                                onDrop={handleDrop}
+                            >
+                                <span className="upload-icon">📸</span>
+                                <div className="upload-text">Sube el tique de Taxi</div>
+                                <div className="upload-subtext">Arrastra la imagen o haz clic aquí</div>
+                            </div>
+
+                            <input id="fileInput" type="file" accept="image/*" style={{ display: 'none' }}
+                                onChange={(e) => handleImageUpload(e.target.files[0])} />
+
+                            {image && (
+                                <div className="preview-container">
+                                    <img src={image} alt="Preview" className="preview-image" />
+                                    <div className="button-group">
+                                        <button className="btn-analyze" onClick={analyzeTicket} disabled={loading}>
+                                            {loading ? 'Analizando...' : '🔍 Analizar'}
+                                        </button>
+                                        <button className="btn-clear" onClick={clearAll}>✕ Limpiar</button>
+                                    </div>
+                                </div>
+                            )}
+                            {error && <div className="error-message">{error}</div>}
+                        </div>
+
+                        <div className="results-section">
+                            <div className="results-title">{loading ? '⏳ Analizando...' : '📋 Datos del Taxímetro'}</div>
+
+                            {loading && (
+                                <div className="loading">
+                                    <div className="spinner"></div>
+                                    <p>Gemini leyendo taxímetro...</p>
+                                </div>
+                            )}
+
+                            {!loading && results && (
+                                <div style={{ flex: 1, overflow: 'auto' }}>
+                                    <div className="data-grid">
+                                        <div className="data-item">
+                                            <div className="data-label">Nº Licencia</div>
+                                            <div className="data-value">{results.numero_licencia || '-'}</div>
+                                        </div>
+                                        <div className="data-item">
+                                            <div className="data-label">Fecha</div>
+                                            <div className="data-value">{results.fecha || '-'}</div>
+                                        </div>
+                                        <div className="data-item">
+                                            <div className="data-label">Hora</div>
+                                            <div className="data-value">{results.hora || '-'}</div>
+                                        </div>
+                                        <div className="data-item">
+                                            <div className="data-label">P Nº Servicios</div>
+                                            <div className="data-value">{results.p_num_servicios || '-'}</div>
+                                        </div>
+                                        <div className="data-item">
+                                            <div className="data-label">P Carreras</div>
+                                            <div className="data-value price">{results.p_carreras || '-'}€</div>
+                                        </div>
+                                        <div className="data-item">
+                                            <div className="data-label">P Dist. Total</div>
+                                            <div className="data-value">{results.p_dist_total || '-'} km</div>
+                                        </div>
+                                        <div className="data-item">
+                                            <div className="data-label">P Dist. Ocupado</div>
+                                            <div className="data-value">{results.p_dist_ocupado || '-'} km</div>
+                                        </div>
+                                        <div className="data-item">
+                                            <div className="data-label">P Dist. Libre</div>
+                                            <div className="data-value">{results.p_dist_libre || '-'} km</div>
+                                        </div>
+                                    </div>
+
+                                    <div style={{ marginTop: '25px' }}>
+                                        <button
+                                            className="btn-analyze"
+                                            style={{ background: 'linear-gradient(135deg, #2ecc71 0%, #27ae60 100%)', width: '100%' }}
+                                            onClick={insertToSupabase}
+                                            disabled={loading}
+                                        >
+                                            💾 Insertar a BBDD (Supabase)
+                                        </button>
+                                    </div>
+
+                                    <div className="raw-json">
+                                        <div style={{ marginBottom: '10px', color: '#bdc3c7' }}>JSON RAW:</div>
+                                        <pre style={{ margin: 0, whiteSpace: 'pre-wrap', wordBreak: 'break-word' }}>
+                                            {JSON.stringify(results, null, 2)}
+                                        </pre>
+                                    </div>
+                                </div>
+                            )}
+
+                            {!loading && !results && (
+                                <div className="empty-state">
+                                    <div className="empty-icon">🚖</div>
+                                    <p>Sube un tique para ver el desglose del taxímetro aquí</p>
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        ReactDOM.render(<TicketAnalyzer />, document.getElementById('root'));
+    </script>
+    <script type="module" src="../JavaScript/login.js"></script>
+    <script type="module" src="../JavaScript/tiket.js"></script>
+</body>
+
+</html>

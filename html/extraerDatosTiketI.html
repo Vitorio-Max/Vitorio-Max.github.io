@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Extractor de Datos de Tickets</title>
+    <!-- Cargamos Tesseract.js desde un CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #f4f4f9;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .resultado {
+            margin-top: 20px;
+            padding: 15px;
+            background: #eef7ee;
+            border-left: 5px solid #4caf50;
+            display: none;
+        }
+        .estado {
+            color: #666;
+            font-style: italic;
+            margin-top: 10px;
+        }
+        img {
+            max-width: 100%;
+            margin-top: 15px;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Escanear Ticket de Compra</h2>
+    <p>Selecciona una imagen de un ticket para extraer el comercio y el importe total.</p>
+    
+    <input type="file" id="input-ticket" accept="image/*">
+    <div id="estado" class="estado"></div>
+    
+    <img id="vista-previa" src="" alt="Vista previa" style="display:none;">
+
+    <div id="resultado" class="resultado">
+        <h3>Datos Detectados:</h3>
+        <p><strong>Comercio (Posible):</strong> <span id="res-comercio"></span></p>
+        <p><strong>Importe Total:</strong> <span id="res-importe"></span></p>
+        <hr>
+        <h4>Texto completo extraído:</h4>
+        <pre id="texto-completo" style="white-space: pre-wrap; font-size: 12px; background: #eee; padding: 10px;"></pre>
+    </div>
+</div>
+
+<script>
+document.getElementById('input-ticket').addEventListener('change', function(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    // Mostrar vista previa de la imagen
+    const reader = new FileReader();
+    reader.onload = function(event) {
+        const img = document.getElementById('vista-previa');
+        img.src = event.target.result;
+        img.style.display = 'block';
+        
+        // Iniciar el procesamiento OCR
+        procesarTicket(event.target.result);
+    };
+    reader.readAsDataURL(file);
+});
+
+function procesarTicket(imageSrc) {
+    const divEstado = document.getElementById('estado');
+    const divResultado = document.getElementById('resultado');
+    
+    divEstado.innerText = "Procesando imagen (extrayendo texto)...";
+    divResultado.style.display = "none";
+
+    // Ejecutar Tesseract.js en idioma español ('spa')
+    Tesseract.recognize(
+        imageSrc,
+        'spa',
+        { logger: m => { if(m.status === 'recognizing text') divEstado.innerText = `Analizando: ${Math.round(m.progress * 100)}%`; } }
+    ).then(({ data: { text } }) => {
+        divEstado.innerText = "¡Procesamiento completo!";
+        
+        // Analizar el texto extraído
+        const datos = procesarTextoTicket(text);
+        
+        // Mostrar resultados en la interfaz
+        document.getElementById('res-comercio').innerText = datos.comercio;
+        document.getElementById('res-importe').innerText = datos.total ? datos.total + " €" : "No detectado";
+        document.getElementById('texto-completo').innerText = text;
+        
+        divResultado.style.display = "block";
+    }).catch(err => {
+        console.error(err);
+        divEstado.innerText = "Error al procesar la imagen.";
+    });
+}
+
+function procesarTextoTicket(text) {
+    // Convertimos a líneas y limpiamos espacios vacíos
+    const lineas = text.split('\n').map(l => l.trim()).filter(l => l.length > 0);
+    
+    // 1. El nombre del comercio suele ser la primera línea con texto del ticket
+    let comercio = "No detectado";
+    if (lineas.length > 0) {
+        comercio = lineas[0];
+    }
+
+    // 2. Buscar el importe total usando Expresiones Regulares (Regex)
+    let total = null;
+    
+    // Palabras clave habituales en tickets en español
+    const palabrasClave = ["total", "import", "pago", "eur", "monto"];
+    
+    // Expresión regular para buscar precios (ej: 15,30 o 104.50 o 9.99)
+    const regexPrecio = /\b\d+[\.,]\d{2}\b/;
+
+    // Recorremos las líneas de abajo hacia arriba (el total suele estar al final)
+    for (let i = lineas.length - 1; i >= 0; i--) {
+        const lineaMinuscula = lineas[i].toLowerCase();
+        
+        // Comprobamos si la línea contiene alguna palabra clave de "total"
+        const contienePalabraClave = palabrasClave.some(palabra => lineaMinuscula.includes(palabra));
+        
+        if (contienePalabraClave) {
+            const coincidencia = lineas[i].match(regexPrecio);
+            if (coincidencia) {
+                total = coincidencia[0];
+                break; // Si lo encontramos, salimos del bucle
+            }
+        }
+    }
+
+    // Si no encontramos el total con palabra clave, buscamos el número más alto cerca del final
+    if (!total) {
+        for (let i = lineas.length - 1; i >= Math.max(0, lineas.length - 5); i--) {
+            const coincidencia = lineas[i].match(regexPrecio);
+            if (coincidencia) {
+                total = coincidencia[0];
+                break;
+            }
+        }
+    }
+
+    return {
+        comercio: comercio,
+        total: total
+    };
+}
+</script>
+
+</body>
+</html>
