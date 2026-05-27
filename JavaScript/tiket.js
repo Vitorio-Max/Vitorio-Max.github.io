@@ -1,3 +1,4 @@
+import CONFIG from './config.js';
 import { supabase } from '../JavaScript/supabase.js';
 
 const { useState, useEffect } = React; // Añadido useEffect para el usuario
@@ -67,8 +68,9 @@ function TicketAnalyzer() {
             const mimeType = partes[0].match(/:(.*?);/)[1];
             const base64Data = partes[1];
 
-            // NOTA: Es muy recomendable que muevas tu API Key de Gemini a variables de entorno (.env) en producción
-            const url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=AIzaSyCLdJaTL1B5wQENxiDKqr-EFthrIq6rYCQ";
+            // Reemplaza la línea de tu URL por esta versión más segura:
+            const cleanApiKey = CONFIG.GEMINI_API_KEY.trim();
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${cleanApiKey}`;
 
             // Hemos alineado los nombres de las propiedades del JSON con los de tu tabla de Supabase
             const promptText = `Analiza esta imagen de un tique/recibo de taxi (taxímetro) y extrae la información con precisión en formato JSON.
@@ -128,7 +130,7 @@ Si algún campo específico no se visualiza en la imagen, asígnale el valor nul
 
     const insertToSupabase = async () => {
         if (!results) return;
-        
+
         if (!user) {
             setError('No se ha detectado ningún usuario autenticado. Por favor inicia sesión.');
             return;
