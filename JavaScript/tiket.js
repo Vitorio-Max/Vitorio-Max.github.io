@@ -262,4 +262,12 @@ Si algún campo específico no se visualiza en la imagen, asígnale el valor nul
     );
 }
 
-ReactDOM.render(React.createElement(TicketAnalyzer), document.getElementById('root'));
+// CÓDIGO NUEVO (Asegura que el HTML esté listo antes de renderizar React)
+document.addEventListener("DOMContentLoaded", () => {
+    const rootElement = document.getElementById('root');
+    if (rootElement) {
+        ReactDOM.render(React.createElement(TicketAnalyzer), rootElement);
+    } else {
+        console.error("No se encontró el elemento #root en el DOM.");
+    }
+});
