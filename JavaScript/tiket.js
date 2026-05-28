@@ -1,4 +1,4 @@
-import CONFIG from './config.js';
+import CONFIG from '../JavaScript/config.js';
 import { supabase } from '../JavaScript/supabase.js';
 
 const { useState, useEffect } = React; // Añadido useEffect para el usuario
