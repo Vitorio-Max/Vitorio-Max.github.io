@@ -1,7 +1,6 @@
-import CONFIG from '../JavaScript/config.js';
 import { supabase } from '../JavaScript/supabase.js';
 
-const { useState, useEffect } = React; // Añadido useEffect para el usuario
+const { useState, useEffect } = React;
 
 function TicketAnalyzer() {
     const [image, setImage] = useState(null);
@@ -10,7 +9,7 @@ function TicketAnalyzer() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [dragOver, setDragOver] = useState(false);
-    const [user, setUser] = useState(null); // Estado para guardar el usuario de Supabase
+    const [user, setUser] = useState(null);
 
     // Obtener el usuario autenticado al cargar el componente
     useEffect(() => {
@@ -43,7 +42,7 @@ function TicketAnalyzer() {
     };
 
     const handleDragLeave = () => {
-        setDragOver(false);
+        handleDragLeave && setDragOver(false);
     };
 
     const handleDrop = (e) => {
@@ -68,43 +67,20 @@ function TicketAnalyzer() {
             const mimeType = partes[0].match(/:(.*?);/)[1];
             const base64Data = partes[1];
 
-            // Reemplaza la línea de tu URL por esta versión más segura:
-            const cleanApiKey = CONFIG.GEMINI_API_KEY.trim();
-            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${cleanApiKey}`;
-
-            // Hemos alineado los nombres de las propiedades del JSON con los de tu tabla de Supabase
-            const promptText = `Analiza esta imagen de un tique/recibo de taxi (taxímetro) y extrae la información con precisión en formato JSON.
-Es OBLIGATORIO que respondas ÚNICAMENTE con el objeto JSON y nada más. No utilices bloques de código de markdown (\`\`\`json ). 
-
-Establece los siguientes campos en el JSON (si los números tienen comas, déjalos como texto, ej: "178,35"):
-{
-    "fecha": "Fecha del tique en formato YYYY-MM-DD si es posible, o texto original",
-    "importe": "Importe total de las carreras (ej: 178,35)",
-    "carreras": "Número total de servicios o carreras como número entero",
-    "kms_total": "Distancia total recorrida (ej: 45,20)"
-}
-Si algún campo específico no se visualiza en la imagen, asígnale el valor null.`;
-
-            const response = await fetch(url, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    contents: [{
-                        parts: [
-                            { text: promptText },
-                            { inlineData: { mimeType: mimeType, data: base64Data } }
-                        ]
-                    }],
-                    generationConfig: { responseMimeType: "application/json" }
-                })
+            // Invocamos de manera segura a la Edge Function de Supabase
+            const { data, error: functionError } = await supabase.functions.invoke('analyze-ticket', {
+                body: { mimeType: mimeType, base64Data: base64Data }
             });
 
-            const data = await response.json();
-
-            if (!response.ok) {
-                throw new Error(data.error?.message || 'Error en la API de Gemini');
+            if (functionError) {
+                throw new Error(functionError.message || 'Error al invocar la Edge Function');
             }
 
+            if (data.error) {
+                throw new Error(data.error);
+            }
+
+            // Procesamos la respuesta JSON estructurada que la Edge Function recibió de Gemini
             const jsonText = data.candidates[0].content.parts[0].text.trim();
             const parsedResults = JSON.parse(jsonText);
 
@@ -114,7 +90,6 @@ Si algún campo específico no se visualiza en la imagen, asígnale el valor nul
             console.error('Error:', err);
             setError(err.message || 'Error al procesar el tique.');
         } finally {
-            loading ? setLoading(false) : null;
             setLoading(false);
         }
     };
@@ -140,7 +115,6 @@ Si algún campo específico no se visualiza en la imagen, asígnale el valor nul
         setError(null);
 
         try {
-            // Mapeo exacto con los tipos de tu base de datos (int8, numeric, text, uuid)
             const { data, error: sbError } = await supabase
                 .from('tiques')
                 .insert([
@@ -149,7 +123,7 @@ Si algún campo específico no se visualiza en la imagen, asígnale el valor nul
                         importe: parseCurrencyOrFloat(results.importe),
                         carreras: results.carreras ? parseInt(results.carreras, 10) : null,
                         kms_total: parseCurrencyOrFloat(results.kms_total),
-                        user_id: user.id // Ahora 'user' viene de supabase.auth.getUser()
+                        user_id: user.id
                     }
                 ]);
 
@@ -262,4 +236,12 @@ Si algún campo específico no se visualiza en la imagen, asígnale el valor nul
     );
 }
 
-ReactDOM.render(React.createElement(TicketAnalyzer), document.getElementById('root'));
+// Renderizado controlado con DOMContentLoaded para evitar fallos de renderizado asíncronos en servidores de producción
+document.addEventListener("DOMContentLoaded", () => {
+    const rootElement = document.getElementById('root');
+    if (rootElement) {
+        ReactDOM.render(React.createElement(TicketAnalyzer), rootElement);
+    } else {
+        console.error("No se encontró el elemento #root en el DOM.");
+    }
+});
