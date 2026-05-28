@@ -67,20 +67,26 @@ function TicketAnalyzer() {
             const mimeType = partes[0].match(/:(.*?);/)[1];
             const base64Data = partes[1];
 
-            // Invocamos de manera segura a la Edge Function de Supabase
+            // 1. Forzamos la recuperación del token de la sesión actual del usuario
+            const { data: sessionData } = await supabase.auth.getSession();
+            const token = sessionData?.session?.access_token;
+
+            // 2. Invocamos pasando el token explícitamente en las cabeceras (Headers)
             const { data, error: functionError } = await supabase.functions.invoke('analyze-ticket', {
-                body: { mimeType: mimeType, base64Data: base64Data }
+                body: { mimeType: mimeType, base64Data: base64Data },
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
             });
 
             if (functionError) {
                 throw new Error(functionError.message || 'Error al invocar la Edge Function');
             }
 
-            if (data.error) {
+            if (data && data.error) {
                 throw new Error(data.error);
             }
 
-            // Procesamos la respuesta JSON estructurada que la Edge Function recibió de Gemini
             const jsonText = data.candidates[0].content.parts[0].text.trim();
             const parsedResults = JSON.parse(jsonText);
 
