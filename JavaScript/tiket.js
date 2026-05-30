@@ -42,7 +42,7 @@ function TicketAnalyzer() {
     };
 
     const handleDragLeave = () => {
-        handleDragLeave && setDragOver(false);
+        setDragOver(false);
     };
 
     const handleDrop = (e) => {
@@ -63,51 +63,61 @@ function TicketAnalyzer() {
         setResults(null);
 
         try {
-        // 1. Validar y limpiar el formato base64
-        if (!imageBase64 || !imageBase64.includes(',')) {
-            throw new Error("La imagen no es válida o no se ha cargado correctamente.");
-        }
-        const partes = imageBase64.split(',');
-        const mimeType = partes[0].match(/:(.*?);/)[1];
-        const base64Data = partes[1];
+            // 1. Validar y limpiar el formato base64
+            if (!imageBase64 || !imageBase64.includes(',')) {
+                throw new Error("La imagen no es válida o no se ha cargado correctamente.");
+            }
+            const partes = imageBase64.split(',');
+            const mimeType = partes[0].match(/:(.*?);/)[1];
+            const base64Data = partes[1];
 
-        // 2. URL de tu Edge Function en Supabase
-        const url = 'https://sgevdzcjyoezewbdvpaw.supabase.co/functions/v1/analyze-ticket';
-        
-        // 3. Petición HTTP nativa y directa
-        const response = await fetch(url, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                mimeType: mimeType,
-                base64Data: base64Data
-            })
-        });
+            // 2. URL de tu Edge Function en Supabase
+            const url = 'https://sgevdzcjyoezewbdvpaw.supabase.co/functions/v1/analyze-ticket';
 
-        // 4. Leer respuesta del servidor
-        const data = await response.json();
+            // 🌟 AQUÍ INTRODUCIMOS LA OBTENCIÓN DEL TOKEN DEL USUARIO LOGUEADO
+        const { data: { session } } = await supabase.auth.getSession();
+        const tokenUsuario = session?.access_token;
 
-        if (!response.ok) {
-            throw new Error(data.error || `Error del servidor (Status ${response.status})`);
+        if (!tokenUsuario) {
+            throw new Error("Tu sesión ha expirado o no es válida. Por favor, vuelve a iniciar sesión.");
         }
 
-        // 5. Mapear los datos que devuelve Gemini
-        if (data.candidates && data.candidates[0]?.content?.parts[0]?.text) {
-            const jsonText = data.candidates[0].content.parts[0].text.trim();
-            const parsedResults = JSON.parse(jsonText);
-            setResults(parsedResults);
-        } else {
-            setResults(data);
-        }
+            // 3. Petición HTTP nativa y directa
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'apiKey': supabase.supabaseKey || supabase.auth.supabaseKey, // Clave anónima para la pasarela de Supabase
+                'Authorization': `Bearer ${tokenUsuario}`// Token real del usuario para pasar el JWT
+                },
+                body: JSON.stringify({
+                    mimeType: mimeType,
+                    base64Data: base64Data
+                })
+            });
 
-    } catch (err) {
-        console.error('Error detallado en el cliente:', err);
-        setError(err.message || 'Error al procesar el tique.');
-    } finally {
-        setLoading(false);
-    }
+            // 4. Leer respuesta del servidor
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.error || `Error del servidor (Status ${response.status})`);
+            }
+
+            // 5. Mapear los datos que devuelve Gemini
+            if (data.candidates && data.candidates[0]?.content?.parts[0]?.text) {
+                const jsonText = data.candidates[0].content.parts[0].text.trim();
+                const parsedResults = JSON.parse(jsonText);
+                setResults(parsedResults);
+            } else {
+                setResults(data);
+            }
+
+        } catch (err) {
+            console.error('Error detallado en el cliente:', err);
+            setError(err.message || 'Error al procesar el tique.');
+        } finally {
+            setLoading(false);
+        }
     };
 
     // Función auxiliar para limpiar y transformar texto "12,34" a número flotante 12.34
@@ -261,3 +271,4 @@ document.addEventListener("DOMContentLoaded", () => {
         console.error("No se encontró el elemento #root en el DOM.");
     }
 });
+
