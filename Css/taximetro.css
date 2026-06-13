@@ -7,7 +7,7 @@ body {
     margin: 0;
     font-family: Arial, sans-serif;
     overscroll-behavior: contain;
-    overflow: hidden;/* Extra: esto también evita que se pueda mover la pantalla hacia los lados si te sales de los márgenes */
+    /*overflow: hidden; Extra: esto también evita que se pueda mover la pantalla hacia los lados si te sales de los márgenes */
 }
 
 /* Carcasa exterior del taxímetro */
