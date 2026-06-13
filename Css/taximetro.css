@@ -6,6 +6,8 @@ body {
     height: 100vh;
     margin: 0;
     font-family: Arial, sans-serif;
+    overscroll-behavior: contain;
+    overflow: hidden;/* Extra: esto también evita que se pueda mover la pantalla hacia los lados si te sales de los márgenes */
 }
 
 /* Carcasa exterior del taxímetro */
@@ -168,7 +170,61 @@ body {
     -webkit-user-select: none;
 }
 
-body {
-    overscroll-behavior: contain;
-    /* Evita que la pantalla rebote o se recargue al arrastrar hacia abajo */
+/* =========================================================
+   MEDIA QUERY: AJUSTES ESPECÍFICOS PARA SMARTPHONES
+   ========================================================= */
+@media screen and (max-width: 600px) {
+    
+    /* 1. Forzamos que el cuerpo ocupe toda la pantalla táctil sin scroll */
+    html, body {
+        height: 100vh;
+        overflow: hidden;
+        padding: 0;
+        margin: 0;
+    }
+
+    /* 2. El contenedor principal se estira para aprovechar el móvil */
+    .contenedor-taximetro {
+        width: 100vw;       /* Usa el 100% del ancho del teléfono */
+        height: 100vh;      /* Usa el 100% del alto del teléfono */
+        max-width: none;    /* Eliminamos topes de anchura */
+        margin: 0;          /* Quitamos márgenes para que no queden bordes vacíos */
+        padding: 10px;      /* Un pequeño colchón interno para separar de los bordes del marco */
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between; /* Manda la pantalla arriba y los botones abajo */
+        box-sizing: border-box;
+    }
+
+    /* 3. Ajuste de las pantallas LED */
+    .display-contenedor {
+        width: 100%;
+        padding: 12px;
+        box-sizing: border-box;
+        /* Hacemos los números un poco más grandes y legibles en ruta */
+        font-size: calc(1.8rem + 1.5vw); 
+    }
+
+    /* 4. La botonera elástica 3x3 */
+    .botonera {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr); /* Tres columnas idénticas */
+        gap: 10px;       /* Separación ideal para que no se pisen los dedos */
+        width: 100%;
+        padding: 5px 0;
+        box-sizing: border-box;
+    }
+
+    /* 5. Los botones físicos se adaptan al tamaño del dedo */
+    .boton {
+        min-height: 65px; /* Altura perfecta para pulsar cómodamente con el pulgar */
+        height: 12vh;     /* Se escala dinámicamente según la altura del móvil */
+        font-size: 1.4rem;/* Texto interior ligeramente más grande */
+        
+        /* Desactivamos efectos móviles nativos molestos */
+        -webkit-tap-highlight-color: transparent; 
+        touch-action: manipulation;               
+        user-select: none;                        
+        -webkit-user-select: none;
+    }
 }
