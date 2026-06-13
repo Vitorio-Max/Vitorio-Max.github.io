@@ -171,60 +171,132 @@ body {
 }
 
 /* =========================================================
-   MEDIA QUERY: AJUSTES ESPECÍFICOS PARA SMARTPHONES
+   1. RESETEO Y BASE DE LA PANTALLA (Para evitar desbordamientos)
    ========================================================= */
-@media screen and (max-width: 600px) {
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    background-color: #0b0b0b; /* Fondo oscuro de coche por la noche */
+    font-family: Arial, sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overscroll-behavior: contain; /* Bloquea la recarga accidental */
+}
+
+/* =========================================================
+   2. EL CHASIS DEL TAXÍMETRO (100% Elástico y Acoplado)
+   ========================================================= */
+.contenedor-taximetro {
+    width: 92%;               /* Usa casi todo el ancho disponible en pantallas pequeñas */
+    max-width: 480px;         /* Anchura máxima ideal en ordenador */
+    height: auto;
+    background-color: #222;   /* Color plástico del Taxitronic original */
+    border: 8px solid #282828; /* Marco exterior */
+    border-radius: 8px;
+    padding: 8px;
+    box-sizing: border-box;   /* Obliga a que los bordes se queden dentro del ancho */
+    display: flex;
+    flex-direction: column;
+    gap: 8px;                 /* Espacio ultra compacto entre piezas */
+    box-shadow: 0 10px 25px rgba(0,0,0,0.7);
+}
+
+/* =========================================================
+   3. EL DISPLAY LED (Se adapta al tamaño de la caja)
+   ========================================================= */
+.display-contenedor {
+    width: 100%;
+    background-color: #0c0202; /* Fondo de cristal tintado */
+    border: 1px solid #111;
+    border-radius: 4px;
+    padding: 12px 10px;
+    box-sizing: border-box;
+    position: relative;
+    /* Eliminamos cualquier propiedad 'height' o 'min-width' rígida en píxeles */
+}
+
+/* Ajuste proporcional de los textos fijos para que no fuercen la caja */
+.texto-fijo, .marca-taxitronic, .leyenda-txt {
+    font-size: 0.65rem;
+    color: rgba(255, 0, 0, 0.4);
+    text-transform: uppercase;
+}
+
+/* Los números LED brillantes se escalan con la pantalla */
+.precio-display {
+    font-size: calc(2rem + 1.5vw); /* Se achica automáticamente en pantallas pequeñas */
+    color: #ff2222;
+    text-shadow: 0 0 8px #ff0000;
+    line-height: 1;
+}
+
+.tarifa-display, .suplemento-display {
+    font-size: calc(1.6rem + 1vw);
+    color: #ff2222;
+    text-shadow: 0 0 8px #ff0000;
+    line-height: 1;
+}
+
+/* =========================================================
+   4. LA BOTONERA ORIGINAL (Fila india perfecta)
+   ========================================================= */
+.botonera {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 3px;                 /* Los botones se pegan al máximo como en el TX30 */
+    width: 100%;
+    padding: 6px 0 2px 0;
+    box-sizing: border-box;
+    border-top: 2px solid #181818; /* Línea divisoria del chasis */
+}
+
+/* LOS BOTONES ORIGINALES (Cápsulas grises con relieve) */
+.boton {
+    flex: 1 1 0%;             /* Distribución equitativa milimétrica */
+    min-width: 0;             /* Permite que se aplasten todo lo necesario en móviles */
+    height: 22px;             /* Altura chata y estilizada fiel al modelo real */
+    padding: 0;
     
-    /* 1. Forzamos que el cuerpo ocupe toda la pantalla táctil sin scroll */
-    html, body {
-        height: 100vh;
-        overflow: hidden;
-        padding: 0;
-        margin: 0;
-    }
+    /* Gradiente que imita el volumen metálico/plástico gris */
+    background: linear-gradient(to bottom, #bdffff 0%, #b3b3b3 15%, #8c8c8c 85%, #595959 100%);
+    border: 1px solid #333;
+    border-top: 1px solid #fff; /* Brillo de luz superior */
+    border-radius: 4px;
+    box-shadow: inset 0 1px 1px rgba(255,255,255,0.7), 0 2px 3px rgba(0,0,0,0.5);
+    
+    /* Bloqueos táctiles para smartphone */
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    user-select: none;
+    -webkit-user-select: none;
+    cursor: pointer;
+}
 
-    /* 2. El contenedor principal se estira para aprovechar el móvil */
+/* Animación física real al pulsar el botón */
+.boton:active {
+    background: linear-gradient(to bottom, #595959 0%, #737373 100%);
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.8);
+    transform: translateY(1px);
+}
+
+/* =========================================================
+   5. MEDIA QUERY: ACHICADO EXTRA SÓLO PARA PANTALLAS MICRO
+   ========================================================= */
+@media screen and (max-width: 380px) {
     .contenedor-taximetro {
-        width: 100vw;       /* Usa el 100% del ancho del teléfono */
-        height: 100vh;      /* Usa el 100% del alto del teléfono */
-        max-width: none;    /* Eliminamos topes de anchura */
-        margin: 0;          /* Quitamos márgenes para que no queden bordes vacíos */
-        padding: 10px;      /* Un pequeño colchón interno para separar de los bordes del marco */
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between; /* Manda la pantalla arriba y los botones abajo */
-        box-sizing: border-box;
+        width: 96%;
+        border-width: 5px;    /* Adelgazamos el marco exterior en móviles muy pequeños */
+        padding: 5px;
+        gap: 5px;
     }
-
-    /* 3. Ajuste de las pantallas LED */
-    .display-contenedor {
-        width: 100%;
-        padding: 12px;
-        box-sizing: border-box;
-        /* Hacemos los números un poco más grandes y legibles en ruta */
-        font-size: calc(1.8rem + 1.5vw); 
-    }
-
-    /* 4. La botonera elástica 3x3 */
-    .botonera {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr); /* Tres columnas idénticas */
-        gap: 10px;       /* Separación ideal para que no se pisen los dedos */
-        width: 100%;
-        padding: 5px 0;
-        box-sizing: border-box;
-    }
-
-    /* 5. Los botones físicos se adaptan al tamaño del dedo */
+    
     .boton {
-        min-height: 65px; /* Altura perfecta para pulsar cómodamente con el pulgar */
-        height: 12vh;     /* Se escala dinámicamente según la altura del móvil */
-        font-size: 1.4rem;/* Texto interior ligeramente más grande */
-        
-        /* Desactivamos efectos móviles nativos molestos */
-        -webkit-tap-highlight-color: transparent; 
-        touch-action: manipulation;               
-        user-select: none;                        
-        -webkit-user-select: none;
+        height: 18px;         /* Aplanamos un poco más los botones para ganar espacio */
     }
 }
