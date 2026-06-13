@@ -1,149 +1,174 @@
 body {
-            background-color: #1e1e1e;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            font-family: Arial, sans-serif;
-        }
+    background-color: #1e1e1e;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
 
-        /* Carcasa exterior del taxímetro */
-        .taximetro-container {
-            background: linear-gradient(135deg, #2c2d30 0%, #1a1b1c 100%);
-            border: 4px solid #111;
-            border-radius: 10px;
-            padding: 20px;
-            box-shadow: inset 0 2px 5px rgba(255,255,255,0.1), 0 20px 40px rgba(0,0,0,0.8);
-            width: 600px;
-            box-sizing: border-box;
-        }
+/* Carcasa exterior del taxímetro */
+.taximetro-container {
+    background: linear-gradient(135deg, #2c2d30 0%, #1a1b1c 100%);
+    border: 4px solid #111;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: inset 0 2px 5px rgba(255, 255, 255, 0.1), 0 20px 40px rgba(0, 0, 0, 0.8);
+    width: 600px;
+    box-sizing: border-box;
+}
 
-        /* Pantalla principal (Cristal tintado) */
-        .pantalla {
-            background-color: #1a0505;
-            border: 3px solid #111;
-            border-radius: 4px;
-            padding: 15px;
-            position: relative;
-            box-shadow: inset 0 0 20px rgba(0,0,0,0.9);
-            min-height: 200px;
-        }
+/* Pantalla principal (Cristal tintado) */
+.pantalla {
+    background-color: #1a0505;
+    border: 3px solid #111;
+    border-radius: 4px;
+    padding: 15px;
+    position: relative;
+    box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.9);
+    min-height: 200px;
+}
 
-        /* Contenedores de las filas de información */
-        .fila-superior {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 10px;
-        }
+/* Contenedores de las filas de información */
+.fila-superior {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 10px;
+}
 
-        .fila-inferior {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-end;
-            margin-top: 15px;
-        }
+.fila-inferior {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-top: 15px;
+}
 
-        /* Bloques de texto estáticos (fijos en la pantalla) */
-        .texto-fijo {
-            color: #4a0000; /* Apagado por defecto */
-            font-size: 11px;
-            font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
+/* Bloques de texto estáticos (fijos en la pantalla) */
+.texto-fijo {
+    color: #4a0000;
+    /* Apagado por defecto */
+    font-size: 11px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
 
-        /* Estado "Encendido" para las luces rojas */
-        .texto-fijo.encendido {
-            color: #ff2222;
-            text-shadow: 0 0 8px #ff2222, 0 0 15px #ff0000;
-        }
+/* Estado "Encendido" para las luces rojas */
+.texto-fijo.encendido {
+    color: #ff2222;
+    text-shadow: 0 0 8px #ff2222, 0 0 15px #ff0000;
+}
 
-        /* Grupo de indicadores de la izquierda (Libre/Ocupado) */
-        .indicadores-estado {
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-            line-height: 1.2;
-        }
+/* Grupo de indicadores de la izquierda (Libre/Ocupado) */
+.indicadores-estado {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    line-height: 1.2;
+    margin-right: -150px;
+}
 
-        /* Tipografía digital para los números */
-        .digitos {
-            font-family: 'Digital Numbers', sans-serif;
-            color: #ff2222;
-            text-shadow: 0 0 10px #ff2222, 0 0 20px #ff0000;
-            line-height: 1;
-        }
+/* Tipografía digital para los números */
+.digitos {
+    font-family: 'Digital Numbers', sans-serif;
+    color: #ff2222;
+    text-shadow: 0 0 10px #ff2222, 0 0 20px #ff0000;
+    line-height: 1;
+}
 
-        .tarifa-display {
-            font-size: 45px;
-            margin-left: 20px;
-        }
+/* Evita fallos visuales cuando el display no tiene texto */
+.digitos:empty {
+    display: inline-block;
+    min-width: 1px;
+    height: 100%;
+}
 
-        .precio-display {
-            font-size: 60px;
-            text-align: right;
-        }
+.tarifa-display {
+    font-size: 45px;
+    margin-left: 0px;
+}
 
-        .suplemento-display {
-            font-size: 45px;
-        }
+.precio-display {
+    font-size: 60px;
+    text-align: right;
+}
 
-        /* Secciones centrales de etiquetas */
-        .etiqueta-central {
-            text-align: center;
-            align-self: center;
-        }
+.suplemento-display {
+    font-size: 45px;
+}
 
-        /* Marca Taxitronic en verde */
-        .marca-taxitronic {
-            color: #00aa55;
-            font-weight: bold;
-            font-size: 14px;
-            letter-spacing: 1px;
-            text-shadow: 0 0 5px rgba(0,170,85,0.5);
-        }
+/* Secciones centrales de etiquetas */
+.etiqueta-central {
+    text-align: center;
+    align-self: center;
+}
 
-        /* Línea verde divisoria decorativa */
-        .linea-verde {
-            height: 4px;
-            background-color: #00aa55;
-            box-shadow: 0 0 6px #00aa55;
-            margin: 15px 0 8px 0;
-            border-radius: 2px;
-        }
+/* Marca Taxitronic en verde */
+.marca-taxitronic {
+    color: #00aa55;
+    font-weight: bold;
+    font-size: 14px;
+    letter-spacing: 1px;
+    text-shadow: 0 0 5px rgba(0, 170, 85, 0.5);
+}
 
-        /* Leyenda de símbolos debajo de la línea */
-        .simbolos-leyenda {
-            display: flex;
-            justify-content: space-between;
-            padding: 0 10px;
-            color: #4a0000;
-            font-size: 12px;
-            font-weight: bold;
-        }
+/* Línea verde divisoria decorativa */
+.linea-verde {
+    height: 4px;
+    background-color: #00aa55;
+    box-shadow: 0 0 6px #00aa55;
+    margin: 15px 0 8px 0;
+    border-radius: 2px;
+}
 
-        /* Botonera inferior fisica */
-        .botonera {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 20px;
-            padding: 0 5px;
-        }
+/* Leyenda de símbolos debajo de la línea */
+.simbolos-leyenda {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 10px;
+    color: #4a0000;
+    font-size: 12px;
+    font-weight: bold;
+}
 
-        .boton {
-            background: linear-gradient(to bottom, #e0e0e0 0%, #a5a5a5 100%);
-            border: 1px solid #555;
-            border-radius: 4px;
-            height: 14px;
-            width: 45px;
-            box-shadow: 0 3px 0 #444, 0 4px 5px rgba(0,0,0,0.5);
-            cursor: pointer;
-            transition: all 0.1s ease;
-        }
+/* Botonera inferior fisica */
+.botonera {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+    padding: 0 5px;
+}
 
-        .boton:active {
-            transform: translateY(3px);
-            box-shadow: 0 0px 0 #444, 0 1px 2px rgba(0,0,0,0.5);
-        }
+.boton {
+    background: linear-gradient(to bottom, #e0e0e0 0%, #a5a5a5 100%);
+    border: 1px solid #555;
+    border-radius: 4px;
+    height: 14px;
+    width: 45px;
+    box-shadow: 0 3px 0 #444, 0 4px 5px rgba(0, 0, 0, 0.5);
+    cursor: pointer;
+    transition: all 0.1s ease;
+}
+
+.boton:active {
+    transform: translateY(3px);
+    box-shadow: 0 0px 0 #444, 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+/* Optimización para Smartphones táctiles */
+.boton {
+    -webkit-tap-highlight-color: transparent;
+    /* Elimina el recuadro azul al pulsar */
+    touch-action: manipulation;
+    /* Desactiva el retraso por doble toque */
+    user-select: none;
+    /* Evita que se seleccione texto sin querer */
+    -webkit-user-select: none;
+}
+
+body {
+    overscroll-behavior: contain;
+    /* Evita que la pantalla rebote o se recargue al arrastrar hacia abajo */
+}
