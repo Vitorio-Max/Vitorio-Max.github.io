@@ -1,42 +1,63 @@
+/* =============================================================
+   TAXÍMETRO — taximetro.css
+   Fuente de verdad única. Sin duplicados. Sin código muerto.
+   ============================================================= */
+
+
+/* ─────────────────────────────────────────────
+   0. CENTRADO VERTICAL EN PÁGINA
+   El header fijo mide 80px (definido en navbar.css).
+   Ocupamos el espacio restante y centramos el taxímetro.
+   ───────────────────────────────────────────── */
 body {
-    background-color: #1e1e1e;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
-    font-family: Arial, sans-serif;
-    /*overscroll-behavior: contain;
-    overflow: hidden; Extra: esto también evita que se pueda mover la pantalla hacia los lados si te sales de los márgenes */
+    min-height: 100vh;
+    height: 100vh;               /* Fija la altura al viewport */
+    justify-content: center;     /* Centra verticalmente (flex-direction: column ya está en navbar.css) */
+    padding-top: 80px;           /* Exactamente la altura del header, sin espacio extra */
+    box-sizing: border-box;      /* El padding no suma altura extra */
 }
-
-/* Carcasa exterior del taxímetro */
+/* ─────────────────────────────────────────────
+   1. CARCASA EXTERIOR
+   ───────────────────────────────────────────── */
 .taximetro-container {
+    width: 92%;
+    max-width: 480px;
+    height: auto;
     background: linear-gradient(135deg, #2c2d30 0%, #1a1b1c 100%);
-    border: 4px solid #111;
-    border-radius: 10px;
-    padding: 20px;
-    box-shadow: inset 0 2px 5px rgba(255, 255, 255, 0.1), 0 20px 40px rgba(0, 0, 0, 0.8);
-    width: 600px;
+    border: 8px solid #282828;
+    border-radius: 8px;
+    padding: 8px;
     box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.7),
+                inset 0 2px 5px rgba(255, 255, 255, 0.1);
 }
 
-/* Pantalla principal (Cristal tintado) */
+/* ─────────────────────────────────────────────
+   2. PANTALLA (cristal tintado)
+   ───────────────────────────────────────────── */
 .pantalla {
-    background-color: #1a0505;
+    width: 100%;
+    background-color: #0c0202;
     border: 3px solid #111;
     border-radius: 4px;
-    padding: 15px;
+    padding: 12px 10px 6px;
+    box-sizing: border-box;
     position: relative;
     box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.9);
-    min-height: 200px;
+    min-height: 170px;
 }
 
-/* Contenedores de las filas de información */
+/* ─────────────────────────────────────────────
+   3. FILAS DE INFORMACIÓN
+   ───────────────────────────────────────────── */
 .fila-superior {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
+    display: grid;
+    grid-template-columns: auto auto 1fr auto; /* indicadores | tarifa | (vacío) | precio */
+    align-items: start;
+    gap: 0 12px;
     margin-bottom: 10px;
 }
 
@@ -47,32 +68,35 @@ body {
     margin-top: 15px;
 }
 
-/* Bloques de texto estáticos (fijos en la pantalla) */
+/* ─────────────────────────────────────────────
+   4. TEXTOS FIJOS (indicadores de estado)
+   ───────────────────────────────────────────── */
 .texto-fijo {
-    color: #4a0000;
-    /* Apagado por defecto */
-    font-size: 11px;
+    color: rgba(255, 0, 0, 0.4); /* apagado */
+    font-size: 0.65rem;
     font-weight: bold;
     text-transform: uppercase;
     letter-spacing: 1px;
 }
 
-/* Estado "Encendido" para las luces rojas */
 .texto-fijo.encendido {
     color: #ff2222;
     text-shadow: 0 0 8px #ff2222, 0 0 15px #ff0000;
 }
 
-/* Grupo de indicadores de la izquierda (Libre/Ocupado) */
+/* ─────────────────────────────────────────────
+   5. INDICADORES DE ESTADO (columna izquierda)
+   ───────────────────────────────────────────── */
 .indicadores-estado {
     display: flex;
     flex-direction: column;
     gap: 4px;
     line-height: 1.2;
-    margin-right: -150px;
 }
 
-/* Tipografía digital para los números */
+/* ─────────────────────────────────────────────
+   6. DÍGITOS LED
+   ───────────────────────────────────────────── */
 .digitos {
     font-family: 'Digital Numbers', sans-serif;
     color: #ff2222;
@@ -80,7 +104,6 @@ body {
     line-height: 1;
 }
 
-/* Evita fallos visuales cuando el display no tiene texto */
 .digitos:empty {
     display: inline-block;
     min-width: 1px;
@@ -88,206 +111,106 @@ body {
 }
 
 .tarifa-display {
-    font-size: 45px;
-    margin-left: 0px;
+    font-size: calc(1.6rem + 1vw);
 }
 
 .precio-display {
-    font-size: 60px;
+    font-size: calc(2rem + 1.5vw);
     text-align: right;
 }
 
 .suplemento-display {
-    font-size: 45px;
+    font-size: calc(1.6rem + 1vw);
 }
 
-/* Secciones centrales de etiquetas */
-.etiqueta-central {
-    text-align: center;
-    align-self: center;
+/* ─────────────────────────────────────────────
+   7. ETIQUETA CENTRAL
+   Actualmente vacía en el HTML. Se oculta para no
+   romper el grid de fila-superior.
+   ───────────────────────────────────────────── */
+.etiqueta-central:empty {
+    display: none;
 }
 
-/* Marca Taxitronic en verde */
+/* ─────────────────────────────────────────────
+   8. MARCA Y LÍNEA DECORATIVA
+   ───────────────────────────────────────────── */
 .marca-taxitronic {
     color: #00aa55;
+    font-size: 0.65rem;
     font-weight: bold;
-    font-size: 14px;
     letter-spacing: 1px;
     text-shadow: 0 0 5px rgba(0, 170, 85, 0.5);
+    text-transform: uppercase;
 }
 
-/* Línea verde divisoria decorativa */
 .linea-verde {
     height: 4px;
     background-color: #00aa55;
     box-shadow: 0 0 6px #00aa55;
-    margin: 15px 0 8px 0;
+    margin: 25px 0 4px;
     border-radius: 2px;
 }
 
-/* Leyenda de símbolos debajo de la línea */
+/* ─────────────────────────────────────────────
+   9. LEYENDA DE SÍMBOLOS
+   ───────────────────────────────────────────── */
 .simbolos-leyenda {
     display: flex;
     justify-content: space-between;
     padding: 0 10px;
-    color: #4a0000;
+    color: rgba(255, 0, 0, 0.4);
     font-size: 12px;
     font-weight: bold;
 }
 
-/* Botonera inferior fisica */
-.botonera {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 20px;
-    padding: 0 5px;
-}
-
-.boton {
-    background: linear-gradient(to bottom, #e0e0e0 0%, #a5a5a5 100%);
-    border: 1px solid #555;
-    border-radius: 4px;
-    height: 14px;
-    width: 45px;
-    box-shadow: 0 3px 0 #444, 0 4px 5px rgba(0, 0, 0, 0.5);
-    cursor: pointer;
-    transition: all 0.1s ease;
-}
-
-.boton:active {
-    transform: translateY(3px);
-    box-shadow: 0 0px 0 #444, 0 1px 2px rgba(0, 0, 0, 0.5);
-}
-
-/* Optimización para Smartphones táctiles */
-.boton {
-    -webkit-tap-highlight-color: transparent;
-    /* Elimina el recuadro azul al pulsar */
-    touch-action: manipulation;
-    /* Desactiva el retraso por doble toque */
-    user-select: none;
-    /* Evita que se seleccione texto sin querer */
-    -webkit-user-select: none;
-}
-
-/* =========================================================
-   1. RESETEO Y BASE DE LA PANTALLA (Para evitar desbordamientos)
-   ========================================================= */
-/* html, body {
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    height: 100vh;
-    overflow: hidden;
-    background-color: #0b0b0b; /* Fondo oscuro de coche por la noche
-    font-family: Arial, sans-serif;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overscroll-behavior: contain;  Bloquea la recarga accidental
-} */
-
-/* =========================================================
-   2. EL CHASIS DEL TAXÍMETRO (100% Elástico y Acoplado)
-   ========================================================= */
-.taximetro-container {
-    width: 92%;               /* Usa casi todo el ancho disponible en pantallas pequeñas */
-    max-width: 480px;         /* Anchura máxima ideal en ordenador */
-    height: auto;
-    background-color: #222;   /* Color plástico del Taxitronic original */
-    border: 8px solid #282828; /* Marco exterior */
-    border-radius: 8px;
-    padding: 8px;
-    box-sizing: border-box;   /* Obliga a que los bordes se queden dentro del ancho */
-    display: flex;
-    flex-direction: column;
-    gap: 8px;                 /* Espacio ultra compacto entre piezas */
-    box-shadow: 0 10px 25px rgba(0,0,0,0.7);
-}
-
-/* =========================================================
-   3. EL DISPLAY LED (Se adapta al tamaño de la caja)
-   ========================================================= */
-.display-contenedor {
-    width: 100%;
-    background-color: #0c0202; /* Fondo de cristal tintado */
-    border: 1px solid #111;
-    border-radius: 4px;
-    padding: 12px 10px;
-    box-sizing: border-box;
-    position: relative;
-    /* Eliminamos cualquier propiedad 'height' o 'min-width' rígida en píxeles */
-}
-
-/* Ajuste proporcional de los textos fijos para que no fuercen la caja */
-.texto-fijo, .marca-taxitronic, .leyenda-txt {
-    font-size: 0.65rem;
-    color: rgba(255, 0, 0, 0.4);
-    text-transform: uppercase;
-}
-
-/* Los números LED brillantes se escalan con la pantalla */
-.precio-display {
-    font-size: calc(2rem + 1.5vw); /* Se achica automáticamente en pantallas pequeñas */
-    color: #ff2222;
-    text-shadow: 0 0 8px #ff0000;
-    line-height: 1;
-}
-
-.tarifa-display, .suplemento-display {
-    font-size: calc(1.6rem + 1vw);
-    color: #ff2222;
-    text-shadow: 0 0 8px #ff0000;
-    line-height: 1;
-}
-
-/* =========================================================
-   4. LA BOTONERA ORIGINAL (Fila india perfecta)
-   ========================================================= */
+/* ─────────────────────────────────────────────
+   10. BOTONERA
+   ───────────────────────────────────────────── */
 .botonera {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    gap: 3px;                 /* Los botones se pegan al máximo como en el TX30 */
+    gap: 3px;
     width: 100%;
-    padding: 6px 0 2px 0;
+    padding: 6px 0 2px;
     box-sizing: border-box;
-    border-top: 2px solid #181818; /* Línea divisoria del chasis */
+    border-top: 2px solid #181818;
 }
 
-/* LOS BOTONES ORIGINALES (Cápsulas grises con relieve) */
+/* ─────────────────────────────────────────────
+   11. BOTONES
+   ───────────────────────────────────────────── */
 .boton {
-    flex: 1 1 0%;             /* Distribución equitativa milimétrica */
-    min-width: 0;             /* Permite que se aplasten todo lo necesario en móviles */
-    height: 22px;             /* Altura chata y estilizada fiel al modelo real */
+    flex: 1 1 0%;
+    min-width: 0;
+    height: 22px;
     padding: 0;
-    
-    /* Gradiente que imita el volumen metálico/plástico gris */
     background: linear-gradient(to bottom, #bdffff 0%, #b3b3b3 15%, #8c8c8c 85%, #595959 100%);
     border: 1px solid #333;
-    border-top: 1px solid #fff; /* Brillo de luz superior */
+    border-top-color: #fff;
     border-radius: 4px;
-    box-shadow: inset 0 1px 1px rgba(255,255,255,0.7), 0 2px 3px rgba(0,0,0,0.5);
-    
-    /* Bloqueos táctiles para smartphone */
+    box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.7),
+                0 2px 3px rgba(0, 0, 0, 0.5);
+    cursor: pointer;
+
+    /* Optimización táctil */
     -webkit-tap-highlight-color: transparent;
     touch-action: manipulation;
     user-select: none;
     -webkit-user-select: none;
-    cursor: pointer;
 }
 
-/* Animación física real al pulsar el botón */
 .boton:active {
     background: linear-gradient(to bottom, #595959 0%, #737373 100%);
-    box-shadow: inset 0 2px 4px rgba(0,0,0,0.8);
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.8);
     transform: translateY(1px);
 }
 
-/* =========================================================
-   5. MEDIA QUERY: ACHICADO EXTRA SÓLO PARA PANTALLAS MICRO
-   ========================================================= */
+/* ─────────────────────────────────────────────
+   12. RESPONSIVE — Portrait pequeño (≤ 430px)
+   ───────────────────────────────────────────── */
 @media screen and (max-width: 430px) and (orientation: portrait) {
     .taximetro-container {
         width: 95%;
@@ -296,90 +219,41 @@ body {
         gap: 6px;
     }
 
-    .display-contenedor {
+    .pantalla {
         padding: 10px 8px;
     }
 
     .precio-display {
-        font-size: calc(1.9rem + 2.5vw); /* ~2.9rem en 393px */
+        font-size: calc(1.9rem + 2.5vw);
     }
 
-    .tarifa-display, .suplemento-display {
-        font-size: calc(1.4rem + 2vw); /* ~2.2rem en 393px */
+    .tarifa-display,
+    .suplemento-display {
+        font-size: calc(1.4rem + 2vw);
     }
 
-    .texto-fijo, .marca-taxitronic, .leyenda-txt {
+    .texto-fijo,
+    .marca-taxitronic {
         font-size: 0.6rem;
     }
 
     .linea-verde {
-        margin: 8px 0 5px 0;
+        margin: 20px 0 4px;
     }
 
     .boton {
-        height: 36px; /* Zona táctil cómoda para dedo */
+        height: 36px;
     }
 
     .botonera {
         gap: 4px;
-        padding: 8px 0 3px 0;
+        padding: 8px 0 3px;
     }
 }
 
-/* --- HORIZONTAL (landscape): alto CSS ~393px, ancho ~874px --- */
-@media screen and (max-height: 430px) and (orientation: landscape) {
-    html, body {
-        height: 100dvh; /* Descuenta la barra del navegador en landscape */
-        align-items: center;
-    }
-
-    .taximetro-container {
-        width: 60%;       /* En landscape sobra ancho, limitamos para no estirarlo */
-        max-width: 520px;
-        border-width: 5px;
-        padding: 5px;
-        gap: 4px;
-    }
-
-    .display-contenedor {
-        padding: 6px 8px;
-    }
-
-    .precio-display {
-        font-size: calc(1.4rem + 1.8vw); /* Más pequeño porque el alto es limitado */
-    }
-
-    .tarifa-display, .suplemento-display {
-        font-size: calc(1.1rem + 1.4vw);
-    }
-
-    .texto-fijo, .marca-taxitronic, .leyenda-txt {
-        font-size: 0.55rem;
-    }
-
-    .linea-verde {
-        height: 3px;
-        margin: 5px 0 4px 0;
-    }
-
-    .fila-superior {
-        margin-bottom: 6px;
-    }
-
-    .fila-inferior {
-        margin-top: 8px;
-    }
-
-    .boton {
-        height: 28px;  /* Algo más chato en landscape para que quepa todo */
-    }
-
-    .botonera {
-        padding: 4px 0 2px 0;
-    }
-}
-
-/* --- Pantallas muy pequeñas (≤360px portrait): compactación extra --- */
+/* ─────────────────────────────────────────────
+   13. RESPONSIVE — Portrait muy pequeño (≤ 360px)
+   ───────────────────────────────────────────── */
 @media screen and (max-width: 360px) and (orientation: portrait) {
     .taximetro-container {
         width: 97%;
@@ -392,11 +266,69 @@ body {
         font-size: calc(1.7rem + 2vw);
     }
 
-    .tarifa-display, .suplemento-display {
+    .tarifa-display,
+    .suplemento-display {
         font-size: calc(1.2rem + 1.8vw);
     }
 
     .boton {
         height: 32px;
+    }
+}
+
+/* ─────────────────────────────────────────────
+   14. RESPONSIVE — Landscape (alto ≤ 430px)
+   ───────────────────────────────────────────── */
+@media screen and (max-height: 430px) and (orientation: landscape) {
+    html, body {
+        height: 100dvh;
+        align-items: center;
+    }
+
+    .taximetro-container {
+        width: 60%;
+        max-width: 520px;
+        border-width: 5px;
+        padding: 5px;
+        gap: 4px;
+    }
+
+    .pantalla {
+        padding: 6px 8px;
+    }
+
+    .precio-display {
+        font-size: calc(1.4rem + 1.8vw);
+    }
+
+    .tarifa-display,
+    .suplemento-display {
+        font-size: calc(1.1rem + 1.4vw);
+    }
+
+    .texto-fijo,
+    .marca-taxitronic {
+        font-size: 0.55rem;
+    }
+
+    .linea-verde {
+        height: 3px;
+        margin: 15px 0 3px;
+    }
+
+    .fila-superior {
+        margin-bottom: 6px;
+    }
+
+    .fila-inferior {
+        margin-top: 8px;
+    }
+
+    .boton {
+        height: 28px;
+    }
+
+    .botonera {
+        padding: 4px 0 2px;
     }
 }

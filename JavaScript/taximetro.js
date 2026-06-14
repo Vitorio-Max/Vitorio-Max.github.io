@@ -15,6 +15,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // Captura de botones específicos mediante sus nuevas clases
     const btnLibre = document.querySelector(".btn-libre");
     const btnOcupado = document.querySelector(".btn-ocupado");
+    const btnDos = document.querySelector(".botonera .btnt56:nth-child(3)");
     const btnPausa = document.querySelector(".btn-pausa");
     const btnPagar = document.querySelector(".btn-pagar");
 
@@ -31,7 +32,9 @@ document.addEventListener("DOMContentLoaded", () => {
     // Precios configurables (Tiempo y Kilometraje)
     const PRECIOS = {
         1: { bajada: 2.55, hora: 27.00, km: 1.40 },  // Laborables
-        2: { bajada: 3.20, hora: 29.00, km: 1.60 }   // Fin de semana
+        2: { bajada: 3.20, hora: 29.00, km: 1.60 },  // Fin de semana
+        5: { bajada: 3.50, hora: 32.00, km: 1.80 },  // Interurbano Laborables 🌟
+        6: { bajada: 4.20, hora: 35.00, km: 2.10 }   // Interurbano Fin de semana 🌟
     };
     
     const VELOCIDAD_CAMBIO_KMH = 22; // Velocidad límite en km/h
@@ -50,20 +53,20 @@ document.addEventListener("DOMContentLoaded", () => {
             indicadores.ocupado.classList.add("encendido");
             displays.tarifa.textContent = tarifaActiva; // Muestra '1' o '2' dinámicamente
             displays.precio.textContent = precioAcumulado.toFixed(2);
-            displays.suplemento.textContent = suplementoAcumulado > 0 ? suplementoAcumulado.toFixed(2) : "0";
+            displays.suplemento.textContent = suplementoAcumulado > 0 ? suplementoAcumulado.toFixed(2) : "";
         } 
         // 👇 NUEVO ESTADO DE PAUSA 👇
         else if (estadoActual === "PAUSA") {
             indicadores.ocupado.classList.add("encendido"); // Mantenemos "Ocupado" iluminado
             displays.tarifa.textContent = "0";             // La tarifa marca 0
             displays.precio.textContent = precioAcumulado.toFixed(2); // El importe se congela
-            displays.suplemento.textContent = suplementoAcumulado > 0 ? suplementoAcumulado.toFixed(2) : "0";
+            displays.suplemento.textContent = suplementoAcumulado > 0 ? suplementoAcumulado.toFixed(2) : "";
         }
         else if (estadoActual === "A_PAGAR") {
             indicadores.aPagar.classList.add("encendido");
             displays.tarifa.textContent = "P"; 
             displays.precio.textContent = (precioAcumulado + suplementoAcumulado).toFixed(2);
-            displays.suplemento.textContent = suplementoAcumulado.toFixed(2);
+            displays.suplemento.textContent = suplementoAcumulado > 0 ? suplementoAcumulado.toFixed(2) : "";
         }
     }
 
@@ -99,18 +102,22 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    function iniciarContador() {
+    function iniciarContador(estadoPrevio) {
         const hoy = new Date();
         const diaSemana = hoy.getDay();
         const esFinDeSemana = (diaSemana === 0 || diaSemana === 6);
 
-        tarifaActiva = esFinDeSemana ? 2 : 1;
+        // 🔄 Si la tarifa activa NO es interurbana (5 o 6), calcula la automática de Madrid (1 o 2)
+        // Pero si ya es 5 o 6 (porque pulsamos el tercer botón), no la toca.
+        if (tarifaActiva !== 5 && tarifaActiva !== 6) {
+            tarifaActiva = esFinDeSemana ? 2 : 1;
+        }
         const preciosTarifa = PRECIOS[tarifaActiva];
         
         // Inicialización de valores
         // 🔄 MODIFICACIÓN: Si NO venimos de una pausa, iniciamos valores de cero.
         // Si venimos de PAUSA, respetamos el precio que ya estaba congelado.
-        if (estadoActual !== "PAUSA") {
+        if (estadoPrevio !== "PAUSA") {
             precioAcumulado = preciosTarifa.bajada;
             suplementoAcumulado = 0.00;
             monederoVirtual = 0.00; //Se limpia al empezar el viaje
@@ -181,7 +188,7 @@ document.addEventListener("DOMContentLoaded", () => {
             idRelojGPS = null;
         }
         window.velocidadActualGPS = 0;
-        monederoVirtual = 0.00; // Reseteamos al cobrar
+        
     }
 
     // 5. ASIGNACIÓN COMPATIBLE CON PANTALLAS TÁCTILES Y RATÓN
@@ -203,6 +210,22 @@ document.addEventListener("DOMContentLoaded", () => {
             const estadoPrevio = estadoActual; 
             estadoActual = "OCUPADO";
             iniciarContador(estadoPrevio); 
+            actualizarPantalla();
+        }
+    });
+
+    // 🌟 NUEVO: TERCER BOTÓN (Bajo el '2' de la leyenda) -> Inicia Tarifa 5 o 6 desde LIBRE
+    agregarEventoAccion(btnDos, () => {
+        if (estadoActual === "LIBRE") {
+            const hoy = new Date();
+            const diaSemana = hoy.getDay();
+            const esFinDeSemana = (diaSemana === 0 || diaSemana === 6);
+
+            // Si es fin de semana arranca en Tarifa 6, si es laborable en Tarifa 5
+            tarifaActiva = esFinDeSemana ? 6 : 5;
+            
+            estadoActual = "OCUPADO";
+            iniciarContador("LIBRE"); // Arranca el taxímetro con la tarifa asignada (5 o 6)
             actualizarPantalla();
         }
     });
