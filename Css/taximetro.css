@@ -173,24 +173,24 @@ body {
 /* =========================================================
    1. RESETEO Y BASE DE LA PANTALLA (Para evitar desbordamientos)
    ========================================================= */
-html, body {
+/* html, body {
     margin: 0;
     padding: 0;
     width: 100%;
     height: 100vh;
-    /* overflow: hidden; */
-    background-color: #0b0b0b; /* Fondo oscuro de coche por la noche */
+    overflow: hidden;
+    background-color: #0b0b0b; /* Fondo oscuro de coche por la noche
     font-family: Arial, sans-serif;
     display: flex;
     align-items: center;
     justify-content: center;
-    /*overscroll-behavior: contain;  Bloquea la recarga accidental */
-}
+    overscroll-behavior: contain;  Bloquea la recarga accidental
+} */
 
 /* =========================================================
    2. EL CHASIS DEL TAXÍMETRO (100% Elástico y Acoplado)
    ========================================================= */
-.contenedor-taximetro {
+.taximetro-container {
     width: 92%;               /* Usa casi todo el ancho disponible en pantallas pequeñas */
     max-width: 480px;         /* Anchura máxima ideal en ordenador */
     height: auto;
@@ -288,15 +288,115 @@ html, body {
 /* =========================================================
    5. MEDIA QUERY: ACHICADO EXTRA SÓLO PARA PANTALLAS MICRO
    ========================================================= */
-@media screen and (max-width: 380px) {
-    .contenedor-taximetro {
-        width: 96%;
-        border-width: 5px;    /* Adelgazamos el marco exterior en móviles muy pequeños */
+@media screen and (max-width: 430px) and (orientation: portrait) {
+    .taximetro-container {
+        width: 95%;
+        border-width: 5px;
+        padding: 6px;
+        gap: 6px;
+    }
+
+    .display-contenedor {
+        padding: 10px 8px;
+    }
+
+    .precio-display {
+        font-size: calc(1.9rem + 2.5vw); /* ~2.9rem en 393px */
+    }
+
+    .tarifa-display, .suplemento-display {
+        font-size: calc(1.4rem + 2vw); /* ~2.2rem en 393px */
+    }
+
+    .texto-fijo, .marca-taxitronic, .leyenda-txt {
+        font-size: 0.6rem;
+    }
+
+    .linea-verde {
+        margin: 8px 0 5px 0;
+    }
+
+    .boton {
+        height: 36px; /* Zona táctil cómoda para dedo */
+    }
+
+    .botonera {
+        gap: 4px;
+        padding: 8px 0 3px 0;
+    }
+}
+
+/* --- HORIZONTAL (landscape): alto CSS ~393px, ancho ~874px --- */
+@media screen and (max-height: 430px) and (orientation: landscape) {
+    html, body {
+        height: 100dvh; /* Descuenta la barra del navegador en landscape */
+        align-items: center;
+    }
+
+    .taximetro-container {
+        width: 60%;       /* En landscape sobra ancho, limitamos para no estirarlo */
+        max-width: 520px;
+        border-width: 5px;
+        padding: 5px;
+        gap: 4px;
+    }
+
+    .display-contenedor {
+        padding: 6px 8px;
+    }
+
+    .precio-display {
+        font-size: calc(1.4rem + 1.8vw); /* Más pequeño porque el alto es limitado */
+    }
+
+    .tarifa-display, .suplemento-display {
+        font-size: calc(1.1rem + 1.4vw);
+    }
+
+    .texto-fijo, .marca-taxitronic, .leyenda-txt {
+        font-size: 0.55rem;
+    }
+
+    .linea-verde {
+        height: 3px;
+        margin: 5px 0 4px 0;
+    }
+
+    .fila-superior {
+        margin-bottom: 6px;
+    }
+
+    .fila-inferior {
+        margin-top: 8px;
+    }
+
+    .boton {
+        height: 28px;  /* Algo más chato en landscape para que quepa todo */
+    }
+
+    .botonera {
+        padding: 4px 0 2px 0;
+    }
+}
+
+/* --- Pantallas muy pequeñas (≤360px portrait): compactación extra --- */
+@media screen and (max-width: 360px) and (orientation: portrait) {
+    .taximetro-container {
+        width: 97%;
+        border-width: 4px;
         padding: 5px;
         gap: 5px;
     }
-    
+
+    .precio-display {
+        font-size: calc(1.7rem + 2vw);
+    }
+
+    .tarifa-display, .suplemento-display {
+        font-size: calc(1.2rem + 1.8vw);
+    }
+
     .boton {
-        height: 18px;         /* Aplanamos un poco más los botones para ganar espacio */
+        height: 32px;
     }
 }
