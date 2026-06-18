@@ -20,11 +20,11 @@ document.addEventListener("DOMContentLoaded", () => {
     const btnPagar = document.querySelector(".btn-pagar");
 
     // 2. Variables de estado del taxímetro
-    let estadoActual = "LIBRE"; 
-    let tarifaActiva = 1; // Guardará si es Tarifa 1 o Tarifa 2
+    let estadoActual = "APAGADO";
+    let tarifaActiva = 1;
     let precioAcumulado = 0.00;
     let suplementoAcumulado = 0.00;
-    
+
     let intervaloTiempo = null;   // Bucle para cuando el coche está parado
     let idRelojGPS = null;        // Rastreador del GPS del dispositivo
     let ultimaCoordenada = null;  // Para medir distancias precisas paso a paso
@@ -36,37 +36,52 @@ document.addEventListener("DOMContentLoaded", () => {
         5: { bajada: 3.50, hora: 32.00, km: 1.80 },  // Interurbano Laborables 🌟
         6: { bajada: 4.20, hora: 35.00, km: 2.10 }   // Interurbano Fin de semana 🌟
     };
-    
+
     const VELOCIDAD_CAMBIO_KMH = 22; // Velocidad límite en km/h
 
     // 3. Función principal para actualizar la pantalla (Renderizado)
     function actualizarPantalla() {
+        // Capturamos el contenedor principal para aplicarle el estado físico
+        const contenedor = document.querySelector(".taximetro-container");
+
+        // Apagamos todos los indicadores por defecto
         Object.values(indicadores).forEach(ind => ind.classList.remove("encendido"));
 
-        if (estadoActual === "LIBRE") {
-            indicadores.libre.classList.add("encendido");
-            displays.tarifa.textContent = "L";
+        // 👇 MODIFICADO: CONTROL DE CLASE APAGADO 👇
+        if (estadoActual === "APAGADO") {
+            contenedor.classList.add("apagado"); // Ponemos el aspecto físico de apagado
+
+            displays.tarifa.textContent = "";
             displays.precio.textContent = "";
             displays.suplemento.textContent = "";
-        } 
-        else if (estadoActual === "OCUPADO") {
-            indicadores.ocupado.classList.add("encendido");
-            displays.tarifa.textContent = tarifaActiva; // Muestra '1' o '2' dinámicamente
-            displays.precio.textContent = precioAcumulado.toFixed(2);
-            displays.suplemento.textContent = suplementoAcumulado > 0 ? suplementoAcumulado.toFixed(2) : "";
-        } 
-        // 👇 NUEVO ESTADO DE PAUSA 👇
-        else if (estadoActual === "PAUSA") {
-            indicadores.ocupado.classList.add("encendido"); // Mantenemos "Ocupado" iluminado
-            displays.tarifa.textContent = "0";             // La tarifa marca 0
-            displays.precio.textContent = precioAcumulado.toFixed(2); // El importe se congela
-            displays.suplemento.textContent = suplementoAcumulado > 0 ? suplementoAcumulado.toFixed(2) : "";
         }
-        else if (estadoActual === "A_PAGAR") {
-            indicadores.aPagar.classList.add("encendido");
-            displays.tarifa.textContent = "P"; 
-            displays.precio.textContent = (precioAcumulado + suplementoAcumulado).toFixed(2);
-            displays.suplemento.textContent = suplementoAcumulado > 0 ? suplementoAcumulado.toFixed(2) : "";
+        else {
+            contenedor.classList.remove("apagado"); // Quitamos el apagado si está en cualquier otro estado
+
+            if (estadoActual === "LIBRE") {
+                indicadores.libre.classList.add("encendido");
+                displays.tarifa.textContent = "L";
+                displays.precio.textContent = "";
+                displays.suplemento.textContent = "";
+            }
+            else if (estadoActual === "OCUPADO") {
+                indicadores.ocupado.classList.add("encendido");
+                displays.tarifa.textContent = tarifaActiva;
+                displays.precio.textContent = precioAcumulado.toFixed(2);
+                displays.suplemento.textContent = suplementoAcumulado > 0 ? suplementoAcumulado.toFixed(2) : "";
+            }
+            else if (estadoActual === "PAUSA") {
+                indicadores.ocupado.classList.add("encendido");
+                displays.tarifa.textContent = "0";
+                displays.precio.textContent = precioAcumulado.toFixed(2);
+                displays.suplemento.textContent = suplementoAcumulado > 0 ? suplementoAcumulado.toFixed(2) : "";
+            }
+            else if (estadoActual === "A_PAGAR") {
+                indicadores.aPagar.classList.add("encendido");
+                displays.tarifa.textContent = "P";
+                displays.precio.textContent = (precioAcumulado + suplementoAcumulado).toFixed(2);
+                displays.suplemento.textContent = suplementoAcumulado > 0 ? suplementoAcumulado.toFixed(2) : "";
+            }
         }
     }
 
@@ -82,12 +97,12 @@ document.addEventListener("DOMContentLoaded", () => {
         const deltaPhi = (lat2 - lat1) * Math.PI / 180;
         const deltaLambda = (lon2 - lon1) * Math.PI / 180;
 
-        const a = Math.sin(deltaPhi/2) * Math.sin(deltaPhi/2) +
-                  Math.cos(phi1) * Math.cos(phi2) *
-                  Math.sin(deltaLambda/2) * Math.sin(deltaLambda/2);
-        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+        const a = Math.sin(deltaPhi / 2) * Math.sin(deltaPhi / 2) +
+            Math.cos(phi1) * Math.cos(phi2) *
+            Math.sin(deltaLambda / 2) * Math.sin(deltaLambda / 2);
+        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 
-        return R * c; 
+        return R * c;
     }
 
     // Procesa el dinero acumulado en segundo plano y genera el salto de 0.05€ si corresponde
@@ -105,15 +120,19 @@ document.addEventListener("DOMContentLoaded", () => {
     function iniciarContador(estadoPrevio) {
         const hoy = new Date();
         const diaSemana = hoy.getDay();
+        const horaActual = hoy.getHours(); // 🔄 Captura la hora (0 a 23)
         const esFinDeSemana = (diaSemana === 0 || diaSemana === 6);
-
+        const esHorarioNocturno = (horaActual >= 21 || horaActual < 7);
         // 🔄 Si la tarifa activa NO es interurbana (5 o 6), calcula la automática de Madrid (1 o 2)
         // Pero si ya es 5 o 6 (porque pulsamos el tercer botón), no la toca.
+
+
+
         if (tarifaActiva !== 5 && tarifaActiva !== 6) {
-            tarifaActiva = esFinDeSemana ? 2 : 1;
+            tarifaActiva = (esFinDeSemana || esHorarioNocturno) ? 2 : 1;
         }
         const preciosTarifa = PRECIOS[tarifaActiva];
-        
+
         // Inicialización de valores
         // 🔄 MODIFICACIÓN: Si NO venimos de una pausa, iniciamos valores de cero.
         // Si venimos de PAUSA, respetamos el precio que ya estaba congelado.
@@ -127,7 +146,7 @@ document.addEventListener("DOMContentLoaded", () => {
         // A) RASTREO POR TIEMPO (Revisión cada 1 segundo)
         intervaloTiempo = setInterval(() => {
             if (estadoActual !== "OCUPADO") return;
-            
+
             // Si estamos parados o a menos de 22 km/h, acumulamos dinero por tiempo
             if (!window.velocidadActualGPS || window.velocidadActualGPS <= VELOCIDAD_CAMBIO_KMH) {
                 const eurosPorSegundo = preciosTarifa.hora / 3600;
@@ -143,7 +162,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
                     const velocidadMS = position.coords.speed || 0;
                     const velocidadKMH = velocidadMS * 3.6;
-                    
+
                     window.velocidadActualGPS = velocidadKMH;
 
                     console.log(`Velocidad: ${velocidadKMH.toFixed(1)} km/h | Monedero interno: ${monederoVirtual.toFixed(4)}€`);
@@ -155,16 +174,16 @@ document.addEventListener("DOMContentLoaded", () => {
                                 ultimaCoordenada.latitude, ultimaCoordenada.longitude,
                                 position.coords.latitude, position.coords.longitude
                             );
-                            
+
                             // Filtro de ruido del chip GPS (evitar saltos falsos menores a 1 metro)
-                            if (metrosRecorridos > 1 && metrosRecorridos < 200) { 
+                            if (metrosRecorridos > 1 && metrosRecorridos < 200) {
                                 const kmRecorridos = metrosRecorridos / 1000;
                                 const eurosPorDistancia = kmRecorridos * preciosTarifa.km;
                                 procesarAcumulacion(eurosPorDistancia);
                             }
                         }
                     }
-                    
+
                     ultimaCoordenada = position.coords;
                 },
                 (error) => {
@@ -188,44 +207,73 @@ document.addEventListener("DOMContentLoaded", () => {
             idRelojGPS = null;
         }
         window.velocidadActualGPS = 0;
-        
+
     }
 
     // 5. ASIGNACIÓN COMPATIBLE CON PANTALLAS TÁCTILES Y RATÓN
     // =========================================================
-    
+
     // Función auxiliar para registrar la pulsación sin importar el dispositivo
     function agregarEventoAccion(elemento, callback) {
         if (!elemento) return;
-        
+
         elemento.addEventListener("pointerdown", (e) => {
-            e.stopPropagation(); 
+            e.stopPropagation();
             callback();
         });
     }
 
-    // BOTÓN 2 (.btn-ocupado): Inicia o Reanuda viaje
+    // BOTÓN 2 (.btn-ocupado): Inicia, Reanuda viaje o VUELVE a Tarifa Urbana (1 o 2)
     agregarEventoAccion(btnOcupado, () => {
-        if (estadoActual === "LIBRE" || estadoActual === "PAUSA") {
-            const estadoPrevio = estadoActual; 
+        const hoy = new Date();
+        const diaSemana = hoy.getDay();
+        const horaActual = hoy.getHours();
+
+        const esFinDeSemana = (diaSemana === 0 || diaSemana === 6);
+        const esHorarioNocturno = (horaActual >= 21 || horaActual < 7);
+
+        // Si ya está OCUPADO pero estábamos en tarifa 5 o 6, volvemos a la urbana correcta
+        if (estadoActual === "OCUPADO" && (tarifaActiva === 5 || tarifaActiva === 6)) {
+            // Evaluamos tanto el día como la hora actual
+            tarifaActiva = (esFinDeSemana || esHorarioNocturno) ? 2 : 1;
+
+            detenerContador();
+            iniciarContador("PAUSA");
+            actualizarPantalla();
+        }
+        // Comportamiento normal si venía de LIBRE o PAUSA
+        else if (estadoActual === "LIBRE" || estadoActual === "PAUSA") {
+            const estadoPrevio = estadoActual;
             estadoActual = "OCUPADO";
-            iniciarContador(estadoPrevio); 
+            iniciarContador(estadoPrevio);
             actualizarPantalla();
         }
     });
 
-    // 🌟 NUEVO: TERCER BOTÓN (Bajo el '2' de la leyenda) -> Inicia Tarifa 5 o 6 desde LIBRE
+    // TERCER BOTÓN (.btnt56): Pasa a Tarifa Interurbana (5 o 6) según el horario
     agregarEventoAccion(btnDos, () => {
-        if (estadoActual === "LIBRE") {
-            const hoy = new Date();
-            const diaSemana = hoy.getDay();
-            const esFinDeSemana = (diaSemana === 0 || diaSemana === 6);
+        const hoy = new Date();
+        const diaSemana = hoy.getDay();
+        const horaActual = hoy.getHours();
 
-            // Si es fin de semana arranca en Tarifa 6, si es laborable en Tarifa 5
-            tarifaActiva = esFinDeSemana ? 6 : 5;
-            
+        const esFinDeSemana = (diaSemana === 0 || diaSemana === 6);
+        const esHorarioNocturno = (horaActual >= 21 || horaActual < 7);
+
+        // 🔄 Determina la tarifa interurbana correcta (6 si es fin de semana o noche, si no 5)
+        const nuevaTarifaInterurbana = (esFinDeSemana || esHorarioNocturno) ? 6 : 5;
+
+        // CASO A: Si el viaje ya está en curso (OCUPADO), cambiamos a interurbana en caliente
+        if (estadoActual === "OCUPADO" && tarifaActiva !== nuevaTarifaInterurbana) {
+            tarifaActiva = nuevaTarifaInterurbana;
+            detenerContador();
+            iniciarContador("PAUSA"); // Conserva el dinero que ya se ha cobrado
+            actualizarPantalla();
+        }
+        // CASO B: Si estaba LIBRE, arranca el viaje directamente en la tarifa interurbana que toque
+        else if (estadoActual === "LIBRE") {
+            tarifaActiva = nuevaTarifaInterurbana;
             estadoActual = "OCUPADO";
-            iniciarContador("LIBRE"); // Arranca el taxímetro con la tarifa asignada (5 o 6)
+            iniciarContador("LIBRE"); // Arranca de cero con su bajada de bandera (5 o 6)
             actualizarPantalla();
         }
     });
@@ -248,11 +296,24 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    // BOTÓN 1 (.btn-libre): Reinicia a estado LIBRE desde A PAGAR
-    // ✨ CORREGIDO: Añadidas las llaves de cierre de la función y del DOM
+    // BOTÓN 1 (.btn-libre): Enciende/Apaga el taxímetro o reinicia a estado LIBRE desde A PAGAR
     agregarEventoAccion(btnLibre, () => {
-        if (estadoActual === "A_PAGAR") {
+        // CASO A: Si está apagado, al pulsar se enciende en modo LIBRE
+        if (estadoActual === "APAGADO") {
             estadoActual = "LIBRE";
+            tarifaActiva = 1;
+            actualizarPantalla();
+        }
+        // 👇 CASO B (NUEVO): Si ya está en LIBRE, al pulsar el botón se APAGA 👇
+        else if (estadoActual === "LIBRE") {
+            estadoActual = "APAGADO";
+            tarifaActiva = 1;
+            actualizarPantalla();
+        }
+        // CASO C: Si terminó el viaje y está en "A Pagar", vuelve a LIBRE
+        else if (estadoActual === "A_PAGAR") {
+            estadoActual = "LIBRE";
+            tarifaActiva = 1;
             actualizarPantalla();
         }
     });

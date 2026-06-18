@@ -209,6 +209,40 @@ body {
 }
 
 /* ─────────────────────────────────────────────
+   15. EFECTO APAGADO REALISTA (UI/UX)
+   ───────────────────────────────────────────── */
+
+/* Oscurecemos el fondo de la pantalla simulando el cristal tintado sin energía */
+.taximetro-container.apagado .pantalla {
+    background-color: #050101;
+    box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.95);
+    transition: background-color 0.3s ease;
+}
+
+/* Los indicadores de texto fijo (Libre, Ocupado...) se vuelven casi invisibles */
+.taximetro-container.apagado .texto-fijo {
+    color: rgba(255, 0, 0, 0.02) !important;
+    text-shadow: none !important;
+    transition: color 0.3s ease;
+}
+
+/* Los símbolos de la leyenda inferior (O 1 2 3 4...) también se apagan */
+.taximetro-container.apagado .simbolos-leyenda span {
+    color: rgba(255, 0, 0, 0.03);
+    text-shadow: none;
+    transition: color 0.3s ease;
+}
+
+/* Desactivamos visualmente los botones que no se pueden usar 
+.taximetro-container.apagado .boton:not(.btn-libre) {
+    opacity: 0.6;
+    cursor: not-allowed;
+    filter: grayscale(30%);
+    transition: all 0.3s ease;
+}*/
+
+
+/* ─────────────────────────────────────────────
    12. RESPONSIVE — Portrait pequeño (≤ 430px)
    ───────────────────────────────────────────── */
 @media screen and (max-width: 430px) and (orientation: portrait) {
