@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,18 +9,19 @@
     <link rel="stylesheet" href="../Css/navbar.css">
     <link rel="stylesheet" href="../Css/taximetro.css">
 </head>
+
 <body>
     <header>
-        
+
         <a href="../index.html" class="navbar-brand">
             <img src="../Imagenes/viityuno.webp" alt="Logo VityUno" class="navbar-logo">
         </a>
-        
+
         <button id="abrir" class="abrir-menu"><i class="bi bi-list"></i></button>
         <nav class="navbar" id="nav">
-            
+
             <div class="navbar-container">
-                <button class="cerrar-menu" id="cerrar" ><i class="bi bi-x"></i></button>
+                <button class="cerrar-menu" id="cerrar"><i class="bi bi-x"></i></button>
                 <ul class="nav-links">
                     <li><a href="../index.html" class="nav-link">Inicio</a></li>
                     <li><a href="calcuheader.html" class="nav-link">Calculadora</a></li>
@@ -28,14 +30,15 @@
                     <li><a href="listadelacompra.html" class="nav-link">Lista de la compra</a></li>
                     <li><a href="cuentos.html" class="nav-link">Cuentos</a></li>
                     <li><a href="juegos.html" class="nav-link">Juegos</a></li>
-                    <button class="btnLogin-popup">Inicia sesión</button>
+                    <button id="authButton" class="btnLogin-popup">Inicia sesión</button>
+                    <div id="welcomeMessage" style="display: none; color: white; margin-right: 15px;"></div>
                 </ul>
             </div>
         </nav>
-    
-</header> 
 
-<div class="wrapper">
+    </header>
+
+    <div class="wrapper">
         <span class="icon-close"><ion-icon name="close-outline"></ion-icon></span>
         <div class="form-box login">
             <h2>Login</h2>
@@ -92,10 +95,14 @@
             </form>
         </div>
     </div>
-    
+
     <div class="taximetro-container">
         <div class="pantalla">
-            
+            <p id="mensaje-login"
+                style="color: #ff4444; font-family: sans-serif; font-size: 0.9rem; text-align: center; margin-top: 10px; display: none;">
+                ⚠️ Primero debes iniciar sesión en el sistema.
+            </p>
+
             <div class="fila-superior">
                 <div class="indicadores-estado">
                     <span class="texto-fijo encendido">Libre</span>
@@ -103,19 +110,19 @@
                     <span class="texto-fijo">A Pagar</span>
                     <span class="texto-fijo">Medición</span>
                 </div>
-                
+
                 <div class="digitos tarifa-display">L</div>
-                
+
                 <div class="etiqueta-central">
                     <span class="texto-fijo encendido" style="font-size: 13px;"></span>
                 </div>
-                
+
                 <div class="digitos precio-display"></div>
             </div>
 
             <div class="fila-inferior">
                 <div class="digitos suplemento-display"></div>
-                
+
                 <div style="margin-left: 10px; margin-bottom: 5px;">
                     <span class="texto-fijo">Supl. €</span>
                 </div>
@@ -162,10 +169,15 @@
 
 
 
-</main>
+    </main>
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
-    <script src="../JavaScript/taximetro.js" ></script>
+    <script type="module" src="../JavaScript/taximetro.js"></script>
     <script src="../JavaScript/menuH.js"></script>
+    <script type="module" src="../JavaScript/supabase.js"></script>
+    <script type="module" src="../JavaScript/login.js"></script>
+    <script type="module" src="../JavaScript/auth-check.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 </body>
+
 </html>

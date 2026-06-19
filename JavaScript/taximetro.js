@@ -1,4 +1,7 @@
-document.addEventListener("DOMContentLoaded", () => {
+import { supabase } from './supabase.js'; // 🔄 Importamos la misma instancia compartida
+
+document.addEventListener("DOMContentLoaded", async () => { // 🔄 Ponemos 'async' aquí
+
     // 1. Captura de elementos del DOM
     const displays = {
         tarifa: document.querySelector(".tarifa-display"),
@@ -19,16 +22,31 @@ document.addEventListener("DOMContentLoaded", () => {
     const btnPausa = document.querySelector(".btn-pausa");
     const btnPagar = document.querySelector(".btn-pagar");
 
+    // 👇 NUEVO: Captura de elementos para el Login 
+    const capaLogin = document.getElementById("capa-login");
+    const btnLogin = document.getElementById("btn-login");
+
     // 2. Variables de estado del taxímetro
     let estadoActual = "APAGADO";
     let tarifaActiva = 1;
     let precioAcumulado = 0.00;
     let suplementoAcumulado = 0.00;
+    // 🔄 NUEVO: Consultamos a Supabase si existe una sesión activa en el navegador
+    const { data: { session } } = await supabase.auth.getSession();
+    let usuarioLogueado = session !== null;
 
     let intervaloTiempo = null;   // Bucle para cuando el coche está parado
     let idRelojGPS = null;        // Rastreador del GPS del dispositivo
     let ultimaCoordenada = null;  // Para medir distancias precisas paso a paso
-
+// Opcional: Si el usuario cierra sesión en tiempo real, apagamos el aparato
+    supabase.auth.onAuthStateChange((event, session) => {
+        usuarioLogueado = session !== null;
+        if (!usuarioLogueado && estadoActual !== "APAGADO") {
+            estadoActual = "APAGADO";
+            detenerContador();
+            actualizarPantalla();
+        }
+    });
     // Precios configurables (Tiempo y Kilometraje)
     const PRECIOS = {
         1: { bajada: 2.55, hora: 27.00, km: 1.40 },  // Laborables
@@ -298,6 +316,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // BOTÓN 1 (.btn-libre): Enciende/Apaga el taxímetro o reinicia a estado LIBRE desde A PAGAR
     agregarEventoAccion(btnLibre, () => {
+        // 👇 NOTIFICACIÓN SIMPLE: Si no está logueado, muestra el aviso y frena el código
+        if (!usuarioLogueado) {
+            Toastify({
+                text: "⚠️ Acceso denegado: Debes iniciar sesión para usar el taxímetro.",
+                duration: 3000,
+                gravity: "top", 
+                position: "right",
+                style: {
+                    background: "#dc3545",
+                    borderRadius: "5px",
+                    color: "white"
+                }
+            }).showToast();
+            return;
+        }
         // CASO A: Si está apagado, al pulsar se enciende en modo LIBRE
         if (estadoActual === "APAGADO") {
             estadoActual = "LIBRE";

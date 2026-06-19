@@ -30,7 +30,8 @@
                     <li><a href="listadelacompra.html" class="nav-link">Lista de la compra</a></li>
                     <li><a href="cuentos.html" class="nav-link">Cuentos</a></li>
                     <li><a href="juegos.html" class="nav-link">Juegos</a></li>
-                    <button class="btnLogin-popup">Inicia sesión</button>
+                    <button id="authButton" class="btnLogin-popup">Inicia sesión</button>
+                    <div id="welcomeMessage" style="display: none; color: white; margin-right: 15px;"></div>
                 </ul>
             </div>
         </nav>
@@ -126,5 +127,8 @@
         <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
         <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
         <script src="../JavaScript/menuH.js"></script>
+        <script type="module" src="../JavaScript/supabase.js"></script>
+    <script type="module" src="../JavaScript/login.js"></script>
+    <script type="module" src="../JavaScript/auth-check.js"></script>
 </body>
 </html>
