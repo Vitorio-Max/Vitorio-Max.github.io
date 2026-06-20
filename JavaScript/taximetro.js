@@ -358,6 +358,11 @@ document.addEventListener("DOMContentLoaded", async () => { // 🔄 Ponemos 'asy
         // Interceptamos la combinación antes de la lógica normal
         if (modoMasActivo) {
             desactivarModoMas();
+            // 🛑 NUEVO: Bloqueo si ya está en una tarifa especial restrictiva
+            if ([3, 4, 7, 9].includes(tarifaActiva)) {
+                console.warn("Cambio denegado: Ya te encuentras en una tarifa especial.");
+                return; 
+            }
             transicionarTarifa(3);
             return;
         }
@@ -371,7 +376,6 @@ document.addEventListener("DOMContentLoaded", async () => { // 🔄 Ponemos 'asy
 
         // Si ya está OCUPADO pero estábamos en tarifa 5 o 6, volvemos a la urbana correcta
         if (estadoActual === "OCUPADO" && (tarifaActiva === 5 || tarifaActiva === 6)) {
-            // Evaluamos tanto el día como la hora actual
             tarifaActiva = (esFinDeSemana || esHorarioNocturno) ? 2 : 1;
 
             detenerContador();
@@ -386,13 +390,17 @@ document.addEventListener("DOMContentLoaded", async () => { // 🔄 Ponemos 'asy
             actualizarPantalla();
         }
     });
-
     // BOTÓN DOS (.btnDos): Pasa a Tarifa Interurbana (5 o 6) según el horario
     // O combinación "+" + Dos → Tarifa 4
     agregarEventoAccion(btnDos, () => {
         // Interceptamos la combinación antes de la lógica normal
         if (modoMasActivo) {
             desactivarModoMas();
+            // 🛑 NUEVO: Bloqueo si ya está en una tarifa especial restrictiva
+            if ([3, 4, 7, 9].includes(tarifaActiva)) {
+                console.warn("Cambio denegado: Ya te encuentras en una tarifa especial.");
+                return; 
+            }
             transicionarTarifa(4);
             return;
         }
@@ -411,33 +419,41 @@ document.addEventListener("DOMContentLoaded", async () => { // 🔄 Ponemos 'asy
         if (estadoActual === "OCUPADO" && tarifaActiva !== nuevaTarifaInterurbana) {
             tarifaActiva = nuevaTarifaInterurbana;
             detenerContador();
-            iniciarContador("PAUSA"); // Conserva el dinero que ya se ha cobrado
+            iniciarContador("PAUSA"); 
             actualizarPantalla();
         }
         // CASO B: Si estaba LIBRE, arranca el viaje directamente en la tarifa interurbana que toque
         else if (estadoActual === "LIBRE") {
             tarifaActiva = nuevaTarifaInterurbana;
             estadoActual = "OCUPADO";
-            iniciarContador("LIBRE"); // Arranca de cero con su bajada de bandera (5 o 6)
+            iniciarContador("LIBRE"); 
             actualizarPantalla();
         }
     });
-
     // BOTÓN TRES (.btnTres): O combinación "+" + Tres → Tarifa 7
-agregarEventoAccion(btnTres, () => {
-    if (modoMasActivo) {
-        desactivarModoMas();
-        transicionarTarifa(7);
-        return;
-    }
-});
-
+    agregarEventoAccion(btnTres, () => {
+        if (modoMasActivo) {
+            desactivarModoMas();
+            // 🛑 NUEVO: Bloqueo si ya está en una tarifa especial restrictiva
+            if ([3, 4, 7, 9].includes(tarifaActiva)) {
+                console.warn("Cambio denegado: Ya te encuentras en una tarifa especial.");
+                return; 
+            }
+            transicionarTarifa(7);
+            return;
+        }
+    });
     // BOTÓN CUATRO (.btnCuatro): Para el tiempo/GPS y pone tarifa en 0
     // O combinación "+" + Cuatro → Tarifa 9
     agregarEventoAccion(btnPausa, () => {
         // Interceptamos la combinación antes de la lógica normal
         if (modoMasActivo) {
             desactivarModoMas();
+            // 🛑 NUEVO: Bloqueo si ya está en una tarifa especial restrictiva
+            if ([3, 4, 7, 9].includes(tarifaActiva)) {
+                console.warn("Cambio denegado: Ya te encuentras en una tarifa especial.");
+                return; 
+            }
             transicionarTarifa(9);
             return;
         }
@@ -448,7 +464,6 @@ agregarEventoAccion(btnTres, () => {
             actualizarPantalla();
         }
     });
-
     // BOTÓN CUADRADO (.btnCuadrado): Pasa a estado A PAGAR
     agregarEventoAccion(btnPagar, () => {
         if (estadoActual === "OCUPADO" || estadoActual === "PAUSA") {
