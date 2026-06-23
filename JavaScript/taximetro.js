@@ -62,16 +62,17 @@ document.addEventListener("DOMContentLoaded", async () => { // 🔄 Ponemos 'asy
     const PRECIOS = {
         1: { bajada: 2.55, hora: 27.00, km: 1.40 },  // Laborables
         2: { bajada: 3.20, hora: 29.00, km: 1.60 },  // Fin de semana
-        3: { bajada: 22.00, hora: 27.00, km: 1.40, franquiciaKm: 9.5 }, // Bajada 22.00€, franquicia 9.5km, luego pasa a 1/2
-        4: { bajada: 33.00, hora: 29.00, km: 1.60 },  // Ajusta a tus valores reales
-        5: { bajada: 33.00, hora: 29.00, km: 1.60 },  // Interurbano Laborables 🌟
-        6: { bajada: 4.20, hora: 29.00, km: 1.60 },  // Interurbano Fin de semana 🌟
-        7: { bajada: 8.00, hora: 27.00, km: 1.40, franquiciaKm: 1.0 },  // Arranca en 8.00€, franquicia 9.5km, luego pasa a 1/2
+        3: { bajada: 22.00, hora: 27.00, km: 1.40, franquiciaKm: 9, franquiciaMin: 28 }, // Bajada 22.00€, franquicia 9.5km, luego pasa a 1/2
+        4: { bajada: 33.00 },  // Ajusta a tus valores reales
+        5: { bajada: 2.55, hora: 29.00, km: 1.60 },  // Interurbano Laborables 🌟
+        6: { bajada: 3.20, hora: 29.00, km: 1.60 },  // Interurbano Fin de semana 🌟
+        7: { bajada: 8.00, hora: 27.00, km: 1.40, franquiciaKm: 1.45, franquiciaMin: 4.5 },  // Arranca en 8.00€, franquicia 9.5km, luego pasa a 1/2
         9: { bajada: 0.00, hora: 0.00, km: 0.00 }    // Tarifa especial a 0.00€
     };
 
-    const VELOCIDAD_CAMBIO_KMH = 22; // Velocidad límite en km/h
+    const VELOCIDAD_CAMBIO_KMH = 19.29; // Velocidad límite en km/h
     let kmAcumuladosConFranquicia = 0; // Contador genérico, válido para cualquier tarifa con franquiciaKm
+    let segundosParadoConFranquicia = 0; // 🔄 NUEVO: contador independiente de tiempo parado
 
     // 3. Función principal para actualizar la pantalla (Renderizado)
     function actualizarPantalla() {
@@ -174,6 +175,7 @@ document.addEventListener("DOMContentLoaded", async () => { // 🔄 Ponemos 'asy
             suplementoAcumulado = 0.00;
             monederoVirtual = 0.00; //Se limpia al empezar el viaje
             kmAcumuladosConFranquicia = 0; // Se limpia al empezar un viaje nuevo
+            segundosParadoConFranquicia = 0; // 🔄 NUEVO
         }
         ultimaCoordenada = null;
 
@@ -181,8 +183,21 @@ document.addEventListener("DOMContentLoaded", async () => { // 🔄 Ponemos 'asy
         intervaloTiempo = setInterval(() => {
             if (estadoActual !== "OCUPADO") return;
 
-            // Si estamos parados o a menos de 22 km/h, acumulamos dinero por tiempo
+            const dentroDeFranquicia = preciosTarifa.franquiciaKm &&
+                kmAcumuladosConFranquicia < preciosTarifa.franquiciaKm;
+
             if (!window.velocidadActualGPS || window.velocidadActualGPS <= VELOCIDAD_CAMBIO_KMH) {
+
+                // 🛑 Si estamos dentro de la franquicia, no cobramos: solo contamos minutos parado
+                if (dentroDeFranquicia) {
+                    segundosParadoConFranquicia += 1;
+
+                    if (segundosParadoConFranquicia >= preciosTarifa.franquiciaMin * 60) {
+                        hacerTransicionPorFranquicia();
+                    }
+                    return;
+                }
+
                 const eurosPorSegundo = preciosTarifa.hora / 3600;
                 procesarAcumulacion(eurosPorSegundo);
             }
@@ -212,21 +227,20 @@ document.addEventListener("DOMContentLoaded", async () => { // 🔄 Ponemos 'asy
                             // Filtro de ruido del chip GPS (evitar saltos falsos menores a 1 metro)
                             if (metrosRecorridos > 1 && metrosRecorridos < 200) {
                                 const kmRecorridos = metrosRecorridos / 1000;
-                                const eurosPorDistancia = kmRecorridos * preciosTarifa.km;
-                                procesarAcumulacion(eurosPorDistancia);
 
-                                // Control genérico de franquicia, válido para tarifa 3, 7, o cualquier futura
+                                const dentroDeFranquicia = preciosTarifa.franquiciaKm &&
+                                    kmAcumuladosConFranquicia < preciosTarifa.franquiciaKm;
+
+                                if (!dentroDeFranquicia) {
+                                    const eurosPorDistancia = kmRecorridos * preciosTarifa.km;
+                                    procesarAcumulacion(eurosPorDistancia);
+                                }
+
                                 if (preciosTarifa.franquiciaKm) {
                                     kmAcumuladosConFranquicia += kmRecorridos;
 
                                     if (kmAcumuladosConFranquicia >= preciosTarifa.franquiciaKm) {
-                                        const ahora = new Date();
-                                        const esFinDeSemanaAhora = (ahora.getDay() === 0 || ahora.getDay() === 6);
-                                        const horaAhora = ahora.getHours();
-                                        const esNocturnoAhora = (horaAhora >= 21 || horaAhora < 7);
-
-                                        // Se convierte de verdad en tarifa 1 o 2 (misma lógica, no solo visual)
-                                        transicionarTarifa((esFinDeSemanaAhora || esNocturnoAhora) ? 2 : 1);
+                                        hacerTransicionPorFranquicia();
                                     }
                                 }
                             }
@@ -248,7 +262,16 @@ document.addEventListener("DOMContentLoaded", async () => { // 🔄 Ponemos 'asy
             alert("Tu dispositivo o navegador no soporta GPS real.");
         }
     }
+    // Calcula si toca tarifa 1 o 2 según día/hora, y transiciona. 
+    // La usan tanto el agotamiento de franquicia por km como por minutos parado.
+    function hacerTransicionPorFranquicia() {
+        const ahora = new Date();
+        const esFinDeSemanaAhora = (ahora.getDay() === 0 || ahora.getDay() === 6);
+        const horaAhora = ahora.getHours();
+        const esNocturnoAhora = (horaAhora >= 21 || horaAhora < 7);
 
+        transicionarTarifa((esFinDeSemanaAhora || esNocturnoAhora) ? 2 : 1);
+    }
     function detenerContador() {
         clearInterval(intervaloTiempo);
         if (idRelojGPS !== null) {
@@ -264,13 +287,14 @@ document.addEventListener("DOMContentLoaded", async () => { // 🔄 Ponemos 'asy
     function transicionarTarifa(nuevaTarifa) {
         tarifaActiva = nuevaTarifa;
         kmAcumuladosConFranquicia = 0; // Se reinicia siempre que cambiamos de tarifa
+        segundosParadoConFranquicia = 0; // 🔄 NUEVO: igual que el contador de km, debe reiniciarse aquí también
 
         if (estadoActual === "OCUPADO") {
             detenerContador();
-            iniciarContador("PAUSA"); // Conserva el dinero ya cobrado
+            iniciarContador("PAUSA");
         } else if (estadoActual === "LIBRE") {
             estadoActual = "OCUPADO";
-            iniciarContador("LIBRE"); // Arranca de cero con su bajada de bandera
+            iniciarContador("LIBRE");
         }
         actualizarPantalla();
     }
@@ -313,6 +337,15 @@ document.addEventListener("DOMContentLoaded", async () => { // 🔄 Ponemos 'asy
             activarModoMas();
         }
     });
+
+    // Función centralizada: ¿puede el taxímetro cambiar de tarifa ahora mismo?
+    function tarifaEspecialActivaBloqueaCambio() {
+        if ([3, 4, 7, 9].includes(tarifaActiva)) {
+            console.warn("Cambio denegado: Ya te encuentras en una tarifa especial.");
+            return true;
+        }
+        return false;
+    }
 
     // BOTÓN CÍRCULO (.btnCirculo): Enciende/Apaga el taxímetro o reinicia a LIBRE desde A PAGAR
     agregarEventoAccion(btnLibre, () => {
@@ -361,11 +394,12 @@ document.addEventListener("DOMContentLoaded", async () => { // 🔄 Ponemos 'asy
             // 🛑 NUEVO: Bloqueo si ya está en una tarifa especial restrictiva
             if ([3, 4, 7, 9].includes(tarifaActiva)) {
                 console.warn("Cambio denegado: Ya te encuentras en una tarifa especial.");
-                return; 
+                return;
             }
             transicionarTarifa(3);
             return;
         }
+
 
         const hoy = new Date();
         const diaSemana = hoy.getDay();
@@ -385,6 +419,10 @@ document.addEventListener("DOMContentLoaded", async () => { // 🔄 Ponemos 'asy
         // Comportamiento normal si venía de LIBRE o PAUSA
         else if (estadoActual === "LIBRE" || estadoActual === "PAUSA") {
             const estadoPrevio = estadoActual;
+            // 🔄 NUEVO: si venimos de interurbana, forzamos vuelta a urbana antes de iniciar
+            if (tarifaActiva === 5 || tarifaActiva === 6) {
+                tarifaActiva = (esFinDeSemana || esHorarioNocturno) ? 2 : 1;
+            }
             estadoActual = "OCUPADO";
             iniciarContador(estadoPrevio);
             actualizarPantalla();
@@ -393,40 +431,36 @@ document.addEventListener("DOMContentLoaded", async () => { // 🔄 Ponemos 'asy
     // BOTÓN DOS (.btnDos): Pasa a Tarifa Interurbana (5 o 6) según el horario
     // O combinación "+" + Dos → Tarifa 4
     agregarEventoAccion(btnDos, () => {
-        // Interceptamos la combinación antes de la lógica normal
         if (modoMasActivo) {
             desactivarModoMas();
-            // 🛑 NUEVO: Bloqueo si ya está en una tarifa especial restrictiva
-            if ([3, 4, 7, 9].includes(tarifaActiva)) {
-                console.warn("Cambio denegado: Ya te encuentras en una tarifa especial.");
-                return; 
-            }
+            if (tarifaEspecialActivaBloqueaCambio()) return;
             transicionarTarifa(4);
+            return;
+        }
+
+        // 🛑 NUEVO: también bloqueamos el uso normal del botón si hay tarifa especial activa
+        if (estadoActual === "OCUPADO" && tarifaEspecialActivaBloqueaCambio()) {
             return;
         }
 
         const hoy = new Date();
         const diaSemana = hoy.getDay();
         const horaActual = hoy.getHours();
-
         const esFinDeSemana = (diaSemana === 0 || diaSemana === 6);
         const esHorarioNocturno = (horaActual >= 21 || horaActual < 7);
-
-        // Determina la tarifa interurbana correcta (6 si es fin de semana o noche, si no 5)
         const nuevaTarifaInterurbana = (esFinDeSemana || esHorarioNocturno) ? 6 : 5;
 
-        // CASO A: Si el viaje ya está en curso (OCUPADO), cambiamos a interurbana en caliente
         if (estadoActual === "OCUPADO" && tarifaActiva !== nuevaTarifaInterurbana) {
             tarifaActiva = nuevaTarifaInterurbana;
             detenerContador();
-            iniciarContador("PAUSA"); 
+            iniciarContador("PAUSA");
             actualizarPantalla();
         }
-        // CASO B: Si estaba LIBRE, arranca el viaje directamente en la tarifa interurbana que toque
-        else if (estadoActual === "LIBRE") {
+        else if (estadoActual === "LIBRE" || estadoActual === "PAUSA") { // 🔄 añadido "|| estadoActual === 'PAUSA'"
+            const estadoPrevio = estadoActual; // 🔄 NUEVO: guardamos cuál era antes de sobreescribirlo
             tarifaActiva = nuevaTarifaInterurbana;
             estadoActual = "OCUPADO";
-            iniciarContador("LIBRE"); 
+            iniciarContador(estadoPrevio); // 🔄 cambiado: antes era "LIBRE" fijo, ahora respeta el estado real
             actualizarPantalla();
         }
     });
@@ -437,7 +471,7 @@ document.addEventListener("DOMContentLoaded", async () => { // 🔄 Ponemos 'asy
             // 🛑 NUEVO: Bloqueo si ya está en una tarifa especial restrictiva
             if ([3, 4, 7, 9].includes(tarifaActiva)) {
                 console.warn("Cambio denegado: Ya te encuentras en una tarifa especial.");
-                return; 
+                return;
             }
             transicionarTarifa(7);
             return;
@@ -452,12 +486,15 @@ document.addEventListener("DOMContentLoaded", async () => { // 🔄 Ponemos 'asy
             // 🛑 NUEVO: Bloqueo si ya está en una tarifa especial restrictiva
             if ([3, 4, 7, 9].includes(tarifaActiva)) {
                 console.warn("Cambio denegado: Ya te encuentras en una tarifa especial.");
-                return; 
+                return;
             }
             transicionarTarifa(9);
             return;
         }
-
+        // 🛑 NUEVO: bloqueamos también el uso normal (pausa) si hay tarifa especial activa
+        if (estadoActual === "OCUPADO" && tarifaEspecialActivaBloqueaCambio()) {
+            return;
+        }
         if (estadoActual === "OCUPADO") {
             estadoActual = "PAUSA";
             detenerContador();
