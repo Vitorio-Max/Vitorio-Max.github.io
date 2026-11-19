@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,18 +10,19 @@
     <link rel="stylesheet" href="../Css/stylecompra.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
 </head>
+
 <body>
 
     <header>
-        
+
         <a href="../index.html" class="navbar-brand">
             <img src="../Imagenes/viityuno.webp" alt="Logo VityUno" class="navbar-logo">
         </a>
-        
+
         <button id="abrir" class="abrir-menu"><i class="bi bi-list"></i></button>
         <nav class="navbar" id="nav">
             <div class="navbar-container">
-                <button class="cerrar-menu" id="cerrar" ><i class="bi bi-x"></i></button>
+                <button class="cerrar-menu" id="cerrar"><i class="bi bi-x"></i></button>
                 <ul class="nav-links">
                     <li><a href="../index.html" class="nav-link">Inicio</a></li>
                     <li><a href="calcuheader.html" class="nav-link">Calculadora</a></li>
@@ -35,8 +37,8 @@
                 </ul>
             </div>
         </nav>
-        
-    </header> 
+
+    </header>
 
     <div class="wrapper">
         <span class="icon-close"><ion-icon name="close-outline"></ion-icon></span>
@@ -96,26 +98,27 @@
         </div>
     </div>
 
-    
+<a href="../mi_Lista/listraPro.html" style="color: aqua;">Ir a mi_Lista</a>
 
-     <main class="main-lista-compra">
+    <main class="main-lista-compra">
 
-    <h1>Mi Lista de la Compra</h1>
-    
+        <h1>Mi Lista de la Compra</h1>
 
-    <div class="input-container">
-        <input type="text" id="newItem" placeholder="Artículo">
-        <input type="number" id="newQuantity" placeholder="Cantidad" min="1">
-        <input type="number" id="newPrice" placeholder="Precio (€)" min="0" step="0.01">
-        <button id="add-item-btn">Añadir</button>    </div>
 
-    <ul id="shoppingList">
-    </ul>
+        <div class="input-container">
+            <input type="text" id="newItem" placeholder="Artículo">
+            <input type="number" id="newQuantity" placeholder="Cantidad" min="1">
+            <input type="number" id="newPrice" placeholder="Precio (€)" min="0" step="0.01">
+            <button id="add-item-btn">Añadir</button>
+        </div>
 
-    <div class="total-container">
-        <button id="calculateTotal">Calcular Total</button>
-        <p id="totalPrice">Total: 0.00 €</p>
-    </div>
+        <ul id="shoppingList">
+        </ul>
+
+        <div class="total-container">
+            <button id="calculateTotal">Calcular Total</button>
+            <p id="totalPrice">Total: 0.00 €</p>
+        </div>
 
     </main>
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
@@ -128,7 +131,8 @@
     <script type="module" src="../JavaScript/auth-check.js"></script>
 
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
-    
+
 
 </body>
+
 </html>

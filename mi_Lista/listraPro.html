@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>SmartCart - Lista por Ruta</title>
+  <!-- PWA Meta Tags -->
+  <meta name="theme-color" content="#10b981">
+  <link rel="manifest" href="manifest.json">
+  <!-- Tailwind CSS & Vue 3 & Supabase -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="../JavaScript/supabase.js"></script>
+</head>
+<body class="bg-slate-50 text-slate-800 select-none pb-24">
+
+<div id="app" class="max-w-md mx-auto min-h-screen flex flex-col">
+
+  <!-- HEADER: Selector de Modo y Total -->
+  <header class="sticky top-0 z-20 bg-white border-b border-slate-200 px-4 py-3 shadow-sm">
+    <div class="flex items-center justify-between mb-3">
+      <h1 class="font-bold text-lg text-slate-900 tracking-tight">SmartCart</h1>
+      <div class="text-right">
+        <span class="text-xs text-slate-400 block">Estimado</span>
+        <span class="font-bold text-emerald-600 text-sm">{{ totalEstimado.toFixed(2) }} €</span>
+      </div>
+    </div>
+
+    <!-- Switch Modo Casa / Modo Tienda -->
+    <div class="grid grid-cols-2 bg-slate-100 p-1 rounded-xl">
+      <button 
+        @click="modo = 'casa'"
+        :class="modo === 'casa' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-500'"
+        class="py-2 text-sm font-semibold rounded-lg transition-all">
+        🏠 En Casa ({{ listaActiva.length }})
+      </button>
+      <button 
+        @click="modo = 'tienda'"
+        :class="modo === 'tienda' ? 'bg-emerald-600 text-white shadow-sm' : 'text-slate-500'"
+        class="py-2 text-sm font-semibold rounded-lg transition-all">
+        🛒 En Tienda
+      </button>
+    </div>
+  </header>
+
+  <!-- ========================================== -->
+  <!-- MODO 1: EN CASA (Preparar la lista)        -->
+  <!-- ========================================== -->
+  <main v-if="modo === 'casa'" class="p-4 flex-1">
+    
+    <!-- Sub-pestañas: Catálogo vs Básicos -->
+    <div class="flex gap-2 mb-4">
+      <button 
+        @click="subTabCasa = 'catalogo'"
+        :class="subTabCasa === 'catalogo' ? 'bg-slate-800 text-white' : 'bg-white text-slate-600 border'"
+        class="flex-1 py-2 px-3 rounded-lg text-xs font-semibold">
+        Todos los Productos
+      </button>
+      <button 
+        @click="subTabCasa = 'basicos'"
+        :class="subTabCasa === 'basicos' ? 'bg-amber-500 text-white' : 'bg-white text-slate-600 border'"
+        class="flex-1 py-2 px-3 rounded-lg text-xs font-semibold">
+        ⭐ Básicos / Favoritos
+      </button>
+    </div>
+
+    <!-- Buscador -->
+    <div class="mb-4">
+      <input 
+        v-model="busqueda" 
+        type="search" 
+        placeholder="Buscar leche, tomates, pan..." 
+        class="w-full px-4 py-3 rounded-xl border border-slate-200 bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500 text-sm">
+    </div>
+
+    <!-- Listado de Productos Filtrados -->
+    <div class="space-y-2">
+      <div 
+        v-for="prod in productosFiltrados" 
+        :key="prod.id"
+        class="bg-white p-3 rounded-xl border border-slate-100 shadow-sm flex items-center justify-between">
+        
+        <div class="flex-1 pr-2">
+          <div class="flex items-center gap-1.5">
+            <button @click="toggleBasico(prod)" class="text-base">
+              {{ prod.es_basico ? '⭐' : '☆' }}
+            </button>
+            <span class="font-semibold text-sm text-slate-800">{{ prod.nombre }}</span>
+          </div>
+          <div class="text-xs text-slate-400 mt-0.5 flex items-center gap-2">
+            <span class="bg-slate-100 text-slate-600 px-1.5 py-0.5 rounded">{{ prod.establecimiento_nombre }}</span>
+            <span>📍 {{ prod.ubicacion_nombre }}</span>
+            <span v-if="prod.precio > 0">· {{ prod.precio }}€</span>
+          </div>
+        </div>
+
+        <!-- Controles de cantidad en lista -->
+        <div class="flex items-center gap-2">
+          <template v-if="cantidadEnLista(prod.id) > 0">
+            <button @click="modificarCantidad(prod.id, -1)" class="w-8 h-8 rounded-lg bg-slate-100 font-bold text-slate-700">-</button>
+            <span class="font-bold text-sm w-5 text-center">{{ cantidadEnLista(prod.id) }}</span>
+          </template>
+          <button @click="modificarCantidad(prod.id, 1)" class="w-9 h-9 rounded-lg bg-emerald-100 text-emerald-700 font-bold text-lg">+</button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- ========================================== -->
+  <!-- MODO 2: EN TIENDA (Ruta optimizada)        -->
+  <!-- ========================================== -->
+  <main v-if="modo === 'tienda'" class="p-4 flex-1">
+    
+    <!-- Desplegable de Establecimiento -->
+    <div class="mb-5 bg-white p-3 rounded-xl border border-slate-200 shadow-sm">
+      <label class="block text-xs font-semibold text-slate-400 uppercase mb-1">¿En qué tienda estás ahora?</label>
+      <select v-model="tiendaSeleccionada" class="w-full font-bold text-slate-800 text-base bg-transparent focus:outline-none">
+        <option v-for="est in establecimientos" :key="est.id" :value="est.id">
+          🏪 {{ est.nombre }} ({{ contarPendientesPorTienda(est.id) }} pendientes)
+        </option>
+      </select>
+    </div>
+
+    <!-- Lista Agrupada por Ubicación según Orden de Recorrido -->
+    <div v-if="gruposPorRuta.length === 0" class="text-center py-12 text-slate-400 text-sm">
+      No tienes productos pendientes en este establecimiento.
+    </div>
+
+    <div v-for="grupo in gruposPorRuta" :key="grupo.ubicacion_id" class="mb-6">
+      <!-- Cabecera de Pasillo / Zona -->
+      <div class="flex items-center justify-between mb-2 px-1">
+        <h2 class="text-xs font-bold uppercase tracking-wider text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-md">
+          📍 {{ grupo.ubicacion_nombre }}
+        </h2>
+        <span class="text-xs text-slate-400">Paso #{{ grupo.orden }}</span>
+      </div>
+
+      <!-- Productos dentro de esa ubicación -->
+      <div class="space-y-2">
+        <div 
+          v-for="item in grupo.items" 
+          :key="item.id"
+          class="bg-white p-3.5 rounded-xl border border-slate-200 shadow-sm flex items-center justify-between">
+          
+          <!-- Check para tachar -->
+          <div @click="toggleComprado(item)" class="flex items-center gap-3 flex-1 cursor-pointer">
+            <div class="w-6 h-6 rounded-full border-2 border-emerald-500 flex items-center justify-center"></div>
+            <div>
+              <p class="font-semibold text-slate-800 text-sm">
+                <span class="text-emerald-600 font-bold mr-1">{{ item.cantidad }}{{ item.unidad_medida }}</span>
+                {{ item.nombre }}
+              </p>
+              <p v-if="item.notas_habituales" class="text-xs text-slate-400">{{ item.notas_habituales }}</p>
+            </div>
+          </div>
+
+          <!-- Botón discreto: Editar ubicación sobre la marcha -->
+          <button 
+            @click="abrirEditorUbicacion(item)" 
+            title="Cambiar pasillo"
+            class="p-2 text-slate-400 hover:text-emerald-600 hover:bg-slate-50 rounded-lg transition-colors">
+            ✏️
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Productos ya tachados (En el carro) -->
+    <div v-if="compradosEnTienda.length > 0" class="mt-8 pt-4 border-t border-slate-200">
+      <h3 class="text-xs font-semibold text-slate-400 uppercase mb-3">En el carro ({{ compradosEnTienda.length }})</h3>
+      <div class="space-y-1.5 opacity-60">
+        <div 
+          v-for="item in compradosEnTienda" 
+          :key="item.id"
+          @click="toggleComprado(item)"
+          class="bg-slate-100 p-2.5 rounded-lg flex items-center gap-3 cursor-pointer">
+          <div class="w-5 h-5 rounded-full bg-emerald-500 text-white flex items-center justify-center text-xs">✓</div>
+          <span class="line-through text-sm text-slate-600">{{ item.cantidad }} {{ item.nombre }}</span>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- MODAL / BOTTOM SHEET: Editar Ubicación sobre la marcha -->
+  <div v-if="itemEditando" class="fixed inset-0 bg-black/50 z-50 flex items-end justify-center">
+    <div class="bg-white w-full max-w-md rounded-t-2xl p-5 animate-slide-up">
+      <div class="flex justify-between items-center mb-3">
+        <h3 class="font-bold text-base">Mover "{{ itemEditando.nombre }}"</h3>
+        <button @click="itemEditando = null" class="text-slate-400 text-xl">&times;</button>
+      </div>
+      <p class="text-xs text-slate-500 mb-4">Selecciona su nueva ubicación en este súper. Se guardará para futuras compras:</p>
+      
+      <div class="space-y-2 max-h-60 overflow-y-auto mb-4">
+        <button 
+          v-for="ubi in ubicacionesTiendaActual" 
+          :key="ubi.id"
+          @click="actualizarUbicacionProducto(itemEditando.producto_id, ubi.id)"
+          :class="ubi.id === itemEditando.ubicacion_id ? 'border-emerald-500 bg-emerald-50 text-emerald-800' : 'border-slate-200'"
+          class="w-full text-left p-3 rounded-xl border font-medium text-sm flex justify-between">
+          <span>📍 {{ ubi.nombre }}</span>
+          <span class="text-xs text-slate-400">Orden {{ ubi.orden_recorrido }}</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const { createApp, ref, computed, onMounted } = Vue;
+
+
+createApp({
+  setup() {
+    const modo = ref('casa'); // 'casa' | 'tienda'
+    const subTabCasa = ref('catalogo'); // 'catalogo' | 'basicos'
+    const busqueda = ref('');
+    const tiendaSeleccionada = ref(null);
+    const itemEditando = ref(null);
+
+    // Datos reactivos
+    const establecimientos = ref([]);
+    const ubicaciones = ref([]);
+    const productos = ref([]);
+    const listaActiva = ref([]);
+
+    // Cargar datos desde Supabase
+    const cargarDatos = async () => {
+      const [resEst, resUbi, resProd, resLista] = await Promise.all([
+        supabase.from('establecimientos').select('*').order('nombre'),
+        supabase.from('ubicaciones').select('*').order('orden_recorrido'),
+        supabase.from('productos').select('*').order('nombre'),
+        supabase.from('lista_compra').select('*')
+      ]);
+
+      establecimientos.value = resEst.data || [];
+      ubicaciones.value = resUbi.data || [];
+      productos.value = resProd.data || [];
+      listaActiva.value = resLista.data || [];
+
+      if (establecimientos.value.length > 0 && !tiendaSeleccionada.value) {
+        tiendaSeleccionada.value = establecimientos.value[0].id;
+      }
+    };
+
+    // Enriquecer productos con nombres de tienda y ubicación
+    const productosCompletos = computed(() => {
+      return productos.value.map(p => {
+        const est = establecimientos.value.find(e => e.id === p.establecimiento_id);
+        const ubi = ubicaciones.value.find(u => u.id === p.ubicacion_id);
+        return {
+          ...p,
+          establecimiento_nombre: est ? est.nombre : 'Sin tienda',
+          ubicacion_nombre: ubi ? ubi.nombre : 'Sin pasillo',
+          orden_recorrido: ubi ? ubi.orden_recorrido : 999
+        };
+      });
+    });
+
+    // Filtrado en Modo Casa
+    const productosFiltrados = computed(() => {
+      return productosCompletos.value.filter(p => {
+        if (subTabCasa.value === 'basicos' && !p.es_basico) return false;
+        if (busqueda.value && !p.nombre.toLowerCase().includes(busqueda.value.toLowerCase())) return false;
+        return true;
+      });
+    });
+
+    // ALGORITMO PRINCIPAL: Agrupar y ordenar por ruta en Modo Tienda ("No dar un paso atrás")
+    const gruposPorRuta = computed(() => {
+      const pendientes = listaActiva.value
+        .filter(item => !item.comprado)
+        .map(item => {
+          const prod = productosCompletos.value.find(p => p.id === item.producto_id);
+          return prod ? { ...item, ...prod, item_id: item.id } : null;
+        })
+        .filter(item => item && item.establecimiento_id === tiendaSeleccionada.value);
+
+      // Agrupar por ubicacion_id
+      const mapaGrupos = {};
+      pendientes.forEach(item => {
+        const key = item.ubicacion_id || 'sin_ubicacion';
+        if (!mapaGrupos[key]) {
+          mapaGrupos[key] = {
+            ubicacion_id: key,
+            ubicacion_nombre: item.ubicacion_nombre,
+            orden: item.orden_recorrido,
+            items: []
+          };
+        }
+        mapaGrupos[key].items.push(item);
+      });
+
+      // Ordenar los grupos por el peso numérico del pasillo
+      return Object.values(mapaGrupos).sort((a, b) => a.orden - b.orden);
+    });
+
+    const compradosEnTienda = computed(() => {
+      return listaActiva.value
+        .filter(item => item.comprado)
+        .map(item => {
+          const prod = productosCompletos.value.find(p => p.id === item.producto_id);
+          return prod ? { ...item, ...prod, item_id: item.id } : null;
+        })
+        .filter(item => item && item.establecimiento_id === tiendaSeleccionada.value);
+    });
+
+    const ubicacionesTiendaActual = computed(() => {
+      return ubicaciones.value.filter(u => u.establecimiento_id === tiendaSeleccionada.value);
+    });
+
+    const totalEstimado = computed(() => {
+      return listaActiva.value.reduce((acc, item) => {
+        const prod = productos.value.find(p => p.id === item.producto_id);
+        return acc + (prod ? prod.precio * item.cantidad : 0);
+      }, 0);
+    });
+
+    // Acciones CRUD con Supabase
+    const cantidadEnLista = (prodId) => {
+      const found = listaActiva.value.find(i => i.producto_id === prodId);
+      return found ? found.cantidad : 0;
+    };
+
+    const contarPendientesPorTienda = (estId) => {
+      return listaActiva.value.filter(i => {
+        if (i.comprado) return false;
+        const prod = productos.value.find(p => p.id === i.producto_id);
+        return prod && prod.establecimiento_id === estId;
+      }).length;
+    };
+
+    const modificarCantidad = async (prodId, delta) => {
+      const existente = listaActiva.value.find(i => i.producto_id === prodId);
+      if (existente) {
+        const nuevaCant = existente.cantidad + delta;
+        if (nuevaCant <= 0) {
+          await supabase.from('lista_compra').delete().eq('id', existente.id);
+        } else {
+          await supabase.from('lista_compra').update({ cantidad: nuevaCant }).eq('id', existente.id);
+        }
+      } else if (delta > 0) {
+        await supabase.from('lista_compra').insert({ producto_id: prodId, cantidad: 1 });
+      }
+      await cargarDatos();
+    };
+
+    const toggleComprado = async (item) => {
+      await supabase.from('lista_compra').update({ comprado: !item.comprado }).eq('id', item.item_id);
+      await cargarDatos();
+    };
+
+    const toggleBasico = async (prod) => {
+      await supabase.from('productos').update({ es_basico: !prod.es_basico }).eq('id', prod.id);
+      await cargarDatos();
+    };
+
+    // Función clave: "Ordenar sobre la marcha"
+    const abrirEditorUbicacion = (item) => {
+      itemEditando.value = item;
+    };
+
+    const actualizarUbicacionProducto = async (productoId, nuevaUbicacionId) => {
+      await supabase.from('productos').update({ ubicacion_id: nuevaUbicacionId }).eq('id', productoId);
+      itemEditando.value = null;
+      await cargarDatos(); // Reorganiza instantáneamente la vista en tienda
+    };
+
+    onMounted(cargarDatos);
+
+    return {
+      modo, subTabCasa, busqueda, tiendaSeleccionada, itemEditando,
+      establecimientos, productosFiltrados, gruposPorRuta, compradosEnTienda,
+      ubicacionesTiendaActual, totalEstimado, listaActiva,
+      cantidadEnLista, contarPendientesPorTienda, modificarCantidad,
+      toggleComprado, toggleBasico, abrirEditorUbicacion, actualizarUbicacionProducto
+    };
+  }
+}).mount('#app');
+</script>
+</body>
+</html>
