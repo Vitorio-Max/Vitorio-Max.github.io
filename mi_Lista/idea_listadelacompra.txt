@@ -49,3 +49,4 @@ Interacción de tachado: Al tocar un producto, pasa a comprado = true y baja sua
 Botón "Editar ubicación sobre la marcha": Un icono discreto de lápiz/pin (📍) en la fila del producto. Al tocarlo, abre un Bottom Sheet (menú inferior) con las ubicaciones de esa tienda (o creación de una nueva) y actualiza productos.ubicacion_id al instante, reordenando la lista en vivo.
 
 El codigo tiene que tener modularización, divide y venceras.
+Pagina diseñada como mobile first
