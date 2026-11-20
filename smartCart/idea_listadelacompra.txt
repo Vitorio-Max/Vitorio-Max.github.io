@@ -1,0 +1,54 @@
+eres experto en diseño y desarrollo web.
+quiero hacer un sistema que me haga la lista de la compra.
+quiero ir añadiendo productos que ya tenga en una base de datos. Agrupados por establecimiento. y con una columna donde indique la ubicacion en la que se encuentra el producto en el establecimiento
+trabajaremos en la tabla de productos que contendra el id producto, nombre, precio, establecimiento, ubicacion, y si me propones algo mas que sea interesante lo tendre en cuenta
+y cuando se vayan metiendo en mi lista de la compra, el sistema me tiene que reorganizar esa lista a la hora de mostrarmela
+me la tiene que organizar por orden en la tienda, es decir "ir a hecho", "no dar un paso atrás".
+Tenemos que tener una pestaña de basicos (favoritos)
+Hay que dividir la interfaz en dos ( "modo en casa" hacer la lista), ( "modo en tienda" ya en la tienda")
+al entrar en la tienda eliges en el desplegable el establecimiento en el que te encuentres
+
+Idea extra para cuando vas con prisa: "Ordenar sobre la marcha"
+A veces los supermercados cambian un producto de pasillo. Si en el modo tienda ves que los Tomates ya no están en el Pasillo 1 sino en el 4, puedes añadir un botón discreto de "Editar ubicación" en el propio producto para corregirlo en el momento y que la próxima vez ya salga en su sitio nuevo.
+
+Frontend: HTML5 + Tailwind CSS + JavaScript (Vue) convertido en una PWA (Progressive Web App).
+Base de Datos y Backend: Supabase
+
+Diseño de Interfaz y Experiencia de Usuario (UX)
+La app funcionará como una Single Page Application (SPA) con una barra de navegación inferior fija (ideal para usar con una sola mano mientras empujas el carro).
+
+Barra Superior (Header Contextual)
+Selector de Modo (Switch central): [ 🏠 En Casa ] | [ 🛒 En Tienda ]
+
+Indicador de Presupuesto Estimado: Muestra en tiempo real la suma de (precio * cantidad) de los productos en lista.
+
+Vista 1: Modo "En Casa" (Planificación)
+Dividida en dos sub-pestañas:
+
+Catálogo / Buscador:
+
+Barra de búsqueda instantánea. Si escribes un producto que no existe, aparece el botón directo + Crear "Nombre" y añadir.
+
+Filtro rápido por establecimiento.
+
+Cada tarjeta muestra nombre, tienda, ubicación y un botón + grande a la derecha.
+
+⭐ Básicos (Favoritos):
+
+Cuadrícula (grid) limpia con tus productos recurrentes (es_basico = true).
+
+Un toque los añade a la lista activa; un indicador numérico muestra cuántos llevas ya añadidos.
+
+Vista 2: Modo "En Tienda" (Ejecución "Sin pasos atrás")
+Selector de Establecimiento: Desplegable destacado arriba. Al elegir "Mercadona", filtra automáticamente la lista mostrando solo lo que toca comprar ahí.
+
+Agrupación y Ordenación: Los productos se agrupan bajo cabeceras de sección (Frutería, Carnicería, Pasillo 2) ordenadas estrictamente por ubicaciones.orden_recorrido ASC.
+
+Interacción de tachado: Al tocar un producto, pasa a comprado = true y baja suavemente a una sección colapsable al final llamada "En el carro (X)" para despejar la pantalla y que siempre veas arriba lo siguiente que tienes delante.
+
+Botón "Editar ubicación sobre la marcha": Un icono discreto de lápiz/pin (📍) en la fila del producto. Al tocarlo, abre un Bottom Sheet (menú inferior) con las ubicaciones de esa tienda (o creación de una nueva) y actualiza productos.ubicacion_id al instante, reordenando la lista en vivo.
+
+El codigo tiene que tener modularización, divide y venceras.
+Pagina diseñada como mobile first
+
+Tambien tendremos una despensa stock de lo que tenemos en casa

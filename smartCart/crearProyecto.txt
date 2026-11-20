@@ -1,0 +1,5 @@
+npm create vite@latest smartcart-pwa -- --template vue
+cd smartcart-pwa
+npm install @supabase/supabase-js lucide-vue-next
+npm install -D tailwindcss postcss autoprefixer
+npx tailwindcss init -p

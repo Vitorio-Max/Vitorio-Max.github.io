@@ -1,0 +1,127 @@
+-- Habilitar extensión para búsquedas insensibles a tildes/mayúsculas si se desea
+CREATE EXTENSION IF NOT EXISTS pg_trgm;
+
+-- 1. Tabla de Establecimientos
+CREATE TABLE establecimientos (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  nombre TEXT NOT NULL UNIQUE,
+  color_hex TEXT NOT NULL DEFAULT '#10B981',
+  created_at TIMESTAMPTZ DEFAULT now()
+);
+
+-- 2. Tabla de Ubicaciones (Pasillos / Zonas ordenadas)
+CREATE TABLE ubicaciones (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  establecimiento_id UUID NOT NULL REFERENCES establecimientos(id) ON DELETE CASCADE,
+  nombre TEXT NOT NULL,
+  orden_recorrido INTEGER NOT NULL DEFAULT 1,
+  created_at TIMESTAMPTZ DEFAULT now(),
+  UNIQUE(establecimiento_id, nombre)
+);
+
+CREATE INDEX idx_ubicaciones_recorrido ON ubicaciones(establecimiento_id, orden_recorrido ASC);
+
+-- 3. Tabla de Productos (Catálogo + Inventario de Despensa)
+CREATE TABLE productos (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  nombre TEXT NOT NULL UNIQUE,
+  precio NUMERIC(10, 2) NOT NULL DEFAULT 0.00 CHECK (precio >= 0),
+  unidad_medida TEXT NOT NULL DEFAULT 'ud' CHECK (unidad_medida IN ('ud', 'kg', 'pack', 'l')),
+  categoria_icono TEXT NOT NULL DEFAULT '🛒',
+  establecimiento_id UUID REFERENCES establecimientos(id) ON DELETE SET NULL,
+  ubicacion_id UUID REFERENCES ubicaciones(id) ON DELETE SET NULL,
+  es_basico BOOLEAN NOT NULL DEFAULT false,
+  stock_actual INTEGER NOT NULL DEFAULT 0 CHECK (stock_actual >= 0),
+  stock_minimo INTEGER NOT NULL DEFAULT 1 CHECK (stock_minimo >= 0),
+  created_at TIMESTAMPTZ DEFAULT now(),
+  updated_at TIMESTAMPTZ DEFAULT now()
+);
+
+CREATE INDEX idx_productos_nombre ON productos USING gin (nombre gin_trgm_ops);
+CREATE INDEX idx_productos_basicos ON productos(es_basico) WHERE es_basico = true;
+
+-- 4. Tabla de Lista de Compra Activa
+CREATE TABLE lista_compra (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  producto_id UUID NOT NULL UNIQUE REFERENCES productos(id) ON DELETE CASCADE,
+  cantidad INTEGER NOT NULL DEFAULT 1 CHECK (cantidad > 0),
+  comprado BOOLEAN NOT NULL DEFAULT false,
+  notas TEXT,
+  created_at TIMESTAMPTZ DEFAULT now()
+);
+
+CREATE INDEX idx_lista_comprado ON lista_compra(comprado);
+
+-- Políticas RLS (Acceso completo para uso personal/familiar mediante anon/authenticated key)
+ALTER TABLE establecimientos ENABLE ROW LEVEL SECURITY;
+ALTER TABLE ubicaciones ENABLE ROW LEVEL SECURITY;
+ALTER TABLE productos ENABLE ROW LEVEL SECURITY;
+ALTER TABLE lista_compra ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Acceso total establecimientos" ON establecimientos FOR ALL USING (true) WITH CHECK (true);
+CREATE POLICY "Acceso total ubicaciones" ON ubicaciones FOR ALL USING (true) WITH CHECK (true);
+CREATE POLICY "Acceso total productos" ON productos FOR ALL USING (true) WITH CHECK (true);
+CREATE POLICY "Acceso total lista_compra" ON lista_compra FOR ALL USING (true) WITH CHECK (true);
+
+-- Función auxiliar para reordenar pasillos al insertar uno intermedio
+CREATE OR REPLACE FUNCTION desplazar_orden_ubicaciones(p_establecimiento_id UUID, p_a_partir_de INT)
+RETURNS VOID AS $$
+BEGIN
+  UPDATE ubicaciones
+  SET orden_recorrido = orden_recorrido + 1
+  WHERE establecimiento_id = p_establecimiento_id
+    AND orden_recorrido >= p_a_partir_de;
+END;
+$$ LANGUAGE plpgsql;
+
+-- ==========================================
+-- DATOS DE PRUEBA (SEED REALISTA)
+-- ==========================================
+DO $$
+DECLARE
+  v_mercadona UUID;
+  v_fruteria UUID;
+  u_fruteria_m UUID;
+  u_carniceria_m UUID;
+  u_lacteos_m UUID;
+  u_despensa_m UUID;
+  u_congelados_m UUID;
+  u_local_f UUID;
+  p_leche UUID;
+  p_pollo UUID;
+  p_platanos UUID;
+  p_arroz UUID;
+BEGIN
+  INSERT INTO establecimientos (nombre, color_hex) VALUES ('Mercadona', '#009E49') RETURNING id INTO v_mercadona;
+  INSERT INTO establecimientos (nombre, color_hex) VALUES ('Frutería Barrio', '#F59E0B') RETURNING id INTO v_fruteria;
+
+  INSERT INTO ubicaciones (establecimiento_id, nombre, orden_recorrido) VALUES (v_mercadona, '1. Frutería y Verdura', 1) RETURNING id INTO u_fruteria_m;
+  INSERT INTO ubicaciones (establecimiento_id, nombre, orden_recorrido) VALUES (v_mercadona, '2. Carnicería y Charcutería', 2) RETURNING id INTO u_carniceria_m;
+  INSERT INTO ubicaciones (establecimiento_id, nombre, orden_recorrido) VALUES (v_mercadona, '3. Lácteos y Huevos', 3) RETURNING id INTO u_lacteos_m;
+  INSERT INTO ubicaciones (establecimiento_id, nombre, orden_recorrido) VALUES (v_mercadona, '4. Pasillo Central (Arroz/Pasta)', 4) RETURNING id INTO u_despensa_m;
+  INSERT INTO ubicaciones (establecimiento_id, nombre, orden_recorrido) VALUES (v_mercadona, '5. Congelados', 5) RETURNING id INTO u_congelados_m;
+  INSERT INTO ubicaciones (establecimiento_id, nombre, orden_recorrido) VALUES (v_fruteria, 'Mostrador Principal', 1) RETURNING id INTO u_local_f;
+
+  INSERT INTO productos (nombre, precio, unidad_medida, categoria_icono, establecimiento_id, ubicacion_id, es_basico, stock_actual, stock_minimo)
+  VALUES ('Leche Semidesnatada Pack 6', 5.40, 'pack', '🥛', v_mercadona, u_lacteos_m, true, 1, 2) RETURNING id INTO p_leche;
+
+  INSERT INTO productos (nombre, precio, unidad_medida, categoria_icono, establecimiento_id, ubicacion_id, es_basico, stock_actual, stock_minimo)
+  VALUES ('Pechuga de Pollo Fileteada', 6.25, 'kg', '🍗', v_mercadona, u_carniceria_m, true, 0, 1) RETURNING id INTO p_pollo;
+
+  INSERT INTO productos (nombre, precio, unidad_medida, categoria_icono, establecimiento_id, ubicacion_id, es_basico, stock_actual, stock_minimo)
+  VALUES ('Plátano de Canarias', 2.15, 'kg', '🍌', v_fruteria, u_local_f, true, 2, 3) RETURNING id INTO p_platanos;
+
+  INSERT INTO productos (nombre, precio, unidad_medida, categoria_icono, establecimiento_id, ubicacion_id, es_basico, stock_actual, stock_minimo)
+  VALUES ('Arroz Redondo 1kg', 1.30, 'ud', '🍚', v_mercadona, u_despensa_m, false, 3, 1) RETURNING id INTO p_arroz;
+
+  INSERT INTO productos (nombre, precio, unidad_medida, categoria_icono, establecimiento_id, ubicacion_id, es_basico, stock_actual, stock_minimo)
+  VALUES ('Huevos Camperos L (12 ud)', 3.10, 'pack', '🥚', v_mercadona, u_lacteos_m, true, 1, 1);
+
+  INSERT INTO productos (nombre, precio, unidad_medida, categoria_icono, establecimiento_id, ubicacion_id, es_basico, stock_actual, stock_minimo)
+  VALUES ('Salmón Congelado Lomos', 7.95, 'pack', '🐟', v_mercadona, u_congelados_m, false, 0, 1);
+
+  -- Lista inicial de ejemplo
+  INSERT INTO lista_compra (producto_id, cantidad, comprado) VALUES (p_leche, 1, false);
+  INSERT INTO lista_compra (producto_id, cantidad, comprado) VALUES (p_pollo, 1, false);
+  INSERT INTO lista_compra (producto_id, cantidad, comprado) VALUES (p_platanos, 2, false);
+END $$;

@@ -1,0 +1,111 @@
+import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
+
+const corsHeaders = {
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
+};
+
+serve(async (req) => {
+  if (req.method === "OPTIONS") {
+    return new Response("ok", { headers: corsHeaders });
+  }
+
+  try {
+    const { imageBase64, mimeType = "image/jpeg" } = await req.json();
+
+    if (!imageBase64) {
+      throw new Error("No se proporcionó ninguna imagen en base64.");
+    }
+
+    const apiKey = Deno.env.get("GEMINI_API_KEY");
+    if (!apiKey) {
+      throw new Error("GEMINI_API_KEY no configurada en Supabase Secrets.");
+    }
+
+    // Limpiar encabezado data:image/...;base64, si existe
+    const cleanBase64 = imageBase64.replace(/^data:image\/\w+;base64,/, "");
+
+    const prompt = `Analiza este ticket de supermercado con precisión quirúrgica.
+Extrae el establecimiento, la fecha (YYYY-MM-DD) y cada línea de artículo comprado.
+Reglas:
+1. 'nombre_ticket': texto literal impreso en el ticket.
+2. 'nombre_normalizado': traduce abreviaturas crípticas del ticket a un nombre humano limpio y genérico (ej. "L.SEMI HACEND 6X1" -> "Leche Semidesnatada Pack 6", "PECH.POLLO FIL." -> "Pechuga de Pollo Fileteada").
+3. 'cantidad': número entero de unidades (si es al peso, pon 1).
+4. 'precio_unitario': precio por unidad en euros/moneda local (numérico).
+5. 'es_descartable': marca true si es bolsa de plástico, descuento, cupón, IVA o línea no inventariable.`;
+
+    const responseSchema = {
+      type: "OBJECT",
+      properties: {
+        establecimiento_detectado: { type: "STRING" },
+        fecha: { type: "STRING" },
+        items: {
+          type: "ARRAY",
+          items: {
+            type: "OBJECT",
+            properties: {
+              nombre_ticket: { type: "STRING" },
+              nombre_normalizado: { type: "STRING" },
+              cantidad: { type: "INTEGER" },
+              precio_unitario: { type: "NUMBER" },
+              es_descartable: { type: "BOOLEAN" },
+            },
+            required: ["nombre_ticket", "nombre_normalizado", "cantidad", "precio_unitario", "es_descartable"],
+          },
+        },
+      },
+      required: ["establecimiento_detectado", "fecha", "items"],
+    };
+
+    const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
+
+    const geminiRes = await fetch(geminiUrl, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        contents: [
+          {
+            parts: [
+              { text: prompt },
+              {
+                inlineData: {
+                  mimeType,
+                  data: cleanBase64,
+                },
+              },
+            ],
+          },
+        ],
+        generationConfig: {
+          temperature: 0.1,
+          responseMimeType: "application/json",
+          responseSchema: responseSchema,
+        },
+      }),
+    });
+
+    if (!geminiRes.ok) {
+      const errText = await geminiRes.text();
+      throw new Error(`Error Gemini API (${geminiRes.status}): ${errText}`);
+    }
+
+    const geminiData = await geminiRes.json();
+    const rawText = geminiData.candidates?.[0]?.content?.parts?.[0]?.text;
+
+    if (!rawText) {
+      throw new Error("Gemini no devolvió contenido estructurado.");
+    }
+
+    const parsedTicket = JSON.parse(rawText);
+
+    return new Response(JSON.stringify(parsedTicket), {
+      headers: { ...corsHeaders, "Content-Type": "application/json" },
+      status: 200,
+    });
+  } catch (error) {
+    return new Response(JSON.stringify({ error: error.message }), {
+      headers: { ...corsHeaders, "Content-Type": "application/json" },
+      status: 400,
+    });
+  }
+});

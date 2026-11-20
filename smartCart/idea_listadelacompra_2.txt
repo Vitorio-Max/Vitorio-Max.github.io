@@ -1,0 +1,124 @@
+Prompt Maestro Completo (Listo para copiar y pegar)
+Rol: Actúa como un Arquitecto de Software Senior y Desarrollador Full-Stack experto en Vue 3, Tailwind CSS, PWA, Supabase (PostgreSQL + Edge Functions) e integración de IA multimodal.
+
+Objetivo del Proyecto: Desarrollar una Progressive Web App (PWA) mobile-first de gestión de compras, despensa inteligente y escaneo de tickets con IA. El núcleo diferencial de la app es optimizar el recorrido físico dentro del supermercado ("ir a tiro hecho, sin dar un paso atrás") y automatizar la actualización de precios y stock en casa mediante fotos a los tickets de compra.
+
+1. Stack Tecnológico y Arquitectura
+Frontend: HTML5, Tailwind CSS, JavaScript moderno con Vue 3 (Composition API).
+
+PWA: Configuración completa (manifest.json, Service Worker para caché offline básico e iconos) para instalarla en el móvil como app nativa.
+
+Backend & DB: Supabase (PostgreSQL + Supabase JS Client + Supabase Edge Functions en Deno/TypeScript).
+
+IA Multimodal: API de Gemini (gemini-2.5-flash) con Structured Outputs (JSON Schema estricto) llamada desde una Edge Function de Supabase.
+
+Arquitectura de Código (Divide y Vencerás): Prohibido entregar un único archivo monolítico. Estructura el proyecto de forma estrictamente modular:
+
+/supabase/functions/procesar-ticket/index.ts (Edge Function para OCR inteligente con IA).
+
+/src/services/supabase.js (cliente y consultas aisladas).
+
+/src/composables/ (lógica reactiva reutilizable: useLista.js, useProductos.js, useDespensa.js, useEscanerTicket.js).
+
+/src/components/ (componentes UI pequeños y enfocados: HeaderBar.vue, BottomNav.vue, ModoCasa.vue, ModoTienda.vue, DespensaView.vue, BottomSheetUbicacion.vue, ModalEscanerTicket.vue).
+
+2. Modelo de Datos Relacional (Supabase / PostgreSQL)
+Genera el script SQL completo para crear las siguientes tablas con sus relaciones (Foreign Keys), restricciones e índices:
+
+establecimientos: id, nombre (ej. Mercadona, Carrefour, Frutería), color_hex (para etiquetas visuales rápidas).
+
+ubicaciones: id, establecimiento_id (FK), nombre (ej. Frutería, Pasillo 1, Congelados), orden_recorrido (Integer: 1, 2, 3... define la ruta física exacta en esa tienda).
+
+productos:
+
+id, nombre (único o indexado para búsqueda rápida), precio (numeric), unidad_medida (ud, kg, pack), categoria_icono (emoji).
+
+establecimiento_id (FK - tienda habitual donde se compra).
+
+ubicacion_id (FK - pasillo/zona dentro de esa tienda).
+
+es_basico (boolean - para la pestaña de Favoritos).
+
+stock_actual (integer, default 0) y stock_minimo (integer, default 1) -> Para el módulo de Despensa.
+
+lista_compra:
+
+id, producto_id (FK), cantidad (integer, default 1), comprado (boolean, default false), notas (text, opcional).
+
+3. Diseño de Interfaz y Experiencia de Usuario (UX Mobile-First)
+Diseño pensado para manejarse con una sola mano mientras se empuja el carro de la compra (botones grandes, áreas táctiles amplias, alto contraste).
+
+A. Barra Superior (Header Contextual Fijo)
+Switch Central de Modo: [ 🏠 En Casa ] | [ 🛒 En Tienda ] (adapta la vista principal según el contexto de uso).
+
+Indicador de Presupuesto en Tiempo Real: Muestra el total acumulado de SUM(precio * cantidad) de los productos pendientes en la lista.
+
+B. Barra de Navegación Inferior Fija (Bottom Nav)
+Acceso rápido con el pulgar a las 3 vistas principales:
+
+Lista / Compra (vista principal, cambia entre Modo Casa y Modo Tienda según el switch superior).
+
+⭐ Básicos (cuadrícula de productos recurrentes).
+
+📦 Despensa (inventario en casa + acceso a escáner de tickets).
+
+4. Flujos Funcionales Detallados
+Vista 1: Modo "En Casa" (Planificación)
+Buscador Inteligente y Creación Rápida: Barra de búsqueda instantánea. Si el término buscado no existe en el catálogo, mostrar un botón destacado: + Crear "[Nombre buscado]" y añadir a la lista que permita asignarle tienda, ubicación y precio al vuelo.
+
+Filtros rápidos: Chips horizontales para filtrar el catálogo por establecimiento.
+
+Tarjetas de Producto: Muestran nombre, badge de color de la tienda, ubicación, precio y un botón + grande a la derecha (con contador si ya está en la lista).
+
+Vista 2: ⭐ Básicos (Favoritos)
+Cuadrícula (grid de 2 o 3 columnas) limpia con los productos donde es_basico = true.
+
+Un toque añade +1 a la lista activa; un badge numérico en la esquina muestra cuántas unidades hay ya en la lista.
+
+Vista 3: Modo "En Tienda" (Ejecución "Sin Pasos Atrás")
+Selector de Establecimiento: Desplegable destacado en la parte superior. Al seleccionar una tienda (ej. "Mercadona"), filtra automáticamente la lista mostrando únicamente los productos asignados a ese establecimiento.
+
+Agrupación y Ordenación Estricta: Los productos pendientes (comprado = false) se agrupan bajo cabeceras de sección (Frutería, Carnicería, Pasillo 4...) ordenadas estrictamente por ubicaciones.orden_recorrido ASC.
+
+Interacción de Tachado Fluida: Al tocar la fila de un producto, pasa a comprado = true y se mueve suavemente a una sección colapsable al final llamada "En el carro (X)". Esto mantiene la parte superior limpia mostrando solo lo que falta por coger.
+
+Funcionalidad Estrella 1 — "Ordenar sobre la marcha" (📍):
+
+Cada fila de producto incluye un botón discreto con icono de pin/lápiz (📍).
+
+Al pulsarlo, se abre un Bottom Sheet con las ubicaciones de esa tienda (ordenadas por recorrido) + opción de crear una nueva ubicación indicando después de qué pasillo va.
+
+Al seleccionar la nueva ubicación, se actualiza productos.ubicacion_id en Supabase y la lista se reordena en vivo al instante.
+
+Cierre de Compra en Caja: Al pie de la lista en tienda, dos botones claros:
+
+✅ Finalizar compra manual (suma lo tachado al stock de despensa y limpia la lista).
+
+📸 Escanear Ticket con IA (abre el flujo inteligente de lectura de ticket).
+
+Vista 4: 📦 Despensa (Stock en Casa)
+Listado de productos con control rápido de inventario (- / + para ajustar stock_actual cuando se gasta algo en casa) y un botón superior 📸 Importar Ticket para cargar compras directamente desde una foto.
+
+Alerta visual y reposición: Si stock_actual <= stock_minimo, el producto se marca en rojo/ámbar y muestra un botón rápido "Reponer (enviar a lista)".
+
+Módulo Transversal: Escáner Inteligente de Tickets con IA (ModalEscanerTicket.vue)
+Activación: Disponible tanto al finalizar la compra en Modo Tienda como en la cabecera de Despensa. Usa <input type="file" accept="image/*" capture="environment"> para abrir la cámara trasera del móvil.
+
+Procesamiento IA (Edge Function): Envía la imagen a procesar-ticket. Gemini analiza el ticket y devuelve un JSON estricto con: establecimiento_detectado, fecha, y el array items (nombre_ticket, nombre_normalizado, cantidad, precio_unitario).
+
+Pantalla de Revisión y Cruce Inteligente (Matching): Antes de guardar, el modal cruza los datos con la tabla productos y los muestra clasificados para que el usuario valide con un toque:
+
+🟢 Existentes: Si el precio del ticket difiere del guardado en DB, muestra el cambio (1,05€ -> 1,15€) con un check activo para actualizar el precio en el catálogo.
+
+🟡 Nuevos (no existen en productos): Muestra el nombre_normalizado sugerido por la IA, su precio y un selector rápido para asignarle ubicacion_id (pasillo) y crearlo en el catálogo al confirmar.
+
+⚪ Descartables: Botón X en cada fila para ignorar líneas no inventariables (bolsas, descuentos, etc.).
+
+Confirmación en Lote: Al pulsar "Confirmar y Guardar", inserta los productos nuevos, actualiza precios modificados, suma las cantidades al stock_actual de la despensa y marca/limpia esos artículos de lista_compra.
+
+5. Entregables Esperados
+Script SQL completo para Supabase (tablas, relaciones, políticas RLS básicas para uso personal/familiar y datos de prueba/seed realistas).
+
+Código de la Edge Function (procesar-ticket/index.ts) lista para desplegar en Supabase con la integración de Gemini.
+
+Estructura de carpetas y código completo modular en Vue 3 + Tailwind CSS + PWA (manifest.json y sw.js), listo para configurar las variables de entorno (VITE_SUPABASE_URL, VITE_SUPABASE_ANON_KEY, GEMINI_API_KEY) y ejecutar.

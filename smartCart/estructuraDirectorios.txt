@@ -1,0 +1,33 @@
+smartcart-pwa/
+├── index.html
+├── package.json
+├── vite.config.js
+├── public/
+│   ├── manifest.json
+│   ├── sw.js
+│   └── icons/                  # icon-192.png, icon-512.png
+├── supabase/
+│   ├── schema.sql              # Esquema relacional, RLS y datos seed
+│   └── functions/
+│       └── procesar-ticket/
+│           └── index.ts        # Edge Function (Deno + Gemini 2.5 Flash)
+└── src/
+    ├── main.js
+    ├── App.vue
+    ├── style.css               # Directivas Tailwind CSS
+    ├── services/
+    │   └── supabase.js         # Cliente Supabase y capa de acceso a datos
+    ├── composables/
+    │   ├── useLista.js         # Estado reactivo de lista, presupuesto y ordenación
+    │   ├── useProductos.js     # Catálogo, ubicaciones y creación al vuelo
+    │   ├── useDespensa.js      # Control de stock y reposición automática
+    │   └── useEscanerTicket.js # Compresión de imagen, llamada a IA y matching
+    └── components/
+        ├── HeaderBar.vue
+        ├── BottomNav.vue
+        ├── ModoCasa.vue
+        ├── BasicosView.vue
+        ├── ModoTienda.vue
+        ├── DespensaView.vue
+        ├── BottomSheetUbicacion.vue
+        └── ModalEscanerTicket.vue

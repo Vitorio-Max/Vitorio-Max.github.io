@@ -1,5 +1,11 @@
 {
   "dependencies": {
-    "@supabase/supabase-js": "^2.54.0"
+    "@supabase/supabase-js": "^2.119.2",
+    "lucide-vue-next": "^1.0.0"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.7.0",
+    "postcss": "^8.5.33",
+    "tailwindcss": "^4.3.5"
   }
 }
